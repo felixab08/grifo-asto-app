@@ -1,0 +1,97 @@
+<!-- <div class="overflow-x-auto rounded-box border border-base-content/5 bg-white">
+  <table class="md:table text-black font-bold">
+    <thead>
+      <tr class="text-black text-center font-light">
+        <th>Fecha</th>
+        <th>Tipo</th>
+        <th>Entrada</th>
+        <th>Salida</th>
+        <th>Total</th>
+        <th>Observaciones</th>
+      </tr>
+    </thead>
+    <tbody class="text-center sm:text-2xl font-light">
+      @for (item of lista_close_data.turno_dia; track $index) {
+      <tr>
+        <td>
+          {{ item.fecha_entrada }} <br />
+          {{ item.fecha_salida }}
+        </td>
+        <td>
+          <p class="bg-amber-200">AD-1-1</p>
+          <p class="bg-blue-200">AD-2-1</p>
+          <p class="bg-red-200">RE-1-2</p>
+          <p class="bg-green-200">RE-2-2</p>
+          <p class="bg-yellow-200">PR-1-3</p>
+          <p class="bg-cyan-300">PR-2-3</p>
+        </td>
+        <td>
+          <p class="bg-amber-200">{{ item.lista_entrada.AD_1_1 }}</p>
+          <p class="bg-blue-200">{{ item.lista_entrada.AD_2_1 }}</p>
+          <p class="bg-red-200">{{ item.lista_entrada.RE_1_2 }}</p>
+          <p class="bg-green-200">{{ item.lista_entrada.RE_2_2 }}</p>
+          <p class="bg-yellow-200">{{ item.lista_entrada.PR_1_3 }}</p>
+          <p class="bg-cyan-300">{{ item.lista_entrada.PR_2_3 }}</p>
+        </td>
+        <td>
+          <p class="bg-amber-200">{{ item.lista_salida.AD_1_1 }}</p>
+          <p class="bg-blue-200">{{ item.lista_salida.AD_2_1 }}</p>
+          <p class="bg-red-200">{{ item.lista_salida.RE_1_2 }}</p>
+          <p class="bg-green-200">{{ item.lista_salida.RE_2_2 }}</p>
+          <p class="bg-yellow-200">{{ item.lista_salida.PR_1_3 }}</p>
+          <p class="bg-cyan-300">{{ item.lista_salida.PR_2_3 }}</p>
+        </td>
+        <td>
+          <p class="bg-amber-200">100</p>
+          <p class="bg-blue-200">490</p>
+          <p class="bg-red-200">400</p>
+          <p class="bg-green-200">300</p>
+          <p class="bg-yellow-200">200</p>
+          <p class="bg-cyan-300">200</p>
+        </td>
+        <td>
+          @for (obs of item.observaciones.split(','); track $index) {
+          <div role="alert" class="alert alert-warning alert-soft mt-1">
+            <span>{{ obs.trim() }}</span>
+          </div>
+          }
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>
+ -->
+<div class="overflow-x-auto">
+  <table class="table table-xs">
+    <thead>
+      <tr>
+        <th>Fecha</th>
+        <th>Tipo</th>
+        <th>Entrada</th>
+        <th>Salida</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (lista of lista_close_data; track lista.id) { @for (item of lista.datos; track item.id) {
+      <tr>
+        <th>{{ lista.fecha_entrada }}</th>
+        <td>{{ item.name }}</td>
+        <td>{{ item.entada }}</td>
+        <td>{{ item.salida }}</td>
+        <td>{{ item.salida - item.entada }}</td>
+      </tr>
+      } }
+    </tbody>
+    <tfoot>
+      <tr>
+        <th>Fecha</th>
+        <th>Tipo</th>
+        <th>Entrada</th>
+        <th>Salida</th>
+        <th>Total</th>
+      </tr>
+    </tfoot>
+  </table>
+</div>
