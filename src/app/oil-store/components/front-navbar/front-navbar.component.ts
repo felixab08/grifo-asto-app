@@ -1,9 +1,17 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'front-navbar',
-  imports: [RouterLink],
+  imports: [RouterLink, RouterLinkActive],
   templateUrl: './front-navbar.component.html',
 })
-export class FrontNavbarComponent {}
+export class FrontNavbarComponent {
+  navMenu = [
+    { name: 'Corte', routes: ['/grifo/list-oil-store'] },
+    { name: 'Medición', routes: ['/grifo/measurement'] },
+    { name: 'Entrada', routes: ['/grifo/entrance'] },
+    { name: 'Administrador', routes: ['/grifo/admision'] },
+    // { name: 'Estadisticas', routes: ['/grifo/list-oil-store'] },
+  ];
+}

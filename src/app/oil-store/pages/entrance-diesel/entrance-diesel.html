@@ -1,0 +1,124 @@
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg px-5 md:px-10 m-4">
+  <div class="mb-6 flex items-center justify-between">
+    <h1 class="text-2xl font-semibold">Medición de cambustible</h1>
+    <button
+      class="btn btn-outline btn-accent capitalize"
+      onclick="my_modal_1.showModal()"
+      (click)="handlerNewMeassure()"
+    >
+      Nueva medición
+    </button>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="table sm:table-xs md:table-xl">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Persona</th>
+          <th>tipo</th>
+          <th>Combustible</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of lista_entranse; track item.id) {
+        <tr class="hover:bg-gray-300">
+          <td>{{ item.fecham | date : 'short' }}</td>
+          <td>
+            <p>{{ item.nombre }}</p>
+          </td>
+          <td>
+            <p>{{ item.type }}</p>
+          </td>
+          <td>
+            <p>{{ item.cant }}</p>
+          </td>
+        </tr>
+        }
+      </tbody>
+      <tfoot>
+        <tr>
+          <th>Fecha</th>
+          <th>Petroleo</th>
+          <th>Regular</th>
+          <th>Primiun</th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+<dialog id="my_modal_1" class="modal">
+  <div class="modal-box">
+    <form method="dialog" autocomplete="off" [formGroup]="myForm" (ngSubmit)="onSave()">
+      <div class="mt-5">
+        <label
+          for="diesel"
+          class="block mb-2 text-sm font-medium"
+          [ngClass]="{
+            ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'diesel')
+          }"
+          >Combustible que llego</label
+        >
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <select
+              class="select"
+              formControlName="typeOil"
+              name="typeOil"
+              id="typeOil"
+              [ngClass]="{
+                ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+                  formUtils.isValiedField(myForm, 'typeOil')
+              }"
+            >
+              <option disabled selected value="">Seleccione el combustible</option>
+              <option value="Petroleo">Petroleo</option>
+              <option value="Regular">Regular</option>
+              <option value="Premiun">Premiun</option>
+            </select>
+            @if(formUtils.isValiedField(myForm,'typeOil')){
+            <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+              <span class="font-medium">{{ formUtils.getFieldError(myForm, 'typeOil') }}</span>
+            </p>
+            }
+          </div>
+          <div>
+            <input
+              type="number"
+              id="diesel"
+              formControlName="diesel"
+              placeholder="Cantidad en galones"
+              class="border text-sm input-md input rounded-lg block w-full p-2.5"
+              [ngClass]="{
+                ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+                  formUtils.isValiedField(myForm, 'diesel')
+              }"
+            />
+            @if(formUtils.isValiedField(myForm,'diesel')){
+            <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+              <span class="font-medium">{{ formUtils.getFieldError(myForm, 'diesel') }}</span>
+            </p>
+            }
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+      <div class="md:flex md:justify-end mt-2">
+        <button
+          class="btn btn-active font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center mr-2 mb-2 md:mb-0"
+          onclick="my_modal_1.close()"
+        >
+          Salir
+        </button>
+        <button
+          type="submit"
+          [disabled]="!myForm.valid"
+          class="text-white bg-accent focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+        >
+          Guardar
+        </button>
+      </div>
+    </form>
+  </div>
+</dialog>

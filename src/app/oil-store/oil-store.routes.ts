@@ -3,6 +3,8 @@ import { OilLayout } from './layout/oil-store.layout';
 import { ListCloseAttention } from './pages/list-close-attention/list-close-attention';
 import { RegisterCloseAttention } from './pages/register-close-attention/register-close-attention';
 import { Measurement } from './pages/measurement/measurement';
+import { EntranceDiesel } from './pages/entrance-diesel/entrance-diesel';
+import { Admision } from './pages/admision/admision';
 
 export const pagesRoutes: Routes = [
   {
@@ -16,6 +18,14 @@ export const pagesRoutes: Routes = [
       {
         path: 'measurement',
         component: Measurement,
+      },
+      {
+        path: 'entrance',
+        component: EntranceDiesel,
+      },
+      {
+        path: 'admision',
+        component: Admision,
       },
       {
         path: 'register-close-attention/:type',
