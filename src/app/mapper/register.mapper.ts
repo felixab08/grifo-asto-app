@@ -2,7 +2,7 @@ export const createRegisterCloseAttentionMapper = (data: any, type: string, ante
   if (type === 'iniciar') {
     return {
       id: new Date().getTime(),
-      nombre: 'Juan Pérez',
+      nombre: 'Felix ASTO',
       fecha_entrada: new Date().toISOString(),
       fecha_salida: '',
       datos: [
