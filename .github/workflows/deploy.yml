@@ -23,11 +23,6 @@ jobs:
       - name: Bundle #Copila el proyecto
         run: npm run build -- --configuration=production --base-href=/grifo-asto-app/
 
-      - name: Show dist content (debug)
-        run: |
-          ls -la dist || true
-          ls -la dist/grifo-asto-app || true
-
       - name: Deploy #Despliega el proyecto a GitHub Pages.
         uses: JamesIves/github-pages-deploy-action@v4
         with:
