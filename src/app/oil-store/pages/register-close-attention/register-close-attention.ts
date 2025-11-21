@@ -51,7 +51,7 @@ export class RegisterCloseAttention {
       localStorage.removeItem('registro');
     }
 
-    this.router.navigate(['/list-oil-store']);
+    this.router.navigate(['/grifo/list-oil-store']);
     // this.myForm.reset();
   }
   addnewRegister(newData: any) {

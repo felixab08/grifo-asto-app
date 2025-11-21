@@ -3,7 +3,7 @@ export const createRegisterCloseAttentionMapper = (data: any, type: string, ante
     return {
       id: new Date().getTime(),
       nombre: 'Juan Pérez',
-      fecha_entrada: new Date('YYYY-MM-DDTHH:mm:ss.sssZ').toISOString(),
+      fecha_entrada: new Date().toISOString(),
       fecha_salida: '',
       datos: [
         { id: 'pet11', name: 'Petroleo', entrada: data.pet11, salida: 0 },

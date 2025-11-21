@@ -25,6 +25,6 @@ export class ListCloseAttention {
   }
   handlerTurno() {
     localStorage.setItem('attention-type', 'iniciar');
-    this.router.navigate(['/register-close-attention', this.turno()]);
+    this.router.navigate(['/grifo/register-close-attention', this.turno()]);
   }
 }
