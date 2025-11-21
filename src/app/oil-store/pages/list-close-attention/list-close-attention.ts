@@ -17,7 +17,11 @@ export class ListCloseAttention {
     if (localStorage.getItem('attention-type') === 'iniciado') {
       this.turno.set('cerrar');
     }
-    localStorage.setItem('attention', JSON.stringify(this.lista_close_data));
+    if (!localStorage.getItem('attention')) {
+      localStorage.setItem('attention', JSON.stringify(this.lista_close_data));
+    } else {
+      this.lista_close_data = JSON.parse(localStorage.getItem('attention') || '[]');
+    }
   }
   handlerTurno() {
     localStorage.setItem('attention-type', 'iniciar');

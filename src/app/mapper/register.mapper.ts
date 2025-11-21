@@ -17,21 +17,48 @@ export const createRegisterCloseAttentionMapper = (data: any, type: string, ante
     };
   }
   if (type === 'cerrar' && anterior) {
-    console.log('--- anterior ---');
-    console.log(anterior);
-
     return {
       id: anterior.id,
       nombre: anterior.nombre,
       fecha_entrada: anterior.fecha_entrada,
       fecha_salida: new Date().toISOString(),
       datos: [
-        { id: 'pet11', name: 'Petroleo', entrada: anterior.datos[0].entrada, salida: data.pet11 },
-        { id: 'pet21', name: 'Petroleo', entrada: anterior.datos[1].entrada, salida: data.pet21 },
-        { id: 'reg12', name: 'Regular', entrada: anterior.datos[2].entrada, salida: data.reg12 },
-        { id: 'reg22', name: 'Regular', entrada: anterior.datos[3].entrada, salida: data.reg22 },
-        { id: 'pri13', name: 'Primiun', entrada: anterior.datos[4].entrada, salida: data.pri13 },
-        { id: 'pri23', name: 'Primiun', entrada: anterior.datos[5].entrada, salida: data.pri23 },
+        {
+          id: 'pet11',
+          name: 'Petroleo',
+          entrada: parseInt(anterior.datos[0].entrada),
+          salida: parseInt(data.pet11),
+        },
+        {
+          id: 'pet21',
+          name: 'Petroleo',
+          entrada: parseInt(anterior.datos[1].entrada),
+          salida: parseInt(data.pet21),
+        },
+        {
+          id: 'reg12',
+          name: 'Regular',
+          entrada: parseInt(anterior.datos[2].entrada),
+          salida: parseInt(data.reg12),
+        },
+        {
+          id: 'reg22',
+          name: 'Regular',
+          entrada: parseInt(anterior.datos[3].entrada),
+          salida: parseInt(data.reg22),
+        },
+        {
+          id: 'pri13',
+          name: 'Primiun',
+          entrada: parseInt(anterior.datos[4].entrada),
+          salida: parseInt(data.pri13),
+        },
+        {
+          id: 'pri23',
+          name: 'Primiun',
+          entrada: parseInt(anterior.datos[5].entrada),
+          salida: parseInt(data.pri23),
+        },
       ],
       observaciones: data.obs || '',
     };
