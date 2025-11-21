@@ -1,1 +1,191 @@
-<p>register-close-attention works!</p>,
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg md:px-10 md:m-4">
+  <h1 class="text-2xl font-semibold text-center my-2">{{ typeRegister | uppercase }} REGISTRO</h1>
+  <form
+    class="md:mt-5 p-4 md:p-10 bg-white border-2 rounded-lg mb-2"
+    autocomplete="off"
+    [formGroup]="myForm"
+    (ngSubmit)="onSave()"
+  >
+    <div class="grid md:grid-cols-2 gap-6">
+      <div>
+        <h1 class="text-center text-3xl font-semibold">Surtidor 1</h1>
+        <!-- // * campo input -->
+        <div class="mt-5">
+          <label
+            for="pet11"
+            class="block mb-2 text-sm font-medium"
+            [ngClass]="{
+              ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'pet11')
+            }"
+            >Petroleo</label
+          >
+          <input
+            type="text"
+            id="pet11"
+            formControlName="pet11"
+            class="border text-sm input-md input rounded-lg dark:bg-gray-700 block w-full p-2.5 focus:border-purple-800"
+            [ngClass]="{
+              ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+                formUtils.isValiedField(myForm, 'pet11')
+            }"
+          />
+          @if(formUtils.isValiedField(myForm,'pet11')){
+          <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+            <span class="font-medium">{{ formUtils.getFieldError(myForm, 'pet11') }}</span>
+          </p>
+          }
+        </div>
+        <!-- // * campo input -->
+        <div class="mt-5">
+          <label
+            for="reg12"
+            class="block mb-2 text-sm font-medium"
+            [ngClass]="{
+              ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'reg12')
+            }"
+            >Regular</label
+          >
+          <input
+            type="text"
+            id="reg12"
+            formControlName="reg12"
+            class="border text-sm input-md input rounded-lg dark:bg-gray-700 block w-full p-2.5 focus:border-purple-800"
+            [ngClass]="{
+              ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+                formUtils.isValiedField(myForm, 'reg12')
+            }"
+          />
+          @if(formUtils.isValiedField(myForm,'reg12')){
+          <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+            <span class="font-medium">{{ formUtils.getFieldError(myForm, 'reg12') }}</span>
+          </p>
+          }
+        </div>
+        <!-- // * campo input -->
+        <div class="mt-5">
+          <label
+            for="pri13"
+            class="block mb-2 text-sm font-medium"
+            [ngClass]="{
+              ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'pri13')
+            }"
+            >Primiun</label
+          >
+          <input
+            type="text"
+            id="pri13"
+            formControlName="pri13"
+            class="border text-sm input-md input rounded-lg dark:bg-gray-700 block w-full p-2.5 focus:border-purple-800"
+            [ngClass]="{
+              ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+                formUtils.isValiedField(myForm, 'pri13')
+            }"
+          />
+          @if(formUtils.isValiedField(myForm,'pri13')){
+          <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+            <span class="font-medium">{{ formUtils.getFieldError(myForm, 'pri13') }}</span>
+          </p>
+          }
+        </div>
+      </div>
+      <div>
+        <h1 class="text-center text-3xl font-semibold">Surtidor 2</h1>
+        <!-- // * campo input -->
+        <div class="mt-5">
+          <label
+            for="pet21"
+            class="block mb-2 text-sm font-medium"
+            [ngClass]="{
+              ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'pet21')
+            }"
+            >Petroleo</label
+          >
+          <input
+            type="text"
+            id="pet21"
+            formControlName="pet21"
+            class="border text-sm input-md input rounded-lg dark:bg-gray-700 block w-full p-2.5 focus:border-purple-800"
+            [ngClass]="{
+              ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+                formUtils.isValiedField(myForm, 'pet21')
+            }"
+          />
+          @if(formUtils.isValiedField(myForm,'pet21')){
+          <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+            <span class="font-medium">{{ formUtils.getFieldError(myForm, 'pet21') }}</span>
+          </p>
+          }
+        </div>
+        <!-- // * campo input -->
+        <div class="mt-5">
+          <label
+            for="reg22"
+            class="block mb-2 text-sm font-medium"
+            [ngClass]="{
+              ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'reg22')
+            }"
+            >Regular</label
+          >
+          <input
+            type="text"
+            id="reg22"
+            formControlName="reg22"
+            class="border text-sm input-md input rounded-lg dark:bg-gray-700 block w-full p-2.5 focus:border-purple-800"
+            [ngClass]="{
+              ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+                formUtils.isValiedField(myForm, 'reg22')
+            }"
+          />
+          @if(formUtils.isValiedField(myForm,'reg22')){
+          <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+            <span class="font-medium">{{ formUtils.getFieldError(myForm, 'reg22') }}</span>
+          </p>
+          }
+        </div>
+        <!-- // * campo input -->
+        <div class="mt-5">
+          <label
+            for="pri23"
+            class="block mb-2 text-sm font-medium"
+            [ngClass]="{
+              ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'pri23')
+            }"
+            >Primiun</label
+          >
+          <input
+            type="text"
+            id="pri23"
+            formControlName="pri23"
+            class="border text-sm input-md input rounded-lg dark:bg-gray-700 block w-full p-2.5 focus:border-purple-800"
+            [ngClass]="{
+              ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+                formUtils.isValiedField(myForm, 'pri23')
+            }"
+          />
+          @if(formUtils.isValiedField(myForm,'pri23')){
+          <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+            <span class="font-medium">{{ formUtils.getFieldError(myForm, 'pri23') }}</span>
+          </p>
+          }
+        </div>
+      </div>
+    </div>
+    <div class="my-4">
+      <label for="obs" class="block mb-2 text-sm font-medium">Observaciones</label>
+      <textarea
+        id="obs"
+        class="textarea block w-full"
+        formControlName="obs"
+        placeholder="Observaciones separados por comas"
+      ></textarea>
+    </div>
+
+    <button
+      type="submit"
+      [disabled]="!myForm.valid"
+      class="text-white btn-primary bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+    >
+      Guardar
+    </button>
+  </form>
+</div>

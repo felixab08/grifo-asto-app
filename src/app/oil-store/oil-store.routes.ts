@@ -13,7 +13,7 @@ export const pagesRoutes: Routes = [
         component: ListCloseAttention,
       },
       {
-        path: 'Register-close-attention',
+        path: 'register-close-attention/:type',
         component: RegisterCloseAttention,
       },
       {
