@@ -25,6 +25,7 @@ export const pagesRoutes: Routes = [
   {
     path: '**',
     redirectTo: '',
+    pathMatch: 'full',
   },
 ];
 
