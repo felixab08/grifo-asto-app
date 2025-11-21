@@ -21,7 +21,7 @@
         {
         <tr class="hover:bg-gray-300">
           @if ($index == 0) {
-          <th rowspan="6" class="border-t-2">{{ lista.fecha_entrada }}</th>
+          <td rowspan="6" class="border-t-2">{{ lista.fecha_entrada  | date:'short'}}</td>
           }
           <td
             [ngStyle]="$index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }"
@@ -49,10 +49,11 @@
             [ngStyle]="$index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }"
           >
             @for (obs of lista.observaciones.split(','); track $index) {
-
-            <div role="alert" class="alert alert-info mt-1">
-              <span>{{ obs.trim() }}</span>
-            </div>
+              @if (obs !== '') {
+                <div role="alert" class="alert alert-info mt-1">
+                  <span>{{ obs.trim() }}</span>
+                </div>
+              }
             }
           </td>
           }

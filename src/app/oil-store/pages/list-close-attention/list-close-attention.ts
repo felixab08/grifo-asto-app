@@ -1,11 +1,11 @@
-import { JsonPipe, NgClass, NgStyle } from '@angular/common';
+import { DatePipe, JsonPipe, NgClass, NgStyle } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { CloseAttentionMock } from '../../../mock/lista-cierre.mock';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-close-attention',
-  imports: [NgStyle],
+  imports: [NgStyle, DatePipe],
   templateUrl: './list-close-attention.html',
 })
 export class ListCloseAttention {
