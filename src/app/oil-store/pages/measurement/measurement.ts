@@ -3,13 +3,11 @@ import { Component, inject } from '@angular/core';
 import { FormUtils } from '../../../utils/form.util';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MedidoMock } from '../../../mock/medido.mock';
-import { NoventaPipe } from '../../../pipes/noventa.pipe';
-import { NoventaycincoPipe } from '../../../pipes/noventaycinco.pipe';
-import { PetroleoPipe } from '../../../pipes/petroleo.pipe';
+import { DieselPipe, PremiumPipe, RegularPipe } from '../../../pipes';
 
 @Component({
   selector: 'app-measurement',
-  imports: [ReactiveFormsModule, CommonModule, NoventaPipe, NoventaycincoPipe, PetroleoPipe],
+  imports: [ReactiveFormsModule, CommonModule, DieselPipe, RegularPipe, PremiumPipe],
   templateUrl: './measurement.html',
 })
 export class Measurement {
