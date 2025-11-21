@@ -21,7 +21,7 @@ jobs:
         run: npm i
 
       - name: Bundle #Copila el proyecto
-        run: npm run build:prod
+        run: npm run build -- --configuration=production --base-href=/grifo-asto-app/
 
       - name: Show dist content (debug)
         run: |
