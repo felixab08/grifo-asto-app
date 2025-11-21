@@ -57,7 +57,6 @@ export class RegisterCloseAttention {
   addnewRegister(newData: any) {
     const pastRegister = JSON.parse(localStorage.getItem('attention') || '{}');
     const updatedRegister = [newData, ...pastRegister];
-    console.log(updatedRegister);
     localStorage.setItem('attention', JSON.stringify(updatedRegister));
   }
 
