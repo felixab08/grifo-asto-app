@@ -1,1 +1,78 @@
-<p>admision works!</p>,
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg px-5 md:px-10 m-4">
+  <div class="mb-6 flex items-center justify-between">
+    <h1 class="text-2xl font-semibold">Registro diario</h1>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="table sm:table-xs md:table-xl">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Persona</th>
+          <th>Tipo</th>
+          <th>Entrada</th>
+          <th>Salida</th>
+          <th>Total</th>
+          <th>Observaciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (lista of lista_close_data; track lista.id) { @for (item of lista.datos; track item.id)
+        {
+        <tr class="hover:bg-gray-300">
+          @if ($index == 0) {
+          <td rowspan="6" class="border-t-2">{{ lista.fecha_entrada  | date:'short'}}</td>
+          }
+          @if ($index == 0) {
+          <td rowspan="6" class="border-t-2">{{ lista.nombre}}</td>
+          }
+          <td
+            [ngStyle]="$index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }"
+          >
+            {{ item.name }}
+          </td>
+          <td
+            [ngStyle]="$index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }"
+          >
+            {{ item.entrada }}
+          </td>
+          <td
+            [ngStyle]="$index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }"
+          >
+            {{ item.salida }}
+          </td>
+          <td
+            [ngStyle]="$index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }"
+          >
+            {{ item.salida - item.entrada }}
+          </td>
+          @if ($index == 0) {
+          <td
+            rowspan="6"
+            [ngStyle]="$index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }"
+          >
+            @for (obs of lista.observaciones.split(','); track $index) {
+              @if (obs !== '') {
+                <div role="alert" class="alert alert-info mt-1">
+                  <span>{{ obs.trim() }}</span>
+                </div>
+              }
+            }
+          </td>
+          }
+        </tr>
+        } }
+      </tbody>
+      <tfoot>
+        <tr>
+          <th>Fecha</th>
+          <th>Tipo</th>
+          <th>Entrada</th>
+          <th>Salida</th>
+          <th>Total</th>
+          <th>Observaciones</th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>

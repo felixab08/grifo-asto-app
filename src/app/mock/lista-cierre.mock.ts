@@ -2,7 +2,7 @@ export const CloseAttentionMock = {
   turno_dia: [
     {
       id: 1,
-      nombre: 'Juan Pérez',
+      nombre: 'Felix ASTO',
       fecha_entrada: '2025-11-15T16:00:00Z',
       fecha_salida: '2025-11-16T16:00:00Z',
       datos: [
