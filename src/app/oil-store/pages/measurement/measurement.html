@@ -1,0 +1,151 @@
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg px-5 md:px-10 m-4">
+  <div class="mb-6 flex items-center justify-between">
+    <h1 class="text-2xl font-semibold">Medición de cambustible</h1>
+    <button
+      class="btn btn-outline btn-accent capitalize"
+      onclick="my_modal_3.showModal()"
+      (click)="handlerNewMeassure()"
+    >
+      Nueva medición
+    </button>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="table sm:table-xs md:table-xl">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Petroleo</th>
+          <th>Regular</th>
+          <th>Primiun</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of lista_measure; track $index) {
+        <tr class="hover:bg-gray-300">
+          <td>{{ item.fecham }}</td>
+          <td>
+            <p>{{ item.b5m }} cm</p>
+            <p class="font-bold">{{ item.b5m | petroleo }} GL</p>
+          </td>
+          <td>
+            <p>{{ item.g90m }} cm</p>
+            <p class="font-bold">{{ item.g90m | noventa }} GL</p>
+          </td>
+          <td>
+            <p>{{ item.g95m }} cm</p>
+            <p class="font-bold">{{ item.g95m | noventaycinco }} GL</p>
+          </td>
+        </tr>
+        }
+      </tbody>
+      <tfoot>
+        <tr>
+          <th>Fecha</th>
+          <th>Petroleo</th>
+          <th>Regular</th>
+          <th>Primiun</th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+<dialog id="my_modal_3" class="modal">
+  <div class="modal-box">
+    <form method="dialog" autocomplete="off" [formGroup]="myForm" (ngSubmit)="onSave()">
+      <div class="mt-5">
+        <label
+          for="petroleo"
+          class="block mb-2 text-sm font-medium"
+          [ngClass]="{
+            ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'petroleo')
+          }"
+          >Petroleo</label
+        >
+        <input
+          type="number"
+          id="petroleo"
+          formControlName="petroleo"
+          class="border text-sm input-md input rounded-lg dark:bg-gray-700 block w-full p-2.5 focus:border-purple-800"
+          [ngClass]="{
+            ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+              formUtils.isValiedField(myForm, 'petroleo')
+          }"
+        />
+        @if(formUtils.isValiedField(myForm,'petroleo')){
+        <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+          <span class="font-medium">{{ formUtils.getFieldError(myForm, 'petroleo') }}</span>
+        </p>
+        }
+      </div>
+      <!-- // * campo input -->
+      <div class="mt-5">
+        <label
+          for="regular"
+          class="block mb-2 text-sm font-medium"
+          [ngClass]="{
+            ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'regular')
+          }"
+          >Regular</label
+        >
+        <input
+          type="number"
+          id="regular"
+          formControlName="regular"
+          class="border text-sm input-md input rounded-lg dark:bg-gray-700 block w-full p-2.5 focus:border-purple-800"
+          [ngClass]="{
+            ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+              formUtils.isValiedField(myForm, 'regular')
+          }"
+        />
+        @if(formUtils.isValiedField(myForm,'regular')){
+        <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+          <span class="font-medium">{{ formUtils.getFieldError(myForm, 'regular') }}</span>
+        </p>
+        }
+      </div>
+      <!-- // * campo input -->
+      <div class="mt-5">
+        <label
+          for="premium"
+          class="block mb-2 text-sm font-medium"
+          [ngClass]="{
+            ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'premium')
+          }"
+          >Primiun</label
+        >
+        <input
+          type="number"
+          id="premium"
+          formControlName="premium"
+          class="border text-sm input-md input rounded-lg dark:bg-gray-700 block w-full p-2.5 focus:border-purple-800"
+          [ngClass]="{
+            ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+              formUtils.isValiedField(myForm, 'premium')
+          }"
+        />
+        @if(formUtils.isValiedField(myForm,'premium')){
+        <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+          <span class="font-medium">{{ formUtils.getFieldError(myForm, 'premium') }}</span>
+        </p>
+        }
+      </div>
+      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+      <div class="md:flex md:justify-end mt-2">
+        <button
+          class="btn btn-active font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center mr-2 mb-2 md:mb-0"
+          onclick="my_modal_3.close()"
+        >
+          Salir
+        </button>
+        <button
+          type="submit"
+          [disabled]="!myForm.valid"
+          class="text-white bg-accent focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+        >
+          Guardar
+        </button>
+      </div>
+    </form>
+  </div>
+</dialog>
