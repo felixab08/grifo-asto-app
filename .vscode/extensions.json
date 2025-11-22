@@ -1,4 +1,8 @@
 {
-  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=827846
-  "recommendations": ["angular.ng-template"]
+  "recommendations": [
+    "aaron-bond.better-comments",
+    "bradlc.vscode-tailwindcss",
+    "dracula-theme.theme-dracula",
+    "steoates.autoimport-theme"
+  ]
 }
