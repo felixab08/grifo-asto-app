@@ -1,7 +1,7 @@
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg px-5 md:px-10 m-4">
   <div class="mb-6 flex items-center justify-between">
     <h1 class="text-2xl font-semibold">Registro diario</h1>
-    <button class="btn btn-outline btn-accent capitalize" (click)="handlerTurno()">{{turno() }} turno</button>
+    <button class="btn btn-outline btn-accent capitalize" (click)="onSave()">{{stateturno() }} turno</button>
   </div>
 
   <div class="overflow-x-auto">
@@ -16,8 +16,9 @@
           <th>Observaciones</th>
         </tr>
       </thead>
+      @if(turnoList() && turnoList()!.data.length > 0) {
       <tbody>
-        @for (lista of lista_close_data; track lista.id) { @for (item of lista.datos; track item.id)
+        @for (lista of turnoList()!.data[0].turnos; track lista.idTurno) { @for (item of lista.medidas; track item.idMedida)
         {
         <tr class="hover:bg-gray-300">
           @if ($index == 0) {
@@ -26,7 +27,7 @@
           <td
             [ngStyle]="$index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }"
           >
-            {{ item.name }}
+            {{ item.tipo }}
           </td>
           <td
             [ngStyle]="$index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }"
@@ -36,18 +37,27 @@
           <td
             [ngStyle]="$index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }"
           >
-            {{ item.salida }}
+             @if (item.salida) {
+            <span>
+              {{ item.salida}}
+            </span>
+          }
           </td>
           <td
             [ngStyle]="$index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }"
           >
-            {{ item.salida - item.entrada }}
+          @if (item.salida) {
+            <span>
+              {{ item.salida - item.entrada }}
+            </span>
+          }
           </td>
           @if ($index == 0) {
           <td
             rowspan="6"
             [ngStyle]="$index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }"
           >
+          @if (lista.observaciones) {
             @for (obs of lista.observaciones.split(','); track $index) {
               @if (obs !== '') {
                 <div role="alert" class="alert alert-info mt-1">
@@ -55,11 +65,14 @@
                 </div>
               }
             }
+            }
+
           </td>
           }
         </tr>
         } }
       </tbody>
+    }
       <tfoot>
         <tr>
           <th>Fecha</th>

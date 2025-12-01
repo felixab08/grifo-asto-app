@@ -10,7 +10,8 @@
       "@oil-store/*": ["./src/app/oil-store/*"],
       "@pipes/*": ["./src/app/pipes/*"],
       "@shared/*": ["./src/app/shared/*"],
-      "@utils/*": ["./src/app/utils/*"]
+      "@utils/*": ["./src/app/utils/*"],
+      "@interface/*": ["./src/app/interface/*"]
     },
     "strict": true,
     "noImplicitOverride": true,

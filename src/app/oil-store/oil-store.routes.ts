@@ -28,7 +28,7 @@ export const pagesRoutes: Routes = [
         component: Admision,
       },
       {
-        path: 'register-close-attention/:type',
+        path: 'register-close-attention/:type/:idturno',
         component: RegisterCloseAttention,
       },
       {

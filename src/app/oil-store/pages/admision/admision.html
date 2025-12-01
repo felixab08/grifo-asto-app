@@ -1,11 +1,33 @@
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg px-5 md:px-10 m-4">
   <div class="mb-6 flex items-center justify-between">
     <h1 class="text-2xl font-semibold">Registro diario</h1>
+
     <button
       id="button-excel"
       class="text-white bg-accent hover:bg-accent/50 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center hover:cursor-pointer"
       (click)="descargarXLS()"
-    >Descargar</button>
+    >
+      Descargar
+    </button>
+  </div>
+
+  <div class="mb-6 inline md:flex items-center justify-between">
+    <select class="select my-1">
+      <option disabled selected>Seleccione personal</option>
+      <option>Felix</option>
+      <option>Carlos</option>
+      <option>Fernando</option>
+    </select>
+    <div class="inline md:flex gap-2">
+      <div>
+        <label for="feche_inicio">Fecha inicio</label>
+        <input type="date" id="feche_inicio" class="input my-1" />
+      </div>
+      <div>
+        <label for="feche_fin">Fecha fin</label>
+        <input type="date" id="feche_fin" class="input my-1" />
+      </div>
+    </div>
   </div>
 
   <div class="overflow-x-auto">
@@ -22,15 +44,15 @@
         </tr>
       </thead>
       <tbody>
-        @for (lista of lista_close_data; track lista.id) { @for (item of lista.datos; track item.id)
+        @for (lista of lista_close_data; track lista.idTurno) { @for (item of lista.medidas; track item.idMedida)
         {
         <tr class="hover:bg-gray-300">
-          <td  class="border-t-2">{{ lista.fecha_entrada  | date:'short'}}</td>
-          <td class="border-t-2">{{ lista.nombre}}</td>
+          <td class="border-t-2">{{ lista.fecha_entrada | date : 'short' }}</td>
+          <td class="border-t-2">Nombre Quien Atiende</td>
           <td
             [ngStyle]="$index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }"
           >
-            {{ item.name }}
+            {{ item.tipo }}
           </td>
           <td
             [ngStyle]="$index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }"
@@ -51,13 +73,11 @@
           <td
             [ngStyle]="$index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }"
           >
-            @for (obs of lista.observaciones.split(','); track $index) {
-              @if (obs !== '') {
-                <div role="alert" class="alert alert-info mt-1">
-                  <span>{{ obs.trim() }}</span>
-                </div>
-              }
-            }
+            @for (obs of lista.observaciones.split(','); track $index) { @if (obs !== '') {
+            <div role="alert" class="alert alert-info mt-1">
+              <span>{{ obs.trim() }}</span>
+            </div>
+            } }
           </td>
           }
         </tr>
@@ -65,7 +85,7 @@
         <tr>
           <td colspan="7"></td>
         </tr>
-      }
+        }
       </tbody>
       <tfoot>
         <tr>

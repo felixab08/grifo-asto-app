@@ -2,3 +2,6 @@
 <section class="container mx-auto">
   <router-outlet />
 </section>
+@if (_alertService.isAlert()) {
+<tyn-alert [alertMenu]="_alertService.alertMenu()"> </tyn-alert>
+}

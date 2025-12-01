@@ -4,6 +4,9 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { FormUtils } from '../../../utils/form.util';
 import { createRegisterCloseAttentionMapper } from '../../../mapper/register.mapper';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { createMedidaMapper } from '@mapper/medidor.mapper';
+import { MedidorRequest } from '@oil-store/model';
+import { MedidorService } from '@oil-store/service';
 
 @Component({
   selector: 'app-register-close-attention',
@@ -16,8 +19,10 @@ export class RegisterCloseAttention {
   activateRoute = inject(ActivatedRoute);
 
   typeRegister: string = this.activateRoute.snapshot.params['type'];
+  idturno: string = this.activateRoute.snapshot.params['idturno'];
   router = inject(Router);
 
+  private _medidorService = inject(MedidorService);
   private _fb = inject(FormBuilder);
   myForm: FormGroup = this._fb.group({
     pet11: ['', [Validators.required]],
@@ -29,15 +34,19 @@ export class RegisterCloseAttention {
     obs: [''],
   });
 
-  onSave() {
+  async onSave() {
     if (this.myForm.invalid) {
       this.myForm.markAllAsTouched();
       return;
     }
 
     if (this.typeRegister === 'iniciar') {
-      const registro = createRegisterCloseAttentionMapper(this.myForm.value, this.typeRegister);
-      localStorage.setItem('registro', JSON.stringify(registro));
+      const lisMedidas = createMedidaMapper(this.myForm.value, +this.idturno, this.typeRegister);
+
+      await lisMedidas.map((medidor: MedidorRequest) =>
+        this._medidorService.postMedidaByTurno(medidor).subscribe()
+      );
+      console.log(lisMedidas);
     }
 
     if (this.typeRegister === 'cerrar') {

@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
-import { CloseAttentionMock } from '../../../mock/lista-cierre.mock';
 import { Router } from '@angular/router';
 import { NgStyle, DatePipe } from '@angular/common';
+import { AttentionMock } from 'src/app/mock/lista-cierre.mock';
 
 @Component({
   selector: 'app-admision',
@@ -9,7 +9,8 @@ import { NgStyle, DatePipe } from '@angular/common';
   templateUrl: './admision.html',
 })
 export class Admision {
-  lista_close_data = CloseAttentionMock.turno_dia;
+  lista_close_data = AttentionMock.data[0].turnos;
+
   router = inject(Router);
   turno = signal<'iniciar' | 'cerrar' | 'iniciado'>('iniciar');
   ngOnInit(): void {
