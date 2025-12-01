@@ -10,17 +10,14 @@ export const createMedidaMapper = (data: any, idTurno: number, type: string, ant
     ];
   }
   if (type === 'cerrar' && anterior) {
-    return {
-      datos: [
-        { idMedida: anterior.datos[0].idMedida, salida: +data.pet11 },
-        { idMedida: anterior.datos[1].idMedida, salida: +data.pet21 },
-        { idMedida: anterior.datos[2].idMedida, salida: +data.reg12 },
-        { idMedida: anterior.datos[3].idMedida, salida: +data.reg22 },
-        { idMedida: anterior.datos[4].idMedida, salida: +data.pri13 },
-        { idMedida: anterior.datos[5].idMedida, salida: +data.pri23 },
-      ],
-      observaciones: data.obs || '',
-    };
+    return [
+      { idMedida: anterior[0].idMedida, entrada: anterior[0].entrada, salida: +data.pet11 },
+      { idMedida: anterior[1].idMedida, entrada: anterior[1].entrada, salida: +data.pet21 },
+      { idMedida: anterior[2].idMedida, entrada: anterior[2].entrada, salida: +data.reg12 },
+      { idMedida: anterior[3].idMedida, entrada: anterior[3].entrada, salida: +data.reg22 },
+      { idMedida: anterior[4].idMedida, entrada: anterior[4].entrada, salida: +data.pri13 },
+      { idMedida: anterior[5].idMedida, entrada: anterior[5].entrada, salida: +data.pri23 },
+    ];
   }
   return data;
 };

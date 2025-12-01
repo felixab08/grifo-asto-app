@@ -19,8 +19,8 @@ export interface Turno {
 
 export interface Medida {
   idMedida: number;
-  idTurno:  number;
-  tipo:     string;
+  idTurno?:  number;
+  tipo?:     string;
   entrada:  number;
-  salida:   number;
+  salida?:   number;
 }

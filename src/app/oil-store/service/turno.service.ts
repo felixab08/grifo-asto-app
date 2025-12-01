@@ -20,7 +20,6 @@ export class TurnoService {
   postRegisterTurnoByIdPersona(turno: TurnoRequest): Observable<TurnoRegisterResponse> {
     return this._http.post(`${baseUrl}/turno/registrar`, turno).pipe(
       tap((resp: any) => {
-        console.log(resp);
         localStorage.setItem('turno', JSON.stringify(resp));
       })
     );
@@ -29,8 +28,9 @@ export class TurnoService {
     id: number,
     turno: TurnoRegisterResponse
   ): Observable<TurnoRegisterResponse> {
-    return this._http.post(`${baseUrl}/turno/update${id}`, turno).pipe(
+    return this._http.put(`${baseUrl}/turno/update/${id}`, turno).pipe(
       tap((resp: any) => {
+        localStorage.setItem('turno', JSON.stringify(resp));
         console.log(resp);
       })
     );

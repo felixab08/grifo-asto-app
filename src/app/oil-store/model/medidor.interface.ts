@@ -1,6 +1,6 @@
 export interface MedidorRequest {
   entrada:    number;
-  idRegistro: number;
+  idMedida: number;
   salida:     number;
   tipo:       string;
   turno:      Turno;

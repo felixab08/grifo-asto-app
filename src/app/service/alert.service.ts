@@ -19,7 +19,6 @@ export class AlertService {
   // TODO : verificar si se tiene que desuscribir en algun lugar
   constructor() {
     this.storeService.isAlertSubject.subscribe((isLoggedIn) => {
-      console.log('storeService:::::>');
       this.isAlert.set(isLoggedIn);
     });
   }

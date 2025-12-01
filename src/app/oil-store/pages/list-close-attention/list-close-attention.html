@@ -1,7 +1,9 @@
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg px-5 md:px-10 m-4">
   <div class="mb-6 flex items-center justify-between">
     <h1 class="text-2xl font-semibold">Registro diario</h1>
-    <button class="btn btn-outline btn-accent capitalize" (click)="onSave()">{{stateturno() }} turno</button>
+    <button class="btn btn-outline btn-accent capitalize" (click)="onSave()">
+      {{ stateturno() }} turno
+    </button>
   </div>
 
   <div class="overflow-x-auto">
@@ -18,11 +20,11 @@
       </thead>
       @if(turnoList() && turnoList()!.data.length > 0) {
       <tbody>
-        @for (lista of turnoList()!.data[0].turnos; track lista.idTurno) { @for (item of lista.medidas; track item.idMedida)
-        {
+        @for (lista of turnoList()!.data[0].turnos; track lista.idTurno) { @for (item of
+        lista.medidas; track item.idMedida) {
         <tr class="hover:bg-gray-300">
           @if ($index == 0) {
-          <td rowspan="6" class="border-t-2">{{ lista.fecha_entrada  | date:'short'}}</td>
+          <td rowspan="6" class="border-t-2">{{ lista.fecha_entrada | date : 'short' }}</td>
           }
           <td
             [ngStyle]="$index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }"
@@ -37,42 +39,38 @@
           <td
             [ngStyle]="$index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }"
           >
-             @if (item.salida) {
+            @if (item.salida) {
             <span>
-              {{ item.salida}}
+              {{ item.salida }}
             </span>
-          }
+            }
           </td>
           <td
             [ngStyle]="$index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }"
           >
-          @if (item.salida) {
+            @if (item.salida) {
             <span>
               {{ item.salida - item.entrada }}
             </span>
-          }
+            }
           </td>
           @if ($index == 0) {
           <td
             rowspan="6"
             [ngStyle]="$index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }"
           >
-          @if (lista.observaciones) {
-            @for (obs of lista.observaciones.split(','); track $index) {
-              @if (obs !== '') {
-                <div role="alert" class="alert alert-info mt-1">
-                  <span>{{ obs.trim() }}</span>
-                </div>
-              }
-            }
-            }
-
+            @if (lista.observaciones) { @for (obs of lista.observaciones.split(','); track $index) {
+            @if (obs !== '') {
+            <div role="alert" class="alert alert-info mt-1">
+              <span>{{ obs.trim() }}</span>
+            </div>
+            } } }
           </td>
           }
         </tr>
         } }
       </tbody>
-    }
+      }
       <tfoot>
         <tr>
           <th>Fecha</th>
@@ -86,3 +84,44 @@
     </table>
   </div>
 </div>
+
+<dialog #modalTurnoRef class="modal" (close)="closeModal(modalTurnoRef)">
+  <div class="modal-box">
+    <h3 class="text-lg font-bold">Observaciones</h3>
+    <p class="py-4">Introduce observaciones separadas por comas y guarda.</p>
+    <form
+      method="dialog"
+      class="mt-4"
+      autocomplete="off"
+      [formGroup]="myForm"
+      (ngSubmit)="onSave()"
+    >
+      <div class="my-4">
+        <label for="obs" class="block mb-2 text-sm font-medium">Observaciones</label>
+        <textarea
+          id="obs"
+          class="textarea block w-full"
+          formControlName="obs"
+          placeholder="Observaciones separados por comas"
+        ></textarea>
+      </div>
+
+      <div class="md:flex md:justify-end">
+        <button
+          (click)="closeModal(modalTurnoRef)"
+          class="btn btn-active font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center mr-2 mb-2 md:mb-0"
+        >
+          Salir
+        </button>
+        <button
+          type="submit"
+          [disabled]="!myForm.valid"
+          (click)="guardarObservaciones()"
+          class="text-white bg-accent focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+        >
+          Guardar
+        </button>
+      </div>
+    </form>
+  </div>
+</dialog>

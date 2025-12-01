@@ -5,7 +5,7 @@ import { FormUtils } from '../../../utils/form.util';
 import { createRegisterCloseAttentionMapper } from '../../../mapper/register.mapper';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { createMedidaMapper } from '@mapper/medidor.mapper';
-import { MedidorRequest } from '@oil-store/model';
+import { Medida, MedidorRequest } from '@oil-store/model';
 import { MedidorService } from '@oil-store/service';
 
 @Component({
@@ -31,7 +31,6 @@ export class RegisterCloseAttention {
     reg22: ['', [Validators.required]],
     pri13: ['', [Validators.required]],
     pri23: ['', [Validators.required]],
-    obs: [''],
   });
 
   async onSave() {
@@ -50,23 +49,22 @@ export class RegisterCloseAttention {
     }
 
     if (this.typeRegister === 'cerrar') {
-      const anterior = JSON.parse(localStorage.getItem('registro') || '{}');
-      const registro = createRegisterCloseAttentionMapper(
+      const anterior: Medida[] = JSON.parse(localStorage.getItem('registro') || '{}');
+      const registro = createMedidaMapper(
         this.myForm.value,
+        +this.idturno,
         this.typeRegister,
         anterior
       );
-      this.addnewRegister(registro);
+      await registro.map((medidor: MedidorRequest) =>
+        this._medidorService.putMedidaByTurno(medidor.idMedida, medidor).subscribe()
+      );
       localStorage.removeItem('registro');
+      localStorage.removeItem('turno');
     }
 
     this.router.navigate(['/grifo/list-oil-store']);
     // this.myForm.reset();
-  }
-  addnewRegister(newData: any) {
-    const pastRegister = JSON.parse(localStorage.getItem('attention') || '{}');
-    const updatedRegister = [newData, ...pastRegister];
-    localStorage.setItem('attention', JSON.stringify(updatedRegister));
   }
 
   ngOnDestroy(): void {
