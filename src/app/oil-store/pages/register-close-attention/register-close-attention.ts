@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormUtils } from '../../../utils/form.util';
-import { createRegisterCloseAttentionMapper } from '../../../mapper/register.mapper';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { createMedidaMapper } from '@mapper/medidor.mapper';
 import { Medida, MedidorRequest } from '@oil-store/model';
