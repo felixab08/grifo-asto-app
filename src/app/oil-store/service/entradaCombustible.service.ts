@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Medida } from '@oil-store/model';
-import { IResponseMedidor, MedidaRequest } from '@oil-store/model/medir.interface';
+import { CombustibleRequest, CombustibleResponse, ICombustible } from '@oil-store/model';
 import { Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 const baseUrl = environment.baseUrl;
@@ -9,17 +8,17 @@ const baseUrl = environment.baseUrl;
 @Injectable({
   providedIn: 'root',
 })
-export class MedirService {
+export class EntradaCombustibleService {
   private _http = inject(HttpClient);
 
-  getAllMedidas(cantidad = 10): Observable<IResponseMedidor> {
+  getAllEntradas(cantidad = 10): Observable<CombustibleResponse> {
     return this._http
-      .get<IResponseMedidor>(`${baseUrl}/medicion/list?cantidad=${cantidad}`)
+      .get<CombustibleResponse>(`${baseUrl}/entrada-combustible/list`)
       .pipe(tap((resp) => console.log(resp)));
   }
 
-  postMedition(medida: MedidaRequest): Observable<Medida> {
-    return this._http.post(`${baseUrl}/medicion/registrar`, medida).pipe(
+  postEntradas(medida: CombustibleRequest): Observable<ICombustible> {
+    return this._http.post(`${baseUrl}/entrada-combustible/registrar`, medida).pipe(
       tap((resp: any) => {
         console.log(resp);
       })

@@ -21,7 +21,7 @@
           <th>Premiun</th>
         </tr>
       </thead>
-      @if (listaMeasure() && listaMeasure()?.data) {}
+      @if (listaMeasure() && listaMeasure()?.data) {
       <tbody>
         @for (item of listaMeasure()?.data; track $index) {
         <tr class="hover:bg-gray-300">
@@ -42,6 +42,7 @@
         </tr>
         }
       </tbody>
+      }
       <tfoot>
         <tr>
           <th>Fecha</th>

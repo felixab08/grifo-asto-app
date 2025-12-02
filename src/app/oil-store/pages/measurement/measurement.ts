@@ -38,10 +38,8 @@ export class Measurement {
       this.myForm.markAllAsTouched();
       return;
     }
-    this.myForm.value;
     let sendMeassure = this.myForm.value;
     sendMeassure.idpersona = { idPersona: 1 };
-    console.log(sendMeassure);
     await this._medirService.postMedition(sendMeassure).subscribe({
       next: (resp: any) => {
         this._alertService.getAlert(

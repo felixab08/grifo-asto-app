@@ -20,28 +20,30 @@
           <th>Combustible</th>
         </tr>
       </thead>
+      @if (listaEntranse() && listaEntranse()?.data) {
       <tbody>
-        @for (item of lista_entranse; track item.id) {
+        @for (item of listaEntranse()?.data; track item.idEntrada) {
         <tr class="hover:bg-gray-300">
-          <td>{{ item.fecham | date : 'short' }}</td>
+          <td>{{ item.fechaEntrada | date : 'short' }}</td>
           <td>
-            <p>{{ item.nombre }}</p>
+            <p>{{ item.persona.nombre }}</p>
           </td>
           <td>
-            <p>{{ item.type }}</p>
+            <p>{{ item.tipo }}</p>
           </td>
           <td>
-            <p>{{ item.cant }}</p>
+            <p>{{ item.cantidad }}</p>
           </td>
         </tr>
         }
       </tbody>
+      }
       <tfoot>
         <tr>
           <th>Fecha</th>
           <th>Petroleo</th>
           <th>Regular</th>
-          <th>Primiun</th>
+          <th>Premiun</th>
         </tr>
       </tfoot>
     </table>
@@ -52,10 +54,10 @@
     <form method="dialog" autocomplete="off" [formGroup]="myForm" (ngSubmit)="onSave()">
       <div class="mt-5">
         <label
-          for="diesel"
+          for="tipo"
           class="block mb-2 text-sm font-medium"
           [ngClass]="{
-            ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'diesel')
+            ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'tipo')
           }"
           >Combustible que llego</label
         >
@@ -63,40 +65,40 @@
           <div>
             <select
               class="select"
-              formControlName="typeOil"
-              name="typeOil"
-              id="typeOil"
+              formControlName="tipo"
+              name="tipo"
+              id="tipo"
               [ngClass]="{
                 ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
-                  formUtils.isValiedField(myForm, 'typeOil')
+                  formUtils.isValiedField(myForm, 'tipo')
               }"
             >
               <option disabled selected value="">Seleccione el combustible</option>
-              <option value="Petroleo">Petroleo</option>
-              <option value="Regular">Regular</option>
-              <option value="Premiun">Premiun</option>
+              <option value="petroleo">Petroleo</option>
+              <option value="regular">Regular</option>
+              <option value="premiun">Premiun</option>
             </select>
-            @if(formUtils.isValiedField(myForm,'typeOil')){
+            @if(formUtils.isValiedField(myForm,'tipo')){
             <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-              <span class="font-medium">{{ formUtils.getFieldError(myForm, 'typeOil') }}</span>
+              <span class="font-medium">{{ formUtils.getFieldError(myForm, 'tipo') }}</span>
             </p>
             }
           </div>
           <div>
             <input
               type="number"
-              id="diesel"
-              formControlName="diesel"
+              id="cantidad"
+              formControlName="cantidad"
               placeholder="Cantidad en galones"
               class="border text-sm input-md input rounded-lg block w-full p-2.5"
               [ngClass]="{
                 ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
-                  formUtils.isValiedField(myForm, 'diesel')
+                  formUtils.isValiedField(myForm, 'cantidad')
               }"
             />
-            @if(formUtils.isValiedField(myForm,'diesel')){
+            @if(formUtils.isValiedField(myForm,'cantidad')){
             <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-              <span class="font-medium">{{ formUtils.getFieldError(myForm, 'diesel') }}</span>
+              <span class="font-medium">{{ formUtils.getFieldError(myForm, 'cantidad') }}</span>
             </p>
             }
           </div>
