@@ -4,8 +4,9 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { FormUtils } from '../../../utils/form.util';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { createMedidaMapper } from '@mapper/medidor.mapper';
-import { Medida, MedidorRequest } from '@oil-store/model';
+import { Medida, MedidorListResponse, MedidorRequest } from '@oil-store/model';
 import { MedidorService } from '@oil-store/service';
+import { AlertService } from 'src/app/service/alert.service';
 
 @Component({
   selector: 'app-register-close-attention',
@@ -14,6 +15,7 @@ import { MedidorService } from '@oil-store/service';
 })
 export class RegisterCloseAttention {
   formUtils = FormUtils;
+  public _alertService = inject(AlertService);
 
   activateRoute = inject(ActivatedRoute);
 
@@ -42,13 +44,24 @@ export class RegisterCloseAttention {
       const lisMedidas = createMedidaMapper(this.myForm.value, +this.idturno, this.typeRegister);
 
       await lisMedidas.map((medidor: MedidorRequest) =>
-        this._medidorService.postMedidaByTurno(medidor).subscribe()
+        this._medidorService.postMedidaByTurno(medidor).subscribe({
+          next: (resp) => {
+            this._alertService.getAlert(
+              'Medida creada',
+              'Medida creada satisfactoriamente',
+              'success'
+            );
+          },
+          error: (error: any) => {
+            this._alertService.getAlert('Error!!!', 'Error al crear la medidor', 'error');
+            return;
+          },
+        })
       );
-      console.log(lisMedidas);
     }
 
     if (this.typeRegister === 'cerrar') {
-      const anterior: Medida[] = JSON.parse(localStorage.getItem('registro') || '{}');
+      const anterior: MedidorListResponse[] = JSON.parse(localStorage.getItem('registro') || '{}');
       const registro = createMedidaMapper(
         this.myForm.value,
         +this.idturno,
@@ -56,14 +69,25 @@ export class RegisterCloseAttention {
         anterior
       );
       await registro.map((medidor: MedidorRequest) =>
-        this._medidorService.putMedidaByTurno(medidor.idMedida, medidor).subscribe()
+        this._medidorService.putMedidaByTurno(medidor.idMedida, medidor).subscribe({
+          next: (resp) => {
+            this._alertService.getAlert(
+              'Medida Modificada',
+              'Medida Modificada satisfactoriamente',
+              'success'
+            );
+          },
+          error: (error: any) => {
+            this._alertService.getAlert('Error!!!', 'Error al modificar el medidor', 'error');
+            return;
+          },
+        })
       );
       localStorage.removeItem('registro');
       localStorage.removeItem('turno');
     }
-
+    this.myForm.reset();
     this.router.navigate(['/grifo/list-oil-store']);
-    // this.myForm.reset();
   }
 
   ngOnDestroy(): void {

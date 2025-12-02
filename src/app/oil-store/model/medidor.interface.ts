@@ -18,3 +18,11 @@ export interface MedidorResponse {
   turno:      null;
 }
 
+export interface MedidorListResponse {
+  idMedida: number;
+  idTurno:  number;
+  tipo:     string;
+  entrada:  number;
+  salida?:   string;
+  code:     string;
+}

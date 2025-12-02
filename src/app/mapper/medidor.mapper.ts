@@ -1,23 +1,38 @@
-export const createMedidaMapper = (data: any, idTurno: number, type: string, anterior?: any) => {
+import { MedidorListResponse, MedidorRequest } from '@oil-store/model';
+
+export const createMedidaMapper = (
+  data: any,
+  idTurno: number,
+  type: string,
+  MedidaAnterior?: MedidorListResponse[]
+) => {
   if (type === 'iniciar') {
     return [
-      { entrada: +data.pet11, tipo: 'Petroleo', turno: { idTurno: idTurno } },
-      { entrada: +data.pet21, tipo: 'Petroleo', turno: { idTurno: idTurno } },
-      { entrada: +data.reg12, tipo: 'Regular', turno: { idTurno: idTurno } },
-      { entrada: +data.reg22, tipo: 'Regular', turno: { idTurno: idTurno } },
-      { entrada: +data.pri13, tipo: 'Primiun', turno: { idTurno: idTurno } },
-      { entrada: +data.pri23, tipo: 'Primiun', turno: { idTurno: idTurno } },
+      { entrada: +data.pet11, code: 'pet11', tipo: 'petroleo', turno: { idTurno: idTurno } },
+      { entrada: +data.pet21, code: 'pet21', tipo: 'petroleo', turno: { idTurno: idTurno } },
+      { entrada: +data.reg12, code: 'reg12', tipo: 'regular', turno: { idTurno: idTurno } },
+      { entrada: +data.reg22, code: 'reg22', tipo: 'regular', turno: { idTurno: idTurno } },
+      { entrada: +data.pri13, code: 'pri13', tipo: 'primiun', turno: { idTurno: idTurno } },
+      { entrada: +data.pri23, code: 'pri23', tipo: 'primiun', turno: { idTurno: idTurno } },
     ];
   }
-  if (type === 'cerrar' && anterior) {
-    return [
-      { idMedida: anterior[0].idMedida, entrada: anterior[0].entrada, salida: +data.pet11 },
-      { idMedida: anterior[1].idMedida, entrada: anterior[1].entrada, salida: +data.pet21 },
-      { idMedida: anterior[2].idMedida, entrada: anterior[2].entrada, salida: +data.reg12 },
-      { idMedida: anterior[3].idMedida, entrada: anterior[3].entrada, salida: +data.reg22 },
-      { idMedida: anterior[4].idMedida, entrada: anterior[4].entrada, salida: +data.pri13 },
-      { idMedida: anterior[5].idMedida, entrada: anterior[5].entrada, salida: +data.pri23 },
-    ];
+  if (type === 'cerrar' && Array.isArray(MedidaAnterior)) {
+    return MedidaAnterior.map((prev) => {
+      const codeKey = String(prev.code ?? '');
+      const raw = data[codeKey];
+
+      const parsed = raw !== undefined && raw !== null ? Number(raw) : NaN;
+
+      // Si parsed es un número válido, lo usamos en 'salida', si no, mantenemos el valor anterior
+      if (!Number.isFinite(parsed)) {
+        return { ...prev };
+      }
+
+      return {
+        ...prev,
+        salida: parsed,
+      };
+    });
   }
   return data;
 };
