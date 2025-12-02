@@ -15,26 +15,29 @@
       <thead>
         <tr>
           <th>Fecha</th>
+          <th>Personal</th>
           <th>Petroleo</th>
           <th>Regular</th>
-          <th>Primiun</th>
+          <th>Premiun</th>
         </tr>
       </thead>
+      @if (listaMeasure() && listaMeasure()?.data) {}
       <tbody>
-        @for (item of lista_measure; track $index) {
+        @for (item of listaMeasure()?.data; track $index) {
         <tr class="hover:bg-gray-300">
-          <td>{{ item.fecham }}</td>
+          <td>{{ item.fechaMedicion | date : 'short'}}</td>
+          <td>{{ item.idpersona.nombre }}</td>
           <td>
-            <p>{{ item.b5m }} cm</p>
-            <p class="font-bold">{{ item.b5m | diesel }} GL</p>
+            <p>{{ item.diesel }} cm</p>
+            <p class="font-bold">{{ item.diesel | diesel }} GL</p>
           </td>
           <td>
-            <p>{{ item.g90m }} cm</p>
-            <p class="font-bold">{{ item.g90m | regular }} GL</p>
+            <p>{{ item.regular }} cm</p>
+            <p class="font-bold">{{ item.regular | regular }} GL</p>
           </td>
           <td>
-            <p>{{ item.g95m }} cm</p>
-            <p class="font-bold">{{ item.g95m | premium }} GL</p>
+            <p>{{ item.premiun }} cm</p>
+            <p class="font-bold">{{ item.premiun | premium }} GL</p>
           </td>
         </tr>
         }
@@ -55,26 +58,26 @@
     <form method="dialog" autocomplete="off" [formGroup]="myForm" (ngSubmit)="onSave()">
       <div class="mt-5">
         <label
-          for="petroleo"
+          for="diesel"
           class="block mb-2 text-sm font-medium"
           [ngClass]="{
-            ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'petroleo')
+            ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'diesel')
           }"
           >Petroleo</label
         >
         <input
           type="number"
-          id="petroleo"
-          formControlName="petroleo"
+          id="diesel"
+          formControlName="diesel"
           class="border text-sm input-md input rounded-lg block w-full p-2.5"
           [ngClass]="{
             ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
-              formUtils.isValiedField(myForm, 'petroleo')
+              formUtils.isValiedField(myForm, 'diesel')
           }"
         />
-        @if(formUtils.isValiedField(myForm,'petroleo')){
+        @if(formUtils.isValiedField(myForm,'diesel')){
         <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-          <span class="font-medium">{{ formUtils.getFieldError(myForm, 'petroleo') }}</span>
+          <span class="font-medium">{{ formUtils.getFieldError(myForm, 'diesel') }}</span>
         </p>
         }
       </div>
@@ -107,26 +110,26 @@
       <!-- // * campo input -->
       <div class="mt-5">
         <label
-          for="premium"
+          for="premiun"
           class="block mb-2 text-sm font-medium"
           [ngClass]="{
-            ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'premium')
+            ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'premiun')
           }"
-          >Primiun</label
+          >Premiun</label
         >
         <input
           type="number"
-          id="premium"
-          formControlName="premium"
+          id="premiun"
+          formControlName="premiun"
           class="border text-sm input-md input rounded-lg block w-full p-2.5 "
           [ngClass]="{
             ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
-              formUtils.isValiedField(myForm, 'premium')
+              formUtils.isValiedField(myForm, 'premiun')
           }"
         />
-        @if(formUtils.isValiedField(myForm,'premium')){
+        @if(formUtils.isValiedField(myForm,'premiun')){
         <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-          <span class="font-medium">{{ formUtils.getFieldError(myForm, 'premium') }}</span>
+          <span class="font-medium">{{ formUtils.getFieldError(myForm, 'premiun') }}</span>
         </p>
         }
       </div>

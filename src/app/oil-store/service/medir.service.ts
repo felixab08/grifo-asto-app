@@ -18,8 +18,8 @@ export class MedirService {
       .pipe(tap((resp) => console.log(resp)));
   }
 
-  postMedidaByTurno(medida: MedidaRequest): Observable<Medida> {
-    return this._http.post(`${baseUrl}/medicion/registrar`, medida).pipe(
+  postMedition(medida: MedidaRequest, cantidad = 10): Observable<Medida> {
+    return this._http.post(`${baseUrl}/medicion/registrar?cantidad=${cantidad}`, medida).pipe(
       tap((resp: any) => {
         console.log(resp);
       })
