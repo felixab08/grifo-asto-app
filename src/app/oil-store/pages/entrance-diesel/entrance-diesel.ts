@@ -51,7 +51,7 @@ export class EntranceDiesel {
           'Medición creada satisfactoriamente',
           'success'
         );
-        this.listaEntranse()?.data.unshift(resp);
+        this.listMedition();
         this.myForm.reset();
       },
       error: (error: any) => {

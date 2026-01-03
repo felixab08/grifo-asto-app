@@ -92,7 +92,12 @@ export class ListCloseAttention {
     }
   }
   guardarObservaciones() {
-    const turno = JSON.parse(localStorage.getItem('turno') || '{}');
+    const turnoListData = this.turnoList();
+    if (!turnoListData || turnoListData.data[0].turnos.length === 0) {
+      this._alertService.getAlert('Error!!!', 'No hay turnos para cerrar', 'error');
+      return;
+    }
+    const turno = turnoListData.data[0].turnos[0] as any;
     turno.fechaSalida = new Date().toISOString();
     turno.observaciones = this.myForm.get('obs')?.value || '';
     this._turnoService.putRegisterTurnoByIdPersona(turno.idTurno, turno).subscribe({
@@ -113,8 +118,6 @@ export class ListCloseAttention {
   }
 
   openModal(dialog?: HTMLDialogElement | null): void {
-    console.log('entro');
-
     if (!dialog) return;
     try {
       if (typeof dialog.showModal === 'function') {

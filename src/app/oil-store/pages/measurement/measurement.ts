@@ -47,7 +47,7 @@ export class Measurement {
           'Medición creada satisfactoriamente',
           'success'
         );
-        this.listaMeasure()?.data.unshift(resp);
+        this.listMedition();
         this.myForm.reset();
       },
       error: (error: any) => {
