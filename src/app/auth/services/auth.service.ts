@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { AuthResponse } from '@auth/interfaces/auth-response.interface';
+import { LoginResponse, UserData } from '@auth/interfaces/auth-response.interface';
 import { User } from '@auth/interfaces/user.interface';
 import { catchError, map, Observable, of, tap } from 'rxjs';
 
@@ -15,7 +15,7 @@ type AuthStatus = 'checking' | 'authenticated' | 'not-authenticated';
 })
 export class AuthService {
   private _authStatus = signal<AuthStatus>('checking');
-  private _user = signal<User | null>(null);
+  private _user = signal<UserData | null>(null);
   private _token = signal<string | null>(localStorage.getItem('token'));
 
   private http = inject(HttpClient);
@@ -30,18 +30,24 @@ export class AuthService {
     return 'not-authenticated';
   });
 
-  user = computed<User | null>(() => this._user());
+  user = computed<UserData | null>(() => this._user());
   token = computed<string | null>(() => this._token());
 
   isAdmin = computed(() => {
-    return this._user()?.roles.includes('admin') ?? false;
+    return this._user()?.role.includes('ROLE_ADMIN') ?? false;
   });
 
-  login(email: string, password: string): Observable<boolean> {
-    return this.http.post<AuthResponse>(`${baseUrl}/auth/login`, { email, password }).pipe(
-      map((resp) => this.handerLoginSuccess(resp)),
-      catchError((error: any) => this.handleLoginError(error))
-    );
+  login(usernameOrEmail: string, password: string): Observable<boolean> {
+    return this.http
+      .post<LoginResponse>(`${baseUrl}/auth/login`, { usernameOrEmail, password })
+      .pipe(
+        map((resp) => this.handerLoginSuccess(resp))
+        // catchError((error: any) => this.handleLoginError(error))
+      );
+  }
+  logoutAndReload() {
+    this.logout();
+    // location.reload();
   }
 
   checkAuthStatus(): Observable<boolean> {
@@ -52,7 +58,7 @@ export class AuthService {
     }
 
     return this.http
-      .get<AuthResponse>(`${baseUrl}/auth/check-status`, {
+      .get<LoginResponse>(`${baseUrl}/auth/check-status`, {
         // headers: {
         //   Authorization: `Bearer ${token}`,
         // },
@@ -69,11 +75,13 @@ export class AuthService {
     this._token.set(null);
     localStorage.removeItem('token');
   }
-  private handerLoginSuccess(resp: AuthResponse) {
+  private handerLoginSuccess(resp: LoginResponse) {
     this._authStatus.set('authenticated');
-    this._user.set(resp.user);
-    this._token.set(resp.token);
-    localStorage.setItem('token', resp.token);
+    this._user.set(resp.data);
+    this._token.set(resp.data.access_token);
+    localStorage.setItem('token', resp.data.access_token);
+    console.log(resp);
+
     return true;
   }
   private handleLoginError(error: any) {

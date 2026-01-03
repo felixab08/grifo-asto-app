@@ -16,41 +16,38 @@ export class LoginPageComponent {
   isPosting = signal(false);
 
   loginform = this._fb.group({
-    email: ['test1@google.com', [Validators.required, Validators.email]],
-    password: ['Abc123', [Validators.required, Validators.minLength(6)]],
+    usernameOrEmail: ['', [Validators.required]],
+    password: ['', [Validators.required, Validators.minLength(6)]],
   });
 
   onSubmit() {
-    // if (this.loginform.invalid) {
-    //   this.hasError.set(true);
+    if (this.loginform.invalid) {
+      this.hasError.set(true);
 
-    //   // Simulate a login request
-    //   setTimeout(() => {
-    //     this.hasError.set(false);
-    //   }, 2000);
-    //   return;
-    // }
-    // const { email, password } = this.loginform.value;
-    // this._authService.login(email!, password!).subscribe({
-    //   next: (resp) => {
-    //     if (resp) {
-    //       this._authService.user()?.roles.includes('admin')
-    //         ? this._router.navigateByUrl('/admin')
-    //         : this._router.navigateByUrl('/');
-    //       this.isPosting.set(false);
-    //       return;
-    //     }
-    //   },
-    //   error: (err) => {
-    //     console.error('Login failed:', err);
-    //     this.isPosting.set(false);
-    //     this.hasError.set(true);
-    //     setTimeout(() => {
-    //       this.hasError.set(false);
-    //     }, 2000);
-    //   },
-    // });
-    this._router.navigateByUrl('/grifo/list-oil-store');
+      // Simulate a login request
+      setTimeout(() => {
+        this.hasError.set(false);
+      }, 2000);
+      return;
+    }
+    const { usernameOrEmail, password } = this.loginform.value;
+    this._authService.login(usernameOrEmail!, password!).subscribe({
+      next: (resp) => {
+        if (resp) {
+          this._router.navigateByUrl('/grifo/list-oil-store');
+          this.isPosting.set(false);
+          return;
+        }
+      },
+      error: (err) => {
+        this.isPosting.set(false);
+        this.hasError.set(true);
+        setTimeout(() => {
+          this.hasError.set(false);
+        }, 2000);
+      },
+    });
+    // this._router.navigateByUrl('/grifo/list-oil-store');
     // console.log('Login attempt with:', { email, password });
   }
 }

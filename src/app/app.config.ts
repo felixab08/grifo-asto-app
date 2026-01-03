@@ -6,6 +6,7 @@ import { routes } from './app.routes';
 import { HashLocationStrategy, LocationStrategy, registerLocaleData } from '@angular/common';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { authInterceptor } from '@auth/interceptors/auth.interceptor';
+import { isLoginInterceptor } from '@auth/interceptors/token.interceptor';
 registerLocaleData(localEs, 'es', 'es-ES');
 
 export const appConfig: ApplicationConfig = {
@@ -20,12 +21,6 @@ export const appConfig: ApplicationConfig = {
       provide: LOCALE_ID,
       useValue: 'es-ES',
     },
-    provideHttpClient(
-      withFetch(),
-      withInterceptors([
-        // loggingInterceptor,
-        authInterceptor,
-      ])
-    ),
+    provideHttpClient(withFetch(), withInterceptors([isLoginInterceptor, authInterceptor])),
   ],
 };

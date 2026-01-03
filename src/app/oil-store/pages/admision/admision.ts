@@ -2,6 +2,8 @@ import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgStyle, DatePipe } from '@angular/common';
 import { AttentionMock } from 'src/app/mock/lista-cierre.mock';
+import { AlertService } from 'src/app/service/alert.service';
+import { PersonaService } from '@oil-store/service';
 
 @Component({
   selector: 'app-admision',
@@ -10,6 +12,10 @@ import { AttentionMock } from 'src/app/mock/lista-cierre.mock';
 })
 export class Admision {
   lista_close_data = AttentionMock.data[0].turnos;
+
+  private _persona = inject(PersonaService);
+  private _alertService = inject(AlertService);
+
 
   router = inject(Router);
   turno = signal<'iniciar' | 'cerrar' | 'iniciado'>('iniciar');
@@ -24,6 +30,14 @@ export class Admision {
       this.lista_close_data = JSON.parse(localStorage.getItem('attention') || '[]');
     }
   }
+
+listPersona() {
+  this._persona.getAllPerson().subscribe()
+}
+
+
+
+
   descargarXLS(): void {
     // Lee la tabla HTML y genera un CSV con BOM UTF-8 (Excel lo abre correctamente)
     const table = document.querySelector<HTMLTableElement>('#simpleTable1');

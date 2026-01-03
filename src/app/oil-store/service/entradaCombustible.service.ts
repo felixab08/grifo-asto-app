@@ -11,17 +11,11 @@ const baseUrl = environment.baseUrl;
 export class EntradaCombustibleService {
   private _http = inject(HttpClient);
 
-  getAllEntradas(cantidad = 10): Observable<CombustibleResponse> {
-    return this._http
-      .get<CombustibleResponse>(`${baseUrl}/entrada-combustible/list`)
-      .pipe(tap((resp) => console.log(resp)));
+  getAllEntradas(): Observable<CombustibleResponse> {
+    return this._http.get<CombustibleResponse>(`${baseUrl}/entrada-combustible/list`);
   }
 
   postEntradas(medida: CombustibleRequest): Observable<ICombustible> {
-    return this._http.post(`${baseUrl}/entrada-combustible/registrar`, medida).pipe(
-      tap((resp: any) => {
-        console.log(resp);
-      })
-    );
+    return this._http.post<ICombustible>(`${baseUrl}/entrada-combustible/registrar`, medida);
   }
 }

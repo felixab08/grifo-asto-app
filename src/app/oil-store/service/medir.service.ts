@@ -13,16 +13,10 @@ export class MedirService {
   private _http = inject(HttpClient);
 
   getAllMedidas(cantidad = 10): Observable<IResponseMedidor> {
-    return this._http
-      .get<IResponseMedidor>(`${baseUrl}/medicion/list?cantidad=${cantidad}`)
-      .pipe(tap((resp) => console.log(resp)));
+    return this._http.get<IResponseMedidor>(`${baseUrl}/medicion/list?cantidad=${cantidad}`);
   }
 
   postMedition(medida: MedidaRequest): Observable<Medida> {
-    return this._http.post(`${baseUrl}/medicion/registrar`, medida).pipe(
-      tap((resp: any) => {
-        console.log(resp);
-      })
-    );
+    return this._http.post<Medida>(`${baseUrl}/medicion/registrar`, medida);
   }
 }

@@ -54,7 +54,6 @@ export class ListCloseAttention {
   listTurnoByPerson() {
     this._turnoService.getAllTurnosByIdPerson(6).subscribe({
       next: (resp) => {
-        console.log(resp);
         this.turnoList.set(resp);
       },
       error: (error: any) => {

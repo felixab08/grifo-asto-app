@@ -12,17 +12,9 @@ export class MedidorService {
   private _http = inject(HttpClient);
 
   postMedidaByTurno(medida: MedidorRequest): Observable<MedidorResponse> {
-    return this._http.post(`${baseUrl}/registro-medidor/registrar`, medida).pipe(
-      tap((resp: any) => {
-        console.log(resp);
-      })
-    );
+    return this._http.post<MedidorResponse>(`${baseUrl}/registro-medidor/registrar`, medida);
   }
   putMedidaByTurno(id: number, turno: MedidorRequest): Observable<MedidorResponse> {
-    return this._http.put(`${baseUrl}/registro-medidor/update/${id}`, turno).pipe(
-      tap((resp: any) => {
-        console.log(resp);
-      })
-    );
+    return this._http.put<MedidorResponse>(`${baseUrl}/registro-medidor/update/${id}`, turno);
   }
 }

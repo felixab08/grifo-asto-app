@@ -12,27 +12,17 @@ export class TurnoService {
   private _http = inject(HttpClient);
 
   getAllTurnosByIdPerson(id: number = 6): Observable<TurnoResponse> {
-    return this._http
-      .get<TurnoResponse>(`${baseUrl}/turno/list/${id}`)
-      .pipe(tap((resp) => console.log(resp)));
+    return this._http.get<TurnoResponse>(`${baseUrl}/turno/list/${id}`);
   }
 
   postRegisterTurnoByIdPersona(turno: TurnoRequest): Observable<TurnoRegisterResponse> {
-    return this._http.post(`${baseUrl}/turno/registrar`, turno).pipe(
-      tap((resp: any) => {
-        localStorage.setItem('turno', JSON.stringify(resp));
-      })
-    );
+    return this._http.post<TurnoRegisterResponse>(`${baseUrl}/turno/registrar`, turno);
   }
+
   putRegisterTurnoByIdPersona(
     id: number,
     turno: TurnoRegisterResponse
   ): Observable<TurnoRegisterResponse> {
-    return this._http.put(`${baseUrl}/turno/update/${id}`, turno).pipe(
-      tap((resp: any) => {
-        localStorage.setItem('turno', JSON.stringify(resp));
-        console.log(resp);
-      })
-    );
+    return this._http.put<TurnoRegisterResponse>(`${baseUrl}/turno/update/${id}`, turno);
   }
 }

@@ -13,16 +13,10 @@ export class PersonaService {
   private _http = inject(HttpClient);
 
   getAllPerson(): Observable<PersonaResponse> {
-    return this._http
-      .get<PersonaResponse>(`${baseUrl}/persona/list`)
-      .pipe(tap((resp) => console.log(resp)));
+    return this._http.get<PersonaResponse>(`${baseUrl}/persona/list`);
   }
 
   postRegisterUser(user: PersonaResponse): Observable<PersonaResponse> {
-    return this._http.post(`${baseUrl}/persona/registrar`, user).pipe(
-      tap((resp: any) => {
-        console.log(resp);
-      })
-    );
+    return this._http.post<PersonaResponse>(`${baseUrl}/persona/registrar`, user);
   }
 }
