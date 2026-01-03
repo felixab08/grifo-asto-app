@@ -5,6 +5,7 @@ import { RegisterCloseAttention } from './pages/register-close-attention/registe
 import { Measurement } from './pages/measurement/measurement';
 import { EntranceDiesel } from './pages/entrance-diesel/entrance-diesel';
 import { Admision } from './pages/admision/admision';
+import { RegisterPageComponent } from './components/register-page/register-page.component';
 
 export const pagesRoutes: Routes = [
   {
@@ -26,6 +27,10 @@ export const pagesRoutes: Routes = [
       {
         path: 'admision',
         component: Admision,
+      },
+      {
+        path: 'register',
+        component: RegisterPageComponent,
       },
       {
         path: 'register-close-attention/:type/:idturno',

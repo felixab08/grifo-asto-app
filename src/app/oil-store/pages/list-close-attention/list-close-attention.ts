@@ -11,6 +11,8 @@ import {
   ReactiveFormsModule,
   ɵInternalFormsSharedModule,
 } from '@angular/forms';
+import { StoreService } from 'src/app/service/store.service';
+import { Idpersona } from '../../model/medir.interface';
 
 @Component({
   selector: 'app-list-close-attention',
@@ -18,6 +20,8 @@ import {
   templateUrl: './list-close-attention.html',
 })
 export class ListCloseAttention {
+  storeService = inject(StoreService);
+
   @ViewChild('modalTurnoRef') modalTurnoRef!: ElementRef;
   modalOpen = signal(false);
   observaciones = '';
@@ -31,28 +35,37 @@ export class ListCloseAttention {
   registroTurno: TurnoRequest = {
     fechaEntrada: new Date(),
     persona: {
-      idPersona: 6,
-      nombre: 'Carlos 33',
-      apellido: 'ASTO BERROCAL',
-      telefono: '999999999',
+      id: 0,
+      idPersona: 0,
+      nombre: 'x',
+      apellido: 'x',
+      telefono: '0',
+      role: 'ROLE_TRABAJADOR',
+      email: 'x',
     },
   };
+
   private _fb = inject(FormBuilder);
   myForm: FormGroup = this._fb.group({
     obs: [''],
   });
   ngOnInit(): void {
+    this.storeService.user.subscribe((user: any) => {
+      const { email, role, ...personaData } = user!;
+      this.registroTurno.persona = personaData;
+      console.log(this.registroTurno);
+    });
     this.stateturno.set(
       (localStorage.getItem('attention-type') as 'iniciar' | 'cerrar') || 'iniciar'
     );
     if (localStorage.getItem('attention-type') === 'iniciado') {
       this.stateturno.set('cerrar');
     }
-    this.listTurnoByPerson();
+    this.listTurnoByPerson(this.registroTurno.persona.idPersona);
   }
 
-  listTurnoByPerson() {
-    this._turnoService.getAllTurnosByIdPerson(6).subscribe({
+  listTurnoByPerson(id: number) {
+    this._turnoService.getAllTurnosByIdPerson(id).subscribe({
       next: (resp) => {
         this.turnoList.set(resp);
       },

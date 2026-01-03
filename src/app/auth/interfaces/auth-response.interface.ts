@@ -7,14 +7,17 @@ export interface LoginResponse {
   data:    UserData;
 }
 
-export interface UserData {
+export interface UserData extends IPersonaResponse {
   access_token: string;
-  apellido:     string;
-  email:        string;
-  id:           number;
-  nombre:       string;
-  role:         string;
-  telefono:     string;
   token_type:   string;
   username:     string;
+}
+
+export interface IPersonaResponse {
+  apellido:     string;
+  nombre:       string;
+  id:           number;
+  email?:        string;
+  role:         string;
+  telefono?:     string;
 }

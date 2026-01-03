@@ -11,7 +11,7 @@ const baseUrl = environment.baseUrl;
 export class TurnoService {
   private _http = inject(HttpClient);
 
-  getAllTurnosByIdPerson(id: number = 6): Observable<TurnoResponse> {
+  getAllTurnosByIdPerson(id: number): Observable<TurnoResponse> {
     return this._http.get<TurnoResponse>(`${baseUrl}/turno/list/${id}`);
   }
 

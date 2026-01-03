@@ -1,15 +1,14 @@
+import { IPersonaResponse, UserData } from "@auth/interfaces/auth-response.interface";
 import { IResponse } from "./response.interface";
+import { Idpersona } from './medir.interface';
 
 export interface PersonaResponse extends IResponse {
   data: Persona[];
 }
 
-export interface Persona {
-  idPersona?:   number;
-  nombre:       string;
-  apellido:     string;
-  telefono:     string;
-  fechaCreate?: Date;
+export interface Persona extends IPersonaResponse{
+  idPersona: number;
+
 }
 
 export interface TurnoRequest {

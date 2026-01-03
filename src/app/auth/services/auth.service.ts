@@ -1,9 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { LoginResponse, UserData } from '@auth/interfaces/auth-response.interface';
-import { User } from '@auth/interfaces/user.interface';
+import {
+  IPersonaResponse,
+  LoginResponse,
+  UserData,
+} from '@auth/interfaces/auth-response.interface';
 import { catchError, map, Observable, of, tap } from 'rxjs';
+import { StoreService } from 'src/app/service/store.service';
 
 import { environment } from 'src/environments/environment.development';
 
@@ -15,10 +19,11 @@ type AuthStatus = 'checking' | 'authenticated' | 'not-authenticated';
 })
 export class AuthService {
   private _authStatus = signal<AuthStatus>('checking');
-  private _user = signal<UserData | null>(null);
+  private _user = signal<IPersonaResponse | null>(null);
   private _token = signal<string | null>(localStorage.getItem('token'));
 
   private http = inject(HttpClient);
+  storeService = inject(StoreService);
 
   // checkStatusResource = rxResource({
   //   loader: () => this.checkAuthStatus(),
@@ -30,7 +35,7 @@ export class AuthService {
     return 'not-authenticated';
   });
 
-  user = computed<UserData | null>(() => this._user());
+  user = computed<IPersonaResponse | null>(() => this._user());
   token = computed<string | null>(() => this._token());
 
   isAdmin = computed(() => {
@@ -77,15 +82,27 @@ export class AuthService {
   }
   private handerLoginSuccess(resp: LoginResponse) {
     this._authStatus.set('authenticated');
-    this._user.set(resp.data);
+    this._user.set(this.alonePersona(resp.data as UserData));
     this._token.set(resp.data.access_token);
+    localStorage.setItem('user', JSON.stringify(this._user() as UserData));
     localStorage.setItem('token', resp.data.access_token);
     console.log(resp);
-
+    this.storeService.user.next(this._user() as any);
     return true;
   }
   private handleLoginError(error: any) {
     this.logout();
     return of(false);
+  }
+
+  alonePersona(user: UserData): any | null {
+    return {
+      idPersona: user.id,
+      nombre: user.nombre,
+      apellido: user.apellido,
+      email: user.email,
+      role: user.role,
+      telefono: user.telefono,
+    };
   }
 }

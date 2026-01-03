@@ -1,5 +1,5 @@
 import { EventEmitter, Injectable } from '@angular/core';
-// import { User } from '@app/auth/interfaces/user.interface';
+import { IPersonaResponse } from '@auth/interfaces/auth-response.interface';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -25,6 +25,6 @@ export class StoreService {
   // to the service and all subscribers will react at this change.
 
   isLoginSubject = new BehaviorSubject<boolean>(false);
-  // user = new BehaviorSubject<User | undefined>(undefined);
+  user = new BehaviorSubject<IPersonaResponse | undefined>(undefined);
   isAlertSubject = new BehaviorSubject<boolean>(false);
 }
