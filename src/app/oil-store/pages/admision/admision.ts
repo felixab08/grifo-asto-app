@@ -3,7 +3,8 @@ import { Router } from '@angular/router';
 import { NgStyle, DatePipe } from '@angular/common';
 import { AttentionMock } from 'src/app/mock/lista-cierre.mock';
 import { AlertService } from 'src/app/service/alert.service';
-import { PersonaService } from '@oil-store/service';
+import { PersonaService, TurnoService } from '@oil-store/service';
+import { PersonaResponse, TurnoResponse } from '@oil-store/model';
 
 @Component({
   selector: 'app-admision',
@@ -15,7 +16,9 @@ export class Admision {
 
   private _persona = inject(PersonaService);
   private _alertService = inject(AlertService);
-
+  listPersonaData = signal<PersonaResponse | null>(null);
+  _turnoService = inject(TurnoService);
+  turnoList = signal<TurnoResponse | null>(null);
 
   router = inject(Router);
   turno = signal<'iniciar' | 'cerrar' | 'iniciado'>('iniciar');
@@ -29,15 +32,31 @@ export class Admision {
     } else {
       this.lista_close_data = JSON.parse(localStorage.getItem('attention') || '[]');
     }
+    this.listPersona();
   }
 
-listPersona() {
-  this._persona.getAllPerson().subscribe()
-}
+  listPersona() {
+    this._persona.getAllPerson().subscribe({
+      next: (resp: any) => {
+        console.log('Lista de personas:', resp);
+        this.listPersonaData.set(resp);
+      },
+      error: (err: any) => {
+        this._alertService.getAlert('Error al obtener la lista de personas', err);
+      },
+    });
+  }
 
-
-
-
+  listTurnoByPerson(id: number) {
+    this._turnoService.getAllTurnosByIdPerson(id).subscribe({
+      next: (resp) => {
+        this.turnoList.set(resp);
+      },
+      error: (error: any) => {
+        this._alertService.getAlert('Error!!!', 'Error al obtener los turnos', 'error');
+      },
+    });
+  }
   descargarXLS(): void {
     // Lee la tabla HTML y genera un CSV con BOM UTF-8 (Excel lo abre correctamente)
     const table = document.querySelector<HTMLTableElement>('#simpleTable1');

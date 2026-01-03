@@ -5,8 +5,11 @@ export interface TurnoResponse extends IResponse {
   data:    TurnoPersona[];
 }
 
-export interface TurnoPersona extends Persona {
+export interface TurnoPersona {
   turnos:    Turno[];
+  nombre:    string;
+  apellido:  string;
+  idPersona: number;
 }
 
 export interface Turno {

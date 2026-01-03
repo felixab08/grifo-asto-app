@@ -14,9 +14,11 @@
   <div class="mb-6 inline md:flex items-center justify-between">
     <select class="select my-1">
       <option disabled selected>Seleccione personal</option>
-      <option>Felix</option>
-      <option>Carlos</option>
-      <option>Fernando</option>
+      @if (listPersonaData() && listPersonaData()!.data.length > 0) {
+        @for (item of listPersonaData()?.data; track $index) {
+          <option (click)="listTurnoByPerson(item.idPersona)">{{ item.nombre }} {{ item.apellido }}</option>
+        }
+      }
     </select>
     <div class="inline md:flex gap-2">
       <div>
@@ -43,12 +45,13 @@
           <th>Observaciones</th>
         </tr>
       </thead>
+      @if(turnoList() && turnoList()!.data.length > 0) {
       <tbody>
-        @for (lista of lista_close_data; track lista.idTurno) { @for (item of lista.medidas; track item.idMedida)
+        @for (lista of turnoList()!.data[0].turnos; track lista.idTurno) { @for (item of lista.medidas; track item.idMedida)
         {
         <tr class="hover:bg-gray-300">
           <td class="border-t-2">{{ lista.fecha_entrada | date : 'short' }}</td>
-          <td class="border-t-2">Nombre Quien Atiende</td>
+          <td class="border-t-2">{{ turnoList()!.data[0].nombre }} {{ turnoList()!.data[0].apellido }}</td>
           <td
             [ngStyle]="$index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }"
           >
@@ -62,12 +65,20 @@
           <td
             [ngStyle]="$index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }"
           >
-            {{ item.salida }}
+            @if (item.salida) {
+            <span>
+              {{ item.salida }}
+            </span>
+            }
           </td>
           <td
             [ngStyle]="$index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }"
           >
-            {{ item.salida - item.entrada }}
+             @if (item.salida) {
+            <span>
+              {{ item.salida - item.entrada }}
+            </span>
+            }
           </td>
           @if ($index == 0) {
           <td
@@ -87,6 +98,7 @@
         </tr>
         }
       </tbody>
+      }
       <tfoot>
         <tr>
           <th>Fecha</th>
