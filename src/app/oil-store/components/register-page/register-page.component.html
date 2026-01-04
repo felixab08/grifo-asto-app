@@ -1,1 +1,175 @@
-<p>register-page works!</p>,
+<div class="p-6 lg:pt-20 lg:px-20 dark:bg-gray-800 w-180 rounded-lg shadow-lg items-center mx-auto">
+  <h4 class="text-2xl font-bold text-center">Cambiar contraseña</h4>
+  <form class="flex flex-col gap-2" [formGroup]="myForm" (ngSubmit)="onSubmit()">
+    <label class="input validator my-2">
+      <input type="text" class="w-full" placeholder="Nombre" required formControlName="nombre" />
+      @if(formUtils.isValiedField(myForm,'nombre')){
+      <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+        <span class="font-medium">{{ formUtils.getFieldError(myForm, 'nombre') }}</span>
+      </p>
+      }
+    </label>
+    <label class="input validator my-2">
+      <input
+        type="text"
+        class="w-full"
+        placeholder="Apellido"
+        required
+        formControlName="apellido"
+      />
+      @if(formUtils.isValiedField(myForm,'apellido')){
+      <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+        <span class="font-medium">{{ formUtils.getFieldError(myForm, 'apellido') }}</span>
+      </p>
+      }
+    </label>
+    <label class="input validator my-2">
+      <input
+        type="text"
+        class="w-full"
+        placeholder="Telefono"
+        required
+        formControlName="telefono"
+      />
+      @if(formUtils.isValiedField(myForm,'telefono')){
+      <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+        <span class="font-medium">{{ formUtils.getFieldError(myForm, 'telefono') }}</span>
+      </p>
+      }
+    </label>
+    <label class="input validator my-2">
+      <input type="text" class="w-full" placeholder="Correo" required formControlName="email" />
+      @if(formUtils.isValiedField(myForm,'email')){
+      <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+        <span class="font-medium">{{ formUtils.getFieldError(myForm, 'email') }}</span>
+      </p>
+      }
+    </label>
+    <select class="select" formControlName="role">
+      <option disabled selected value="">Seleccione su rol</option>
+      <option value="ROLE_ADMIN">Admin</option>
+      <option value="ROLE_TRABAJADOR">Trabajador</option>
+    </select>
+    <select class="select" formControlName="activo">
+      <option disabled selected value="">Seleccione su estado</option>
+      <option value="true">Activo</option>
+      <option value="false">Inactivo</option>
+    </select>
+
+    <label class="input validator">
+      <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <g
+          stroke-linejoin="round"
+          stroke-linecap="round"
+          stroke-width="2.5"
+          fill="none"
+          stroke="currentColor"
+        >
+          <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+        </g>
+      </svg>
+      <input type="text" class="w-full" placeholder="Usuario" required formControlName="username" />
+      @if(formUtils.isValiedField(myForm,'username')){
+      <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+        <span class="font-medium">{{ formUtils.getFieldError(myForm, 'username') }}</span>
+      </p>
+      }
+    </label>
+    <div class="w-full">
+      <label class="input validator mt-4">
+        <div class="flex">
+          <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <g
+              stroke-linejoin="round"
+              stroke-linecap="round"
+              stroke-width="2.5"
+              fill="none"
+              stroke="currentColor"
+            >
+              <path
+                d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"
+              ></path>
+              <circle cx="16.5" cy="7.5" r=".5" fill="currentColor"></circle>
+            </g>
+          </svg>
+          <input
+            type="password"
+            id="newpassword"
+            placeholder="Contraseña"
+            formControlName="newpassword"
+            class="w-full"
+            [ngClass]="{
+              'input-primary': formUtils.isValiedField(myForm, 'newpassword')
+            }"
+          />
+        </div>
+      </label>
+      @if (lookIconIsPassword()) {
+      <i class="fas fa-eye fa-xg pt-3 pl-1 cursor-pointer" (click)="changeTypeInput()"></i>
+      } @else {
+      <i
+        class="fa-solid fa-eye-slash fa-xg pt-3 pl-1 cursor-pointer"
+        (click)="changeTypeInput()"
+      ></i>
+      }
+    </div>
+    @if(formUtils.isValiedField(myForm,'newpassword')){
+    <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+      <span class="font-medium">{{ formUtils.getFieldError(myForm, 'newpassword') }}</span>
+    </p>
+    }
+
+    <div class="w-full">
+      <label class="input validator mt-4">
+        <div class="flex">
+          <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <g
+              stroke-linejoin="round"
+              stroke-linecap="round"
+              stroke-width="2.5"
+              fill="none"
+              stroke="currentColor"
+            >
+              <path
+                d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"
+              ></path>
+              <circle cx="16.5" cy="7.5" r=".5" fill="currentColor"></circle>
+            </g>
+          </svg>
+          <input
+            type="password"
+            id="confirmationPassword"
+            placeholder="Confirmar contraseña"
+            formControlName="confirmationPassword"
+            class="w-full"
+            [ngClass]="{
+              'input-primary': formUtils.isValiedField(myForm, 'confirmationPassword')
+            }"
+          />
+        </div>
+      </label>
+      @if (lookIconIsPasswordConfirm()) {
+      <i class="fas fa-eye fa-xg pt-3 pl-1 cursor-pointer" (click)="changeTypeInputConfirm()"></i>
+      } @else {
+      <i
+        class="fa-solid fa-eye-slash fa-xg pt-3 pl-1 cursor-pointer"
+        (click)="changeTypeInputConfirm()"
+      ></i>
+      }
+    </div>
+    @if(formUtils.isValiedField(myForm,'confirmationPassword')){
+    <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+      <span class="font-medium">{{ formUtils.getFieldError(myForm, 'confirmationPassword') }}</span>
+    </p>
+    }
+
+    <button
+      type="submit"
+      class="btn btn-accent w-60 items-center m-auto"
+      [disabled]="myForm.invalid"
+    >
+      Crear Usuario
+    </button>
+  </form>
+</div>
