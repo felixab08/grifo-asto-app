@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { RegisterService } from '@oil-store/service/register.service';
 import { FormUtils } from '@utils/form.util';
+import { AlertService } from 'src/app/service/alert.service';
 
 @Component({
   selector: 'app-register-page',
@@ -10,6 +12,9 @@ import { FormUtils } from '@utils/form.util';
 })
 export class RegisterPageComponent {
   private _fb = inject(FormBuilder);
+  private _usersService = inject(RegisterService);
+  private _alertService = inject(AlertService);
+
   formUtils = FormUtils;
   lookIconIsPassword = signal(true);
   lookIconIsPasswordConfirm = signal(true);
@@ -36,10 +41,23 @@ export class RegisterPageComponent {
       this.myForm.markAllAsTouched();
       return;
     }
+    this._usersService.postRegisterUser(this.myForm.value as any).subscribe({
+      next: (resp) => {
+        this.myForm.reset();
+        this._alertService.getAlert(
+          'Usuario Creado',
+          'Usuario creado satisfactoriamente',
+          'success'
+        );
+        this.myForm.reset();
+        this.myForm.controls['activo'].setValue('true');
+        this.myForm.controls['role'].setValue('ROLE_TRABAJADOR');
+      },
+      error: (error: any) => {
+        this._alertService.getAlert('Error!!!', 'Error al registrar el usuario', 'error');
+      },
+    });
     console.log('Form submitted', this.myForm.value);
-    this.myForm.reset();
-    this.myForm.controls['activo'].setValue('true');
-    this.myForm.controls['role'].setValue('ROLE_TRABAJADOR');
   }
 
   changeTypeInput() {

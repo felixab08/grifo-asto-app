@@ -4,3 +4,4 @@ export * from './response.interface';
 export * from './turno.interface';
 export * from './medidor.interface';
 export * from './entradaCombustible.interface';
+export * from './register.interface';
