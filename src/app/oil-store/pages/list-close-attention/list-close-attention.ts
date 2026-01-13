@@ -1,6 +1,5 @@
-import { DatePipe, JsonPipe, NgClass, NgStyle } from '@angular/common';
+import { DatePipe, NgStyle } from '@angular/common';
 import { Component, ElementRef, inject, signal, ViewChild } from '@angular/core';
-import { AttentionMock } from '../../../mock/lista-cierre.mock';
 import { Router } from '@angular/router';
 import { TurnoService } from '@oil-store/service';
 import { TurnoRequest, TurnoResponse } from '@oil-store/model';
@@ -12,7 +11,6 @@ import {
   ɵInternalFormsSharedModule,
 } from '@angular/forms';
 import { StoreService } from 'src/app/service/store.service';
-import { Idpersona } from '../../model/medir.interface';
 
 @Component({
   selector: 'app-list-close-attention',
@@ -53,7 +51,6 @@ export class ListCloseAttention {
     this.storeService.user.subscribe((user: any) => {
       const { email, role, ...personaData } = user!;
       this.registroTurno.persona = personaData;
-      console.log(this.registroTurno);
     });
     this.stateturno.set(
       (localStorage.getItem('attention-type') as 'iniciar' | 'cerrar') || 'iniciar'

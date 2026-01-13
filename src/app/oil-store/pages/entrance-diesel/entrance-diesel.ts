@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormUtils } from '../../../utils/form.util';
 import { AlertService } from 'src/app/service/alert.service';
@@ -9,7 +9,6 @@ import { StoreService } from 'src/app/service/store.service';
 import { LinkParamService } from 'src/app/service';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { PaginationComponent } from 'src/app/components/pagination/pagination.component';
-import { map } from 'rxjs';
 
 @Component({
   selector: 'app-entrance-diesel',
@@ -33,7 +32,6 @@ export class EntranceDiesel {
   ngOnInit(): void {
     this.storeService.user.subscribe((user: any) => {
       this.persona = user;
-      console.log(this.persona);
     });
   }
 

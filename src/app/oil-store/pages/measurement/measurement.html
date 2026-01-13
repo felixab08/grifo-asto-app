@@ -25,7 +25,7 @@
       <tbody>
         @for (item of listaMeasure.value().content; track $index) {
         <tr class="hover:bg-gray-300">
-          <td>{{ item.fechaMedicion | date : 'short'}}</td>
+          <td class="text-xs md:text-xl">{{ item.fechaMedicion | date : 'medium'}}</td>
           <td>{{ item.idpersona.nombre }}</td>
           <td>
             <p>{{ item.diesel }} cm</p>

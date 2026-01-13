@@ -1,11 +1,10 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormUtils } from '../../../utils/form.util';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DieselPipe, PremiumPipe, RegularPipe } from '../../../pipes';
 import { MedirService } from '@oil-store/service';
 import { AlertService } from 'src/app/service/alert.service';
-import { IResponseMedidor } from '@oil-store/model/medir.interface';
 import { LinkParamService } from 'src/app/service';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { PaginationComponent } from 'src/app/components/pagination/pagination.component';

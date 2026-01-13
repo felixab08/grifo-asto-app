@@ -24,7 +24,7 @@
         lista.medidas; track item.idMedida) {
         <tr class="hover:bg-gray-300">
           @if ($index == 0) {
-          <td rowspan="6" class="border-t-2">{{ lista.fecha_entrada | date : 'short' }}</td>
+          <td rowspan="6" class="border-t-2 text-xs md:text-xl">{{ lista.fecha_entrada | date : 'medium' }}</td>
           }
           <td
             [ngStyle]="$index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }"

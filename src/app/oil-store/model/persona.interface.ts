@@ -3,7 +3,7 @@ import { IResponse } from "./response.interface";
 import { Idpersona } from './medir.interface';
 
 export interface PersonaResponse extends IResponse {
-  data: Persona[];
+  content: Persona[];
 }
 
 export interface Persona extends IPersonaResponse{

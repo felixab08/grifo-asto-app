@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { FormUtils } from '../../../utils/form.util';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { createMedidaMapper } from '@mapper/medidor.mapper';
-import { Medida, MedidorListResponse, MedidorRequest } from '@oil-store/model';
+import { MedidorListResponse, MedidorRequest } from '@oil-store/model';
 import { MedidorService } from '@oil-store/service';
 import { AlertService } from 'src/app/service/alert.service';
 

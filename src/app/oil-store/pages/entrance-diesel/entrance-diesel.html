@@ -24,7 +24,7 @@
       <tbody>
         @for (item of listaEntranse.value().content; track item.idEntrada) {
         <tr class="hover:bg-gray-300">
-          <td>{{ item.fechaEntrada | date : 'short' }}</td>
+          <td class="text-xs md:text-xl">{{ item.fechaEntrada | date : 'medium' }}</td>
           <td>
             <p>{{ item.persona.nombre }}</p>
           </td>

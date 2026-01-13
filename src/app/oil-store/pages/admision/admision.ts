@@ -1,7 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgStyle, DatePipe } from '@angular/common';
-import { AttentionMock } from 'src/app/mock/lista-cierre.mock';
 import { AlertService } from 'src/app/service/alert.service';
 import { PersonaService, TurnoService } from '@oil-store/service';
 import { PersonaResponse, TurnoResponse } from '@oil-store/model';
@@ -12,8 +11,6 @@ import { PersonaResponse, TurnoResponse } from '@oil-store/model';
   templateUrl: './admision.html',
 })
 export class Admision {
-  lista_close_data = AttentionMock.data[0].turnos;
-
   private _persona = inject(PersonaService);
   private _alertService = inject(AlertService);
   listPersonaData = signal<PersonaResponse | null>(null);
@@ -27,18 +24,12 @@ export class Admision {
     if (localStorage.getItem('attention-type') === 'iniciado') {
       this.turno.set('cerrar');
     }
-    if (!localStorage.getItem('attention')) {
-      localStorage.setItem('attention', JSON.stringify(this.lista_close_data));
-    } else {
-      this.lista_close_data = JSON.parse(localStorage.getItem('attention') || '[]');
-    }
     this.listPersona();
   }
 
   listPersona() {
     this._persona.getAllPerson().subscribe({
       next: (resp: any) => {
-        console.log('Lista de personas:', resp);
         this.listPersonaData.set(resp);
       },
       error: (err: any) => {
