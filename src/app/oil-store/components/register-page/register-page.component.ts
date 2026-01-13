@@ -57,7 +57,6 @@ export class RegisterPageComponent {
         this._alertService.getAlert('Error!!!', 'Error al registrar el usuario', 'error');
       },
     });
-    console.log('Form submitted', this.myForm.value);
   }
 
   changeTypeInput() {

@@ -26,7 +26,7 @@
         <tr class="hover:bg-gray-300">
           <td class="text-xs md:text-xl">{{ item.fechaEntrada | date : 'medium' }}</td>
           <td>
-            <p>{{ item.persona.nombre }}</p>
+            <p>{{ item.persona.nombre }} {{ item.persona.apellido }}</p>
           </td>
           <td>
             <p>{{ item.tipo }}</p>

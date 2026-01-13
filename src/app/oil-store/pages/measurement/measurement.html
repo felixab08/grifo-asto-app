@@ -26,7 +26,7 @@
         @for (item of listaMeasure.value().content; track $index) {
         <tr class="hover:bg-gray-300">
           <td class="text-xs md:text-xl">{{ item.fechaMedicion | date : 'medium'}}</td>
-          <td>{{ item.idpersona.nombre }}</td>
+          <td>{{ item.idpersona.nombre }} {{ item.idpersona.apellido }}</td>
           <td>
             <p>{{ item.diesel }} cm</p>
             <p class="font-bold">{{ item.diesel | diesel }} GL</p>

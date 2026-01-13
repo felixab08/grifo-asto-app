@@ -47,7 +47,5 @@ export class LoginPageComponent {
         }, 2000);
       },
     });
-    // this._router.navigateByUrl('/grifo/list-oil-store');
-    // console.log('Login attempt with:', { email, password });
   }
 }

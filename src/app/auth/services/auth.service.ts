@@ -78,7 +78,7 @@ export class AuthService {
     this._authStatus.set('not-authenticated');
     this._user.set(null);
     this._token.set(null);
-    localStorage.removeItem('token');
+    localStorage.clear();
   }
   private handerLoginSuccess(resp: LoginResponse) {
     this._authStatus.set('authenticated');
@@ -86,7 +86,6 @@ export class AuthService {
     this._token.set(resp.data.access_token);
     localStorage.setItem('user', JSON.stringify(this._user() as UserData));
     localStorage.setItem('token', resp.data.access_token);
-    console.log(resp);
     this.storeService.user.next(this._user() as any);
     return true;
   }

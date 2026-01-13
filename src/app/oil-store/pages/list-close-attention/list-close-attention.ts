@@ -63,7 +63,8 @@ export class ListCloseAttention {
 
   listTurnoByPerson(id: number) {
     this._turnoService.getAllTurnosByIdPerson(id).subscribe({
-      next: (resp) => {
+      next: (resp: any) => {
+        this.verificateStateTurno(resp.data[0].turnos[0].medidas[0].salida);
         this.turnoList.set(resp);
       },
       error: (error: any) => {
@@ -88,6 +89,7 @@ export class ListCloseAttention {
       this.openModal(this.modalTurnoRef.nativeElement);
     }
   }
+
   guardarObservaciones() {
     const turnoListData = this.turnoList();
     if (!turnoListData || turnoListData.data[0].turnos.length === 0) {
@@ -109,6 +111,7 @@ export class ListCloseAttention {
       },
     });
   }
+
   handlerTurno(idturno: number = 9) {
     localStorage.setItem('attention-type', 'iniciar');
     this.router.navigate(['/grifo/register-close-attention', this.stateturno(), idturno]);
@@ -139,6 +142,15 @@ export class ListCloseAttention {
       this.modalOpen.set(false);
     } catch (err) {
       console.error('No se pudo cerrar el modal', err);
+    }
+  }
+
+  verificateStateTurno(value: number | null) {
+    if (value === null) {
+      localStorage.setItem('attention-type', 'iniciado');
+      this.stateturno.set('cerrar');
+    } else {
+      localStorage.setItem('attention-type', 'iniciar');
     }
   }
 }
