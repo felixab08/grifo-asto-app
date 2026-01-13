@@ -8,10 +8,19 @@ import { AlertService } from 'src/app/service/alert.service';
 import { IResponseMedidor } from '@oil-store/model/medir.interface';
 import { LinkParamService } from 'src/app/service';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { PaginationComponent } from 'src/app/components/pagination/pagination.component';
 
 @Component({
   selector: 'app-measurement',
-  imports: [ReactiveFormsModule, CommonModule, DieselPipe, RegularPipe, PremiumPipe, DatePipe],
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    DieselPipe,
+    RegularPipe,
+    PremiumPipe,
+    DatePipe,
+    PaginationComponent,
+  ],
   templateUrl: './measurement.html',
 })
 export class Measurement {
@@ -19,7 +28,7 @@ export class Measurement {
 
   private _medirService = inject(MedirService);
   private _alertService = inject(AlertService);
-  _paginationService = inject(LinkParamService);
+  _linkService = inject(LinkParamService);
 
   private _fb = inject(FormBuilder);
   myForm: FormGroup = this._fb.group({
@@ -54,10 +63,14 @@ export class Measurement {
     });
   }
   listaMeasure = rxResource({
-    stream: () => {
+    params: () => ({
+      page: this._linkService.currentPage() - 1,
+      size: this._linkService.currentSize(),
+    }),
+    stream: ({ params }) => {
       return this._medirService.getAllMedidas({
-        page: this._paginationService.currentPage() - 1,
-        size: this._paginationService.currentSize(),
+        page: params.page,
+        size: params.size,
       });
     },
   });

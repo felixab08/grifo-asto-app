@@ -1,8 +1,8 @@
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg px-5 md:px-10 m-4">
   <div class="mb-6 flex items-center justify-between">
-    <h1 class="text-2xl font-semibold">Entrada de combustible</h1>
+    <h1 class="text-xs md:text-2xl font-semibold">Entrada de combustible</h1>
     <button
-      class="btn btn-outline btn-accent capitalize"
+      class="btn btn-outline btn-accent"
       onclick="my_modal_1.showModal()"
       (click)="handlerNewMeassure()"
     >
@@ -52,8 +52,8 @@
   <app-pagination
     [pages]="listaEntranse.value().totalPages"
     [totalElements]="listaEntranse.value().totalElements"
-    [currentPage]="_paginationService.currentPage()"
-    [currentSize]="_paginationService.currentSize()"
+    [currentPage]="_linkService.currentPage()"
+    [currentSize]="_linkService.currentSize()"
   />
   }
   </div>

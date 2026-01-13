@@ -9,6 +9,7 @@ import { StoreService } from 'src/app/service/store.service';
 import { LinkParamService } from 'src/app/service';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { PaginationComponent } from 'src/app/components/pagination/pagination.component';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-entrance-diesel',
@@ -21,16 +22,13 @@ export class EntranceDiesel {
   persona: Persona | null = null;
   private _combustibleService = inject(EntradaCombustibleService);
   private _alertService = inject(AlertService);
-  _paginationService = inject(LinkParamService);
+  _linkService = inject(LinkParamService);
 
   private _fb = inject(FormBuilder);
   myForm: FormGroup = this._fb.group({
     tipo: ['', [Validators.required]],
     cantidad: ['', [Validators.required]],
   });
-
-  currentPage = signal(1);
-  currentSize = signal(10);
 
   ngOnInit(): void {
     this.storeService.user.subscribe((user: any) => {
@@ -64,12 +62,16 @@ export class EntranceDiesel {
       },
     });
   }
-
   listaEntranse = rxResource({
-    stream: () => {
+    params: () => ({
+      page: this._linkService.currentPage() - 1,
+      size: this._linkService.currentSize(),
+    }),
+    stream: ({ params }) => {
+      // de Loader a Stream
       return this._combustibleService.getAllEntradas({
-        page: this.currentPage() - 1,
-        size: this.currentSize(),
+        page: params.page,
+        size: params.size,
       });
     },
   });

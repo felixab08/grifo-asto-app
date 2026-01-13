@@ -39,13 +39,51 @@ export class PaginationComponent {
     return Array.from({ length: this.pages() }, (_, i) => i + 1);
   });
 
+  getPaginationButtons = computed(() => {
+    const pages = this.pages();
+    const active = this.activePage();
+    const buttons: (number | string)[] = [];
+
+    if (pages <= 5) {
+      // Si hay 5 o menos páginas, mostrar todas
+      return Array.from({ length: pages }, (_, i) => i + 1);
+    }
+
+    // Siempre agregar página 1
+    buttons.push(1);
+
+    // Si la página activa está lejos de la página 1, agregar puntos
+    if (active > 3) {
+      buttons.push('...');
+    }
+
+    // Agregar página anterior, actual y siguiente
+    const startPage = Math.max(2, active - 1);
+    const endPage = Math.min(pages - 1, active + 1);
+
+    for (let i = startPage; i <= endPage; i++) {
+      if (!buttons.includes(i)) {
+        buttons.push(i);
+      }
+    }
+
+    // Si la página activa está lejos de la última página, agregar puntos
+    if (active < pages - 2) {
+      buttons.push('...');
+    }
+
+    // Siempre agregar última página
+    if (!buttons.includes(pages)) {
+      buttons.push(pages);
+    }
+
+    return buttons;
+  });
+
   // TODO: mirar cuando se tiene mas datos
   getSizeList = computed(() => {
     const sizes = [5, 10, 25, 50];
-    return [
-      5,
-      ...sizes.filter((size) => this.totalElements() * 2 >= size && size !== 5),
-    ];
+    return [5, ...sizes.filter((size) => this.totalElements() * 2 >= size && size !== 5)];
   });
 
   previousPage() {

@@ -1,8 +1,8 @@
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg px-5 md:px-10 m-4">
   <div class="mb-6 flex items-center justify-between">
-    <h1 class="text-2xl font-semibold">Medición de combustible</h1>
+    <h1 class="text-xs md:text-2xl font-semibold">Medición de combustible</h1>
     <button
-      class="btn btn-outline btn-accent capitalize"
+      class="btn btn-outline btn-accent"
       onclick="my_modal_3.showModal()"
       (click)="handlerNewMeassure()"
     >
@@ -52,6 +52,15 @@
         </tr>
       </tfoot>
     </table>
+          <!-- Paginación -->
+  @if(listaMeasure.hasValue()){
+  <app-pagination
+    [pages]="listaMeasure.value().totalPages"
+    [totalElements]="listaMeasure.value().totalElements"
+    [currentPage]="_linkService.currentPage()"
+    [currentSize]="_linkService.currentSize()"
+  />
+  }
   </div>
 </div>
 <dialog id="my_modal_3" class="modal">

@@ -21,22 +21,28 @@
         tabindex="-1"
         class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
       >
-      @for (item of navMenu; track item.name) {
-        <li><a [routerLink]="item.routes" routerLinkActive="bg-accent">{{item.name}}</a></li>
-      }
+        @for (item of navMenu; track item.name) {
+        <li>
+          <a [routerLink]="item.routes" routerLinkActive="bg-accent">{{ item.name }}</a>
+        </li>
+        }
       </ul>
     </div>
-    <a class="btn btn-ghost text-xl">Grifo ASTO</a>
+    <div class="flex items-center justify-center w-10 h-10 rounded-l">
+      <img src="./assets/images/logo-1.png" class="rounded-xl" alt="" />
+    </div>
   </div>
   <div class="navbar-center hidden lg:flex">
     <ul class="menu menu-horizontal px-1">
-            @for (item of navMenu; track item.name) {
-        <li><a [routerLink]="item.routes" routerLinkActive="bg-accent">{{item.name}}</a></li>
+      @for (item of navMenu; track item.name) {
+      <li>
+        <a [routerLink]="item.routes" routerLinkActive="bg-accent">{{ item.name }}</a>
+      </li>
       }
     </ul>
   </div>
   <div class="navbar-end">
-    <p class="text-2xl font-medium mx-4">{{user?.nombre}} {{user?.apellido}}</p>
+    <p class="text-xs md:text-2xl font-medium mx-4">{{ user?.nombre }} {{ user?.apellido }}</p>
     <a class="btn" (click)="_authService.logoutAndReload()" routerLink="/">Salir</a>
   </div>
 </div>
