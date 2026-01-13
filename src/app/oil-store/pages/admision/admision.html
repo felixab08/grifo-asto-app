@@ -4,7 +4,7 @@
 
     <button
       id="button-excel"
-      class="text-white bg-accent hover:bg-accent/50 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center hover:cursor-pointer"
+      class="btn btn-outline btn-accent"
       (click)="descargarXLS()"
     >
       Descargar
@@ -14,13 +14,14 @@
   <div class="mb-6 inline md:flex items-center justify-between">
     <select class="select my-1">
       <option disabled selected>Seleccione personal</option>
-      @if (listPersonaData() && listPersonaData()!.content.length > 0) {
-        @for (item of listPersonaData()?.content; track $index) {
-          <option (click)="listTurnoByPerson(item.idPersona)">{{ item.nombre }} {{ item.apellido }}</option>
-        }
-      }
+      @if (listPersonaData() && listPersonaData()!.content.length > 0) { @for (item of
+      listPersonaData()?.content; track $index) {
+      <option (click)="listTurnoByPerson(item.idPersona)">
+        {{ item.nombre }} {{ item.apellido }}
+      </option>
+      } }
     </select>
-    <div class="inline md:flex gap-2">
+    <!-- <div class="inline md:flex gap-2">
       <div>
         <label for="feche_inicio">Fecha inicio</label>
         <input type="date" id="feche_inicio" class="input my-1" />
@@ -29,7 +30,7 @@
         <label for="feche_fin">Fecha fin</label>
         <input type="date" id="feche_fin" class="input my-1" />
       </div>
-    </div>
+    </div> -->
   </div>
 
   <div class="overflow-x-auto">
@@ -47,11 +48,13 @@
       </thead>
       @if(turnoList() && turnoList()!.data.length > 0) {
       <tbody>
-        @for (lista of turnoList()!.data[0].turnos; track lista.idTurno) { @for (item of lista.medidas; track item.idMedida)
-        {
+        @for (lista of turnoList()!.data[0].turnos; track lista.idTurno) { @for (item of
+        lista.medidas; track item.idMedida) {
         <tr class="hover:bg-gray-300">
           <td class="border-t-2 text-xs md:text-xl">{{ lista.fecha_entrada | date : 'medium' }}</td>
-          <td class="border-t-2">{{ turnoList()!.data[0].nombre }} {{ turnoList()!.data[0].apellido }}</td>
+          <td class="border-t-2">
+            {{ turnoList()!.data[0].nombre }} {{ turnoList()!.data[0].apellido }}
+          </td>
           <td
             [ngStyle]="$index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }"
           >
@@ -74,7 +77,7 @@
           <td
             [ngStyle]="$index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }"
           >
-             @if (item.salida) {
+            @if (item.salida) {
             <span>
               {{ item.salida - item.entrada }}
             </span>
@@ -84,13 +87,21 @@
           <td
             [ngStyle]="$index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }"
           >
-            @for (obs of lista.observaciones.split(','); track $index) { @if (obs !== '') {
+          @if (lista.observaciones && lista.observaciones !== '') {
+          <!-- inicio for -->
+            @for (obs of lista.observaciones.split(','); track $index){
+            <!-- inicio if -->
+            @if (obs !== '') {
             <div role="alert" class="alert alert-info mt-1">
               <span>{{ obs.trim() }}</span>
             </div>
-            } }
+            }
+            <!-- fin if -->
+            }
+            }
           </td>
           }
+          <!-- fin for -->
         </tr>
         }
         <tr>
