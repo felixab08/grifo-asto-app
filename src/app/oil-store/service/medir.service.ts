@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Medida } from '@oil-store/model';
+import { Medida, OptionsRequest } from '@oil-store/model';
 import { IResponseMedidor, MedidaRequest } from '@oil-store/model/medir.interface';
 import { Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
@@ -12,8 +12,13 @@ const baseUrl = environment.baseUrl;
 export class MedirService {
   private _http = inject(HttpClient);
 
-  getAllMedidas(cantidad = 10): Observable<IResponseMedidor> {
-    return this._http.get<IResponseMedidor>(`${baseUrl}/medicion/list?cantidad=${cantidad}`);
+  getAllMedidas(options: OptionsRequest): Observable<IResponseMedidor> {
+    const { page = 0, size = 5 } = options;
+    const params = {
+      page,
+      size,
+    };
+    return this._http.get<IResponseMedidor>(`${baseUrl}/medicion/list`, { params });
   }
 
   postMedition(medida: MedidaRequest): Observable<Medida> {

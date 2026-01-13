@@ -6,6 +6,8 @@ import { DieselPipe, PremiumPipe, RegularPipe } from '../../../pipes';
 import { MedirService } from '@oil-store/service';
 import { AlertService } from 'src/app/service/alert.service';
 import { IResponseMedidor } from '@oil-store/model/medir.interface';
+import { LinkParamService } from 'src/app/service';
+import { rxResource } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-measurement',
@@ -13,11 +15,11 @@ import { IResponseMedidor } from '@oil-store/model/medir.interface';
   templateUrl: './measurement.html',
 })
 export class Measurement {
-  listaMeasure = signal<IResponseMedidor | null>(null);
   formUtils = FormUtils;
 
   private _medirService = inject(MedirService);
   private _alertService = inject(AlertService);
+  _paginationService = inject(LinkParamService);
 
   private _fb = inject(FormBuilder);
   myForm: FormGroup = this._fb.group({
@@ -27,11 +29,6 @@ export class Measurement {
   });
 
   handlerNewMeassure() {}
-  ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
-    this.listMedition();
-  }
 
   async onSave() {
     if (this.myForm.invalid) {
@@ -47,7 +44,7 @@ export class Measurement {
           'Medición creada satisfactoriamente',
           'success'
         );
-        this.listMedition();
+        this.listaMeasure.reload();
         this.myForm.reset();
       },
       error: (error: any) => {
@@ -56,16 +53,12 @@ export class Measurement {
       },
     });
   }
-
-  listMedition() {
-    this._medirService.getAllMedidas().subscribe({
-      next: (resp) => {
-        console.log(resp);
-        this.listaMeasure.set(resp);
-      },
-      error: (error: any) => {
-        this._alertService.getAlert('Error!!!', 'Error al obtener los turnos', 'error');
-      },
-    });
-  }
+  listaMeasure = rxResource({
+    stream: () => {
+      return this._medirService.getAllMedidas({
+        page: this._paginationService.currentPage() - 1,
+        size: this._paginationService.currentSize(),
+      });
+    },
+  });
 }

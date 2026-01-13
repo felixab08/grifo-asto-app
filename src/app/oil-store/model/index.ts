@@ -5,3 +5,4 @@ export * from './turno.interface';
 export * from './medidor.interface';
 export * from './entradaCombustible.interface';
 export * from './register.interface';
+export * from './services.interface';

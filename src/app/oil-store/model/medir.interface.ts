@@ -2,9 +2,7 @@ import { Persona } from './persona.interface';
 import { IResponse } from './response.interface';
 
 export interface IResponseMedidor extends IResponse {
-  code:    number;
-  data:    Medida[];
-  message: string;
+  content:    Medida[];
 }
 
 export interface Medida {

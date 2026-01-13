@@ -4,54 +4,58 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { FormUtils } from '../../../utils/form.util';
 import { AlertService } from 'src/app/service/alert.service';
 import { EntradaCombustibleService } from '@oil-store/service';
-import { CombustibleResponse, Persona } from '@oil-store/model';
+import { Persona } from '@oil-store/model';
 import { StoreService } from 'src/app/service/store.service';
+import { LinkParamService } from 'src/app/service';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { PaginationComponent } from 'src/app/components/pagination/pagination.component';
 
 @Component({
   selector: 'app-entrance-diesel',
-  imports: [ReactiveFormsModule, CommonModule, DatePipe],
+  imports: [ReactiveFormsModule, CommonModule, DatePipe, PaginationComponent],
   templateUrl: './entrance-diesel.html',
 })
 export class EntranceDiesel {
-  listaEntranse = signal<CombustibleResponse | null>(null);
   formUtils = FormUtils;
   storeService = inject(StoreService);
   persona: Persona | null = null;
   private _combustibleService = inject(EntradaCombustibleService);
   private _alertService = inject(AlertService);
+  _paginationService = inject(LinkParamService);
 
   private _fb = inject(FormBuilder);
   myForm: FormGroup = this._fb.group({
     tipo: ['', [Validators.required]],
     cantidad: ['', [Validators.required]],
   });
+
+  currentPage = signal(1);
+  currentSize = signal(10);
+
   ngOnInit(): void {
     this.storeService.user.subscribe((user: any) => {
       this.persona = user;
       console.log(this.persona);
     });
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
-    this.listMedition();
   }
 
   handlerNewMeassure() {}
 
-  async onSave() {
+  onSave() {
     if (this.myForm.invalid) {
       this.myForm.markAllAsTouched();
       return;
     }
     let combustible = this.myForm.value;
     combustible.persona = { idPersona: this.persona?.idPersona };
-    await this._combustibleService.postEntradas(combustible).subscribe({
+    this._combustibleService.postEntradas(combustible).subscribe({
       next: (resp: any) => {
         this._alertService.getAlert(
           'Medición creada',
           'Medición creada satisfactoriamente',
           'success'
         );
-        this.listMedition();
+        this.listaEntranse.reload();
         this.myForm.reset();
       },
       error: (error: any) => {
@@ -61,15 +65,12 @@ export class EntranceDiesel {
     });
   }
 
-  listMedition() {
-    this._combustibleService.getAllEntradas().subscribe({
-      next: (resp) => {
-        console.log(resp);
-        this.listaEntranse.set(resp);
-      },
-      error: (error: any) => {
-        this._alertService.getAlert('Error!!!', 'Error al obtener la lista', 'error');
-      },
-    });
-  }
+  listaEntranse = rxResource({
+    stream: () => {
+      return this._combustibleService.getAllEntradas({
+        page: this.currentPage() - 1,
+        size: this.currentSize(),
+      });
+    },
+  });
 }

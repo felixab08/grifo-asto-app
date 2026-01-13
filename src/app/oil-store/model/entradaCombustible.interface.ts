@@ -2,7 +2,17 @@ import { Persona } from "./persona.interface";
 import { IResponse } from "./response.interface";
 
 export interface CombustibleResponse extends IResponse{
-  data:    ICombustible[];
+  content:          ICombustible[];
+  page:             number;
+  size:             number;
+  totalElements:    number;
+  totalPages:       number;
+  first:            boolean;
+  last:             boolean;
+  hasNext:          boolean;
+  hasPrevious:      boolean;
+  numberOfElements: number;
+  empty:            boolean;
 }
 
 export interface ICombustible {
@@ -18,5 +28,3 @@ export interface CombustibleRequest {
   cantidad: number;
   persona:  Persona;
 }
-
-
