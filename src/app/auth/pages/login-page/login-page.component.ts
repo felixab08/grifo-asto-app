@@ -1,11 +1,11 @@
 import { Component, inject, signal } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '@auth/services/auth.service';
 
 @Component({
   selector: 'app-login-page',
-  imports: [RouterLink, ReactiveFormsModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './login-page.component.html',
 })
 export class LoginPageComponent {
@@ -14,11 +14,16 @@ export class LoginPageComponent {
   private _router = inject(Router);
   hasError = signal(false);
   isPosting = signal(false);
+  showPassword = signal(false);
 
   loginform = this._fb.group({
     usernameOrEmail: ['', [Validators.required]],
     password: ['', [Validators.required, Validators.minLength(6)]],
   });
+
+  togglePasswordVisibility() {
+    this.showPassword.update((value) => !value);
+  }
 
   onSubmit() {
     if (this.loginform.invalid) {

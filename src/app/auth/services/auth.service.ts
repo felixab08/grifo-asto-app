@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { rxResource } from '@angular/core/rxjs-interop';
 import {
   IPersonaResponse,
   LoginResponse,
@@ -25,10 +24,6 @@ export class AuthService {
   private http = inject(HttpClient);
   storeService = inject(StoreService);
 
-  // checkStatusResource = rxResource({
-  //   loader: () => this.checkAuthStatus(),
-  // });
-
   authStatus = computed<AuthStatus>(() => {
     if (this._authStatus() === 'checking') return 'checking';
     if (this._user() && this._token()) return 'authenticated';
@@ -45,14 +40,10 @@ export class AuthService {
   login(usernameOrEmail: string, password: string): Observable<boolean> {
     return this.http
       .post<LoginResponse>(`${baseUrl}/auth/login`, { usernameOrEmail, password })
-      .pipe(
-        map((resp) => this.handerLoginSuccess(resp))
-        // catchError((error: any) => this.handleLoginError(error))
-      );
+      .pipe(map((resp) => this.handerLoginSuccess(resp)));
   }
   logoutAndReload() {
     this.logout();
-    // location.reload();
   }
 
   checkAuthStatus(): Observable<boolean> {
@@ -62,16 +53,10 @@ export class AuthService {
       return of(false);
     }
 
-    return this.http
-      .get<LoginResponse>(`${baseUrl}/auth/check-status`, {
-        // headers: {
-        //   Authorization: `Bearer ${token}`,
-        // },
-      })
-      .pipe(
-        map((resp) => this.handerLoginSuccess(resp)),
-        catchError((error: any) => this.handleLoginError(error))
-      );
+    return this.http.get<LoginResponse>(`${baseUrl}/auth/check-status`, {}).pipe(
+      map((resp) => this.handerLoginSuccess(resp)),
+      catchError((error: any) => this.handleLoginError(error))
+    );
   }
 
   logout() {

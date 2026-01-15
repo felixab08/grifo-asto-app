@@ -1,4 +1,4 @@
-import { MedidorListResponse, MedidorRequest } from '@oil-store/model';
+import { MedidorListResponse } from '@oil-store/model';
 
 export const createMedidaMapper = (
   data: any,

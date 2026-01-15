@@ -64,7 +64,7 @@ export class ListCloseAttention {
   listTurnoByPerson(id: number) {
     this._turnoService.getAllTurnosByIdPerson(id).subscribe({
       next: (resp: any) => {
-        this.verificateStateTurno(resp.data[0].turnos[0].medidas[0].salida);
+        this.verificateStateTurno(resp.data[0].turnos[0]?.medidas[0]?.salida);
         this.turnoList.set(resp);
       },
       error: (error: any) => {
