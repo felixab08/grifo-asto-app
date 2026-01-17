@@ -28,7 +28,7 @@ export class Admision {
   }
 
   listPersona() {
-    this._persona.getAllPerson().subscribe({
+    this._persona.getAllPerson({ page: 0, size: 10 }).subscribe({
       next: (resp: any) => {
         this.listPersonaData.set(resp);
       },

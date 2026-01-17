@@ -1,16 +1,21 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { PersonaService } from '@oil-store/service';
+import { AlertService, LinkParamService } from 'src/app/service';
+import { PaginationComponent } from 'src/app/components/pagination/pagination.component';
+import { DatePipe, NgClass } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RegisterService } from '@oil-store/service/register.service';
 import { FormUtils } from '@utils/form.util';
-import { AlertService } from 'src/app/service/alert.service';
 
 @Component({
-  selector: 'app-register-page',
-  imports: [ReactiveFormsModule, CommonModule],
-  templateUrl: './register-page.component.html',
+  selector: 'app-personal-list',
+  imports: [PaginationComponent, DatePipe, ReactiveFormsModule, NgClass],
+  templateUrl: './personal-list.html',
 })
-export class RegisterPageComponent {
+export class PersonalList {
+  _linkService = inject(LinkParamService);
+  private _personaService = inject(PersonaService);
   private _fb = inject(FormBuilder);
   private _usersService = inject(RegisterService);
   private _alertService = inject(AlertService);
@@ -33,7 +38,7 @@ export class RegisterPageComponent {
     },
     {
       validators: this.formUtils.passIgualesValidator('newpassword', 'confirmationPassword'),
-    }
+    },
   );
 
   onSubmit() {
@@ -47,7 +52,7 @@ export class RegisterPageComponent {
         this._alertService.getAlert(
           'Usuario Creado',
           'Usuario creado satisfactoriamente',
-          'success'
+          'success',
         );
         this.myForm.reset();
         this.myForm.controls['activo'].setValue('true');
@@ -65,4 +70,16 @@ export class RegisterPageComponent {
   changeTypeInputConfirm() {
     this.lookIconIsPasswordConfirm.update((value) => !value);
   }
+  listaPersonal = rxResource({
+    params: () => ({
+      page: this._linkService.currentPage() - 1,
+      size: this._linkService.currentSize(),
+    }),
+    stream: ({ params }) => {
+      return this._personaService.getAllPerson({
+        page: params.page,
+        size: params.size,
+      });
+    },
+  });
 }

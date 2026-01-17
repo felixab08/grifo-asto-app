@@ -22,26 +22,28 @@
         </tr>
       </thead>
       @if (listaMeasure.hasValue()) {
-      <tbody>
-        @for (item of listaMeasure.value().content; track $index) {
-        <tr class="hover:bg-gray-300">
-          <td class="text-xs md:text-xl">{{ item.fechaMedicion | date : 'medium'}}</td>
-          <td>{{ item.idpersona.nombre }} {{ item.idpersona.apellido }}</td>
-          <td>
-            <p>{{ item.diesel }} cm</p>
-            <p class="font-bold">{{ item.diesel | diesel }} GL</p>
-          </td>
-          <td>
-            <p>{{ item.regular }} cm</p>
-            <p class="font-bold">{{ item.regular | regular }} GL</p>
-          </td>
-          <td>
-            <p>{{ item.premiun }} cm</p>
-            <p class="font-bold">{{ item.premiun | premium }} GL</p>
-          </td>
-        </tr>
-        }
-      </tbody>
+        <tbody>
+          @for (item of listaMeasure.value().content; track $index) {
+            <tr class="hover:bg-gray-300">
+              <td class="text-xs md:text-xl">{{ item.fechaMedicion | date: 'medium' }}</td>
+              <td>{{ item.idpersona.nombre }} {{ item.idpersona.apellido }}</td>
+              <td>
+                <p>{{ item.diesel }} cm</p>
+                <p class="font-bold">{{ item.diesel | diesel }} GL</p>
+              </td>
+              <td>
+                <p>{{ item.regular }} cm</p>
+                <p class="font-bold">{{ item.regular | regular }} GL</p>
+              </td>
+              <td>
+                <p>{{ item.premiun }} cm</p>
+                <p class="font-bold">{{ item.premiun | premium }} GL</p>
+              </td>
+            </tr>
+          } @empty {
+            <p class="text-center"> <i class="fa-info-circle fa" aria-hidden="true"></i> No hay información para mostrar</p>
+          }
+        </tbody>
       }
       <tfoot>
         <tr>
@@ -52,26 +54,28 @@
         </tr>
       </tfoot>
     </table>
-          <!-- Paginación -->
-  @if(listaMeasure.hasValue()){
-  <app-pagination
-    [pages]="listaMeasure.value().totalPages"
-    [totalElements]="listaMeasure.value().totalElements"
-    [currentPage]="_linkService.currentPage()"
-    [currentSize]="_linkService.currentSize()"
-  />
-  }
+    <!-- Paginación -->
+    @if (listaMeasure.hasValue()) {
+      <app-pagination
+        [pages]="listaMeasure.value().totalPages"
+        [totalElements]="listaMeasure.value().totalElements"
+        [currentPage]="_linkService.currentPage()"
+        [currentSize]="_linkService.currentSize()"
+      />
+    }
   </div>
 </div>
 <dialog id="my_modal_3" class="modal">
   <div class="modal-box">
+    <h3 class="font-bold text-lg mb-4">Medición de combustible</h3>
+
     <form method="dialog" autocomplete="off" [formGroup]="myForm" (ngSubmit)="onSave()">
       <div class="mt-5">
         <label
           for="diesel"
           class="block mb-2 text-sm font-medium"
           [ngClass]="{
-            ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'diesel')
+            ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'diesel'),
           }"
           >Petroleo</label
         >
@@ -82,13 +86,13 @@
           class="border text-sm input-md input rounded-lg block w-full p-2.5"
           [ngClass]="{
             ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
-              formUtils.isValiedField(myForm, 'diesel')
+              formUtils.isValiedField(myForm, 'diesel'),
           }"
         />
-        @if(formUtils.isValiedField(myForm,'diesel')){
-        <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-          <span class="font-medium">{{ formUtils.getFieldError(myForm, 'diesel') }}</span>
-        </p>
+        @if (formUtils.isValiedField(myForm, 'diesel')) {
+          <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+            <span class="font-medium">{{ formUtils.getFieldError(myForm, 'diesel') }}</span>
+          </p>
         }
       </div>
       <!-- // * campo input -->
@@ -97,7 +101,7 @@
           for="regular"
           class="block mb-2 text-sm font-medium"
           [ngClass]="{
-            ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'regular')
+            ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'regular'),
           }"
           >Regular</label
         >
@@ -105,16 +109,16 @@
           type="number"
           id="regular"
           formControlName="regular"
-          class="border text-sm input-md input rounded-lg block w-full p-2.5 "
+          class="border text-sm input-md input rounded-lg block w-full p-2.5"
           [ngClass]="{
             ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
-              formUtils.isValiedField(myForm, 'regular')
+              formUtils.isValiedField(myForm, 'regular'),
           }"
         />
-        @if(formUtils.isValiedField(myForm,'regular')){
-        <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-          <span class="font-medium">{{ formUtils.getFieldError(myForm, 'regular') }}</span>
-        </p>
+        @if (formUtils.isValiedField(myForm, 'regular')) {
+          <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+            <span class="font-medium">{{ formUtils.getFieldError(myForm, 'regular') }}</span>
+          </p>
         }
       </div>
       <!-- // * campo input -->
@@ -123,7 +127,7 @@
           for="premiun"
           class="block mb-2 text-sm font-medium"
           [ngClass]="{
-            ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'premiun')
+            ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'premiun'),
           }"
           >Premiun</label
         >
@@ -131,16 +135,16 @@
           type="number"
           id="premiun"
           formControlName="premiun"
-          class="border text-sm input-md input rounded-lg block w-full p-2.5 "
+          class="border text-sm input-md input rounded-lg block w-full p-2.5"
           [ngClass]="{
             ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
-              formUtils.isValiedField(myForm, 'premiun')
+              formUtils.isValiedField(myForm, 'premiun'),
           }"
         />
-        @if(formUtils.isValiedField(myForm,'premiun')){
-        <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-          <span class="font-medium">{{ formUtils.getFieldError(myForm, 'premiun') }}</span>
-        </p>
+        @if (formUtils.isValiedField(myForm, 'premiun')) {
+          <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+            <span class="font-medium">{{ formUtils.getFieldError(myForm, 'premiun') }}</span>
+          </p>
         }
       </div>
       <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
@@ -154,7 +158,7 @@
         <button
           type="submit"
           [disabled]="!myForm.valid"
-          class="text-white bg-accent focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+          class="btn btn-accent items-center text-sm w-full sm:w-auto px-5 py-2.5 text-center"
         >
           Guardar
         </button>

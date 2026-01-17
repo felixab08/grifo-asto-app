@@ -20,4 +20,5 @@ export interface IPersonaResponse {
   email?:        string;
   role:         string;
   telefono?:     string;
+  fechaCreate?:     string;
 }

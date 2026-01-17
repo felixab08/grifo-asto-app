@@ -6,6 +6,7 @@ import { Measurement } from './pages/measurement/measurement';
 import { EntranceDiesel } from './pages/entrance-diesel/entrance-diesel';
 import { Admision } from './pages/admision/admision';
 import { RegisterPageComponent } from './components/register-page/register-page.component';
+import { PersonalList } from './pages/personal-list/personal-list';
 
 export const pagesRoutes: Routes = [
   {
@@ -29,8 +30,8 @@ export const pagesRoutes: Routes = [
         component: Admision,
       },
       {
-        path: 'register',
-        component: RegisterPageComponent,
+        path: 'personal',
+        component: PersonalList,
       },
       {
         path: 'register-close-attention/:type/:idturno',

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { PersonaResponse } from '@oil-store/model';
+import { OptionsRequest, PersonaResponse } from '@oil-store/model';
 import { Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 
@@ -12,8 +12,13 @@ const baseUrl = environment.baseUrl;
 export class PersonaService {
   private _http = inject(HttpClient);
 
-  getAllPerson(): Observable<PersonaResponse> {
-    return this._http.get<PersonaResponse>(`${baseUrl}/persona/list`);
+  getAllPerson(options: OptionsRequest): Observable<PersonaResponse> {
+    const { page = 0, size = 10 } = options;
+    const params = {
+      page,
+      size,
+    };
+    return this._http.get<PersonaResponse>(`${baseUrl}/persona/list`, { params });
   }
 
   postRegisterUser(user: PersonaResponse): Observable<PersonaResponse> {

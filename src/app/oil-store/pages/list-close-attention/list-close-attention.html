@@ -18,58 +18,80 @@
           <th>Observaciones</th>
         </tr>
       </thead>
-      @if(turnoList() && turnoList()!.data.length > 0) {
-      <tbody>
-        @for (lista of turnoList()!.data[0].turnos; track lista.idTurno) { @for (item of
-        lista.medidas; track item.idMedida) {
-        <tr class="hover:bg-gray-300">
-          @if ($index == 0) {
-          <td rowspan="6" class="border-t-2 text-xs md:text-xl">{{ lista.fecha_entrada | date : 'medium' }}</td>
-          }
-          <td
-            [ngStyle]="$index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }"
-          >
-            {{ item.tipo }}
-          </td>
-          <td
-            [ngStyle]="$index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }"
-          >
-            {{ item.entrada }}
-          </td>
-          <td
-            [ngStyle]="$index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }"
-          >
-            @if (item.salida) {
-            <span>
-              {{ item.salida }}
-            </span>
+      @if (turnoList() && turnoList()!.data.length > 0) {
+        <!--  -->
+        <tbody>
+          @for (lista of turnoList()!.data[0].turnos; track lista.idTurno) {
+            <!--  -->
+            @for (item of lista.medidas; track item.idMedida) {
+              <!--  -->
+              <tr class="hover:bg-gray-300">
+                @if ($index == 0) {
+                  <td rowspan="6" class="border-t-2 text-xs md:text-xl">
+                    {{ lista.fecha_entrada | date: 'medium' }}
+                  </td>
+                }
+                <td
+                  [ngStyle]="
+                    $index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }
+                  "
+                >
+                  {{ item.tipo }}
+                </td>
+                <td
+                  [ngStyle]="
+                    $index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }
+                  "
+                >
+                  {{ item.entrada }}
+                </td>
+                <td
+                  [ngStyle]="
+                    $index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }
+                  "
+                >
+                  @if (item.salida) {
+                    <span>
+                      {{ item.salida }}
+                    </span>
+                  }
+                </td>
+                <td
+                  [ngStyle]="
+                    $index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }
+                  "
+                >
+                  @if (item.salida) {
+                    <span>
+                      {{ item.salida - item.entrada }}
+                    </span>
+                  }
+                </td>
+                @if ($index == 0) {
+                  <td
+                    rowspan="6"
+                    [ngStyle]="
+                      $index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }
+                    "
+                  >
+                    @if (lista.observaciones) {
+                      @for (obs of lista.observaciones.split(','); track $index) {
+                        @if (obs !== '') {
+                          <div role="alert" class="alert alert-info mt-1">
+                            <span>{{ obs.trim() }}</span>
+                          </div>
+                        }
+                      }
+                    }
+                  </td>
+                }
+              </tr>
             }
-          </td>
-          <td
-            [ngStyle]="$index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }"
-          >
-            @if (item.salida) {
-            <span>
-              {{ item.salida - item.entrada }}
-            </span>
-            }
-          </td>
-          @if ($index == 0) {
-          <td
-            rowspan="6"
-            [ngStyle]="$index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }"
-          >
-            @if (lista.observaciones) { @for (obs of lista.observaciones.split(','); track $index) {
-            @if (obs !== '') {
-            <div role="alert" class="alert alert-info mt-1">
-              <span>{{ obs.trim() }}</span>
-            </div>
-            } } }
-          </td>
           }
-        </tr>
-        } }
-      </tbody>
+           @empty {
+            <p class="text-center"> <i class="fa-info-circle fa" aria-hidden="true"></i> No hay información para mostrar</p>
+          }
+        </tbody>
       }
       <tfoot>
         <tr>

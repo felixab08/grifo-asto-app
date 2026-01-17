@@ -1,0 +1,320 @@
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg px-5 md:px-10 m-4">
+  <div class="mb-6 flex items-center justify-between">
+    <h1 class="text-xs md:text-2xl font-semibold">Entrada de combustible</h1>
+    <button class="btn btn-outline btn-accent" onclick="my_modal_4.showModal()">
+      Lista de Personal
+    </button>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="table sm:table-xs md:table-xl">
+      <thead>
+        <tr>
+          <th>Fecha creación</th>
+          <th>Persona</th>
+          <th>Tipo</th>
+          <th>Celular</th>
+        </tr>
+      </thead>
+      @if (listaPersonal.hasValue()) {
+        <tbody>
+          @for (item of listaPersonal.value().content; track item.idPersona) {
+            <tr class="hover:bg-gray-300">
+              <td class="text-xs md:text-xl">{{ item.fechaCreate | date: 'medium' }}</td>
+              <td>
+                <p>{{ item.nombre }} {{ item.apellido }}</p>
+              </td>
+              <td>
+                <p>
+                  @if (item.role === 'ROLE_ADMIN') {
+                    <span class="badge badge-accent">Admin</span>
+                  } @else if (item.role === 'ROLE_TRABAJADOR') {
+                    <span class="badge badge-primary">Trabajador</span>
+                  }
+                </p>
+              </td>
+              <td>
+                <p>{{ item.telefono }}</p>
+              </td>
+            </tr>
+          } @empty {
+            <p class="text-center">
+              <i class="fa-info-circle fa" aria-hidden="true"></i> No hay información para mostrar
+            </p>
+          }
+        </tbody>
+      }
+      <tfoot>
+        <tr>
+          <th>Fecha creación</th>
+          <th>Persona</th>
+          <th>Tipo</th>
+          <th>Celular</th>
+        </tr>
+      </tfoot>
+    </table>
+    <!-- Paginación -->
+    @if (listaPersonal.hasValue()) {
+      <app-pagination
+        [pages]="listaPersonal.value().totalPages"
+        [totalElements]="listaPersonal.value().totalElements"
+        [currentPage]="_linkService.currentPage()"
+        [currentSize]="_linkService.currentSize()"
+      />
+    }
+  </div>
+</div>
+<dialog id="my_modal_4" class="modal">
+  <div class="modal-box">
+    <h3 class="font-bold text-lg mb-4">Crear Nuevo Personal</h3>
+    <form [formGroup]="myForm" autocomplete="off" (ngSubmit)="onSubmit()" method="dialog">
+      <div class="mt-5">
+        <label class="input validator my-2 w-full">
+          <input
+            type="text"
+            class="w-full"
+            placeholder="Nombre"
+            required
+            formControlName="nombre"
+          />
+          @if (formUtils.isValiedField(myForm, 'nombre')) {
+            <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+              <span class="font-medium">{{ formUtils.getFieldError(myForm, 'nombre') }}</span>
+            </p>
+          }
+        </label>
+        <label class="input validator my-2 w-full">
+          <input
+            type="text"
+            class="w-full"
+            placeholder="Apellido"
+            required
+            formControlName="apellido"
+          />
+          @if (formUtils.isValiedField(myForm, 'apellido')) {
+            <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+              <span class="font-medium">{{ formUtils.getFieldError(myForm, 'apellido') }}</span>
+            </p>
+          }
+        </label>
+      </div>
+
+      <label class="input validator my-2 w-full">
+        <input
+          type="text"
+          class="w-full"
+          placeholder="Telefono"
+          required
+          formControlName="telefono"
+        />
+        @if (formUtils.isValiedField(myForm, 'telefono')) {
+          <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+            <span class="font-medium">{{ formUtils.getFieldError(myForm, 'telefono') }}</span>
+          </p>
+        }
+      </label>
+      <label class="input validator my-2 w-full">
+        <input type="text" class="w-full" placeholder="Correo" required formControlName="email" />
+        @if (formUtils.isValiedField(myForm, 'email')) {
+          <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+            <span class="font-medium">{{ formUtils.getFieldError(myForm, 'email') }}</span>
+          </p>
+        }
+      </label>
+      <select class="select w-full" formControlName="role">
+        <option disabled selected value="">Seleccione su rol</option>
+        <option value="ROLE_ADMIN">Admin</option>
+        <option value="ROLE_TRABAJADOR">Trabajador</option>
+      </select>
+      <select class="select w-full" formControlName="activo">
+        <option disabled selected value="">Seleccione su estado</option>
+        <option value="true">Activo</option>
+        <option value="false">Inactivo</option>
+      </select>
+
+      <label class="input validator w-full">
+        <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <g
+            stroke-linejoin="round"
+            stroke-linecap="round"
+            stroke-width="2.5"
+            fill="none"
+            stroke="currentColor"
+          >
+            <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+          </g>
+        </svg>
+        <input
+          type="text"
+          class="w-full"
+          placeholder="Usuario"
+          required
+          formControlName="username"
+        />
+        @if (formUtils.isValiedField(myForm, 'username')) {
+          <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+            <span class="font-medium">{{ formUtils.getFieldError(myForm, 'username') }}</span>
+          </p>
+        }
+      </label>
+
+      <div>
+        <label class="input validator mt-4 w-full">
+          <div class="flex">
+            <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <g
+                stroke-linejoin="round"
+                stroke-linecap="round"
+                stroke-width="2.5"
+                fill="none"
+                stroke="currentColor"
+              >
+                <path
+                  d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"
+                ></path>
+                <circle cx="16.5" cy="7.5" r=".5" fill="currentColor"></circle>
+              </g>
+            </svg>
+            <input
+              id="newpassword"
+              [type]="lookIconIsPassword() ? 'text' : 'password'"
+              placeholder="Contraseña"
+              formControlName="newpassword"
+              class="w-full"
+              [ngClass]="{
+                'input-primary': formUtils.isValiedField(myForm, 'newpassword'),
+              }"
+            />
+            <button
+              type="button"
+              (click)="changeTypeInput()"
+              class="absolute inset-y-0 end-0 flex items-center z-20 px-3 cursor-pointer text-gray-400 rounded-e-md focus:outline-hidden focus:text-blue-600 dark:text-neutral-600 dark:focus:text-blue-500"
+            >
+              <svg
+                class="shrink-0 size-3.5"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                @if (!lookIconIsPassword()) {
+                  <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path>
+                  <path
+                    d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"
+                  ></path>
+                  <path
+                    d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"
+                  ></path>
+                  <line x1="2" x2="22" y1="2" y2="22"></line>
+                }
+                @if (lookIconIsPassword()) {
+                  <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                }
+              </svg>
+            </button>
+          </div>
+        </label>
+      </div>
+
+      @if (formUtils.isValiedField(myForm, 'newpassword')) {
+        <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+          <span class="font-medium">{{ formUtils.getFieldError(myForm, 'newpassword') }}</span>
+        </p>
+      }
+
+      <div>
+        <label class="input validator mt-4 w-full">
+          <div class="flex">
+            <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <g
+                stroke-linejoin="round"
+                stroke-linecap="round"
+                stroke-width="2.5"
+                fill="none"
+                stroke="currentColor"
+              >
+                <path
+                  d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"
+                ></path>
+                <circle cx="16.5" cy="7.5" r=".5" fill="currentColor"></circle>
+              </g>
+            </svg>
+            <input
+              id="newpassword"
+              [type]="lookIconIsPasswordConfirm() ? 'text' : 'password'"
+              id="confirmationPassword"
+              placeholder="Confirmar contraseña"
+              formControlName="confirmationPassword"
+              class="w-full"
+              [ngClass]="{
+                'input-primary': formUtils.isValiedField(myForm, 'confirmationPassword'),
+              }"
+            />
+            <button
+              type="button"
+              (click)="changeTypeInputConfirm()"
+              class="absolute inset-y-0 end-0 flex items-center z-20 px-3 cursor-pointer text-gray-400 rounded-e-md focus:outline-hidden focus:text-blue-600 dark:text-neutral-600 dark:focus:text-blue-500"
+            >
+              <svg
+                class="shrink-0 size-3.5"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                @if (!lookIconIsPasswordConfirm()) {
+                  <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path>
+                  <path
+                    d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"
+                  ></path>
+                  <path
+                    d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"
+                  ></path>
+                  <line x1="2" x2="22" y1="2" y2="22"></line>
+                }
+                @if (lookIconIsPasswordConfirm()) {
+                  <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                }
+              </svg>
+            </button>
+          </div>
+        </label>
+      </div>
+
+      @if (formUtils.isValiedField(myForm, 'confirmationPassword')) {
+        <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+          <span class="font-medium">{{
+            formUtils.getFieldError(myForm, 'confirmationPassword')
+          }}</span>
+        </p>
+      }
+      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+      <div class="md:flex md:justify-end mt-2">
+        <button
+          class="btn btn-active font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center mr-2 mb-2 md:mb-0"
+          onclick="my_modal_4.close()"
+        >
+          Salir
+        </button>
+        <button
+          type="submit"
+          class="btn btn-accent items-center text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+          [disabled]="myForm.invalid"
+        >
+          Crear Usuario
+        </button>
+      </div>
+    </form>
+  </div>
+</dialog>
