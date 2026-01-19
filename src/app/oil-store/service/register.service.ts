@@ -12,6 +12,7 @@ export class RegisterService {
   private _http = inject(HttpClient);
 
   postRegisterUser(user: IRegisterUser): Observable<IRegisterUser> {
+    delete user.confirmationPassword;
     return this._http.post<IRegisterUser>(`${baseUrl}/auth/register`, user);
   }
 }

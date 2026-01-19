@@ -7,4 +7,5 @@ export interface IRegisterUser {
   role:     string;
   activo:   string;
   password: string;
+  confirmationPassword?: string;
 }

@@ -28,16 +28,16 @@ export class PersonalList {
     {
       nombre: ['', [Validators.required]],
       apellido: ['', [Validators.required]],
-      telefono: ['', [Validators.minLength(9), Validators.maxLength(9)]],
-      email: ['', [Validators.pattern(FormUtils.emailPattern)]],
-      username: ['', [Validators.required]],
+      telefono: ['', [Validators.required, Validators.minLength(9), Validators.maxLength(9)]],
+      email: ['', [Validators.required, Validators.pattern(FormUtils.emailPattern)]],
+      username: ['', [Validators.required, Validators.pattern(FormUtils.notOnlySpacesPattern)]],
       role: ['ROLE_TRABAJADOR', [Validators.required]],
       activo: ['true', [Validators.required]],
-      newpassword: ['', [Validators.required, this.formUtils.passwordSeguraValidator()]],
+      password: ['', [Validators.required, this.formUtils.passwordSeguraValidator()]],
       confirmationPassword: ['', [Validators.required]],
     },
     {
-      validators: this.formUtils.passIgualesValidator('newpassword', 'confirmationPassword'),
+      validators: this.formUtils.passIgualesValidator('password', 'confirmationPassword'),
     },
   );
 
@@ -57,6 +57,7 @@ export class PersonalList {
         this.myForm.reset();
         this.myForm.controls['activo'].setValue('true');
         this.myForm.controls['role'].setValue('ROLE_TRABAJADOR');
+        this.listaPersonal.reload();
       },
       error: (error: any) => {
         this._alertService.getAlert('Error!!!', 'Error al registrar el usuario', 'error');

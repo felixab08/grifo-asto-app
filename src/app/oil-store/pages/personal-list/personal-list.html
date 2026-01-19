@@ -1,8 +1,8 @@
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg px-5 md:px-10 m-4">
   <div class="mb-6 flex items-center justify-between">
-    <h1 class="text-xs md:text-2xl font-semibold">Entrada de combustible</h1>
+    <h1 class="text-xs md:text-2xl font-semibold">Lista de Personal</h1>
     <button class="btn btn-outline btn-accent" onclick="my_modal_4.showModal()">
-      Lista de Personal
+      Crear Personal
     </button>
   </div>
 
@@ -77,12 +77,14 @@
             required
             formControlName="nombre"
           />
-          @if (formUtils.isValiedField(myForm, 'nombre')) {
-            <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-              <span class="font-medium">{{ formUtils.getFieldError(myForm, 'nombre') }}</span>
-            </p>
-          }
         </label>
+        @if (formUtils.isValiedField(myForm, 'nombre')) {
+          <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+            <span class="font-medium">{{ formUtils.getFieldError(myForm, 'nombre') }}</span>
+          </p>
+        }
+      </div>
+      <div>
         <label class="input validator my-2 w-full">
           <input
             type="text"
@@ -91,74 +93,76 @@
             required
             formControlName="apellido"
           />
-          @if (formUtils.isValiedField(myForm, 'apellido')) {
-            <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-              <span class="font-medium">{{ formUtils.getFieldError(myForm, 'apellido') }}</span>
-            </p>
-          }
         </label>
+        @if (formUtils.isValiedField(myForm, 'apellido')) {
+          <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+            <span class="font-medium">{{ formUtils.getFieldError(myForm, 'apellido') }}</span>
+          </p>
+        }
       </div>
-
-      <label class="input validator my-2 w-full">
-        <input
-          type="text"
-          class="w-full"
-          placeholder="Telefono"
-          required
-          formControlName="telefono"
-        />
+      <div>
+        <label class="input validator my-2 w-full">
+          <input
+            type="text"
+            class="w-full"
+            placeholder="Telefono"
+            formControlName="telefono"
+          />
+        </label>
         @if (formUtils.isValiedField(myForm, 'telefono')) {
           <p class="mt-2 text-sm text-red-600 dark:text-red-500">
             <span class="font-medium">{{ formUtils.getFieldError(myForm, 'telefono') }}</span>
           </p>
         }
-      </label>
-      <label class="input validator my-2 w-full">
-        <input type="text" class="w-full" placeholder="Correo" required formControlName="email" />
+      </div>
+      <div>
+        <label class="input validator my-2 w-full">
+          <input type="text" class="w-full" placeholder="Correo" formControlName="email" />
+        </label>
         @if (formUtils.isValiedField(myForm, 'email')) {
           <p class="mt-2 text-sm text-red-600 dark:text-red-500">
             <span class="font-medium">{{ formUtils.getFieldError(myForm, 'email') }}</span>
           </p>
         }
-      </label>
-      <select class="select w-full" formControlName="role">
+      </div>
+      <select class="select w-full mt-2" formControlName="role">
         <option disabled selected value="">Seleccione su rol</option>
         <option value="ROLE_ADMIN">Admin</option>
         <option value="ROLE_TRABAJADOR">Trabajador</option>
       </select>
-      <select class="select w-full" formControlName="activo">
+      <select class="select w-full mt-2" formControlName="activo">
         <option disabled selected value="">Seleccione su estado</option>
         <option value="true">Activo</option>
         <option value="false">Inactivo</option>
       </select>
-
-      <label class="input validator w-full">
-        <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-          <g
-            stroke-linejoin="round"
-            stroke-linecap="round"
-            stroke-width="2.5"
-            fill="none"
-            stroke="currentColor"
-          >
-            <rect width="20" height="16" x="2" y="4" rx="2"></rect>
-            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-          </g>
-        </svg>
-        <input
-          type="text"
-          class="w-full"
-          placeholder="Usuario"
-          required
-          formControlName="username"
-        />
+      <div>
+        <label class="input validator w-full mt-2">
+          <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <g
+              stroke-linejoin="round"
+              stroke-linecap="round"
+              stroke-width="2.5"
+              fill="none"
+              stroke="currentColor"
+            >
+              <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+            </g>
+          </svg>
+          <input
+            type="text"
+            class="w-full"
+            placeholder="Usuario"
+            required
+            formControlName="username"
+          />
+        </label>
         @if (formUtils.isValiedField(myForm, 'username')) {
           <p class="mt-2 text-sm text-red-600 dark:text-red-500">
             <span class="font-medium">{{ formUtils.getFieldError(myForm, 'username') }}</span>
           </p>
         }
-      </label>
-
+      </div>
       <div>
         <label class="input validator mt-4 w-full">
           <div class="flex">
@@ -177,13 +181,13 @@
               </g>
             </svg>
             <input
-              id="newpassword"
+              id="password"
               [type]="lookIconIsPassword() ? 'text' : 'password'"
               placeholder="Contraseña"
-              formControlName="newpassword"
+              formControlName="password"
               class="w-full"
               [ngClass]="{
-                'input-primary': formUtils.isValiedField(myForm, 'newpassword'),
+                'input-primary': formUtils.isValiedField(myForm, 'password'),
               }"
             />
             <button
@@ -222,9 +226,9 @@
         </label>
       </div>
 
-      @if (formUtils.isValiedField(myForm, 'newpassword')) {
+      @if (formUtils.isValiedField(myForm, 'password')) {
         <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-          <span class="font-medium">{{ formUtils.getFieldError(myForm, 'newpassword') }}</span>
+          <span class="font-medium">{{ formUtils.getFieldError(myForm, 'password') }}</span>
         </p>
       }
 
@@ -246,7 +250,7 @@
               </g>
             </svg>
             <input
-              id="newpassword"
+              id="password"
               [type]="lookIconIsPasswordConfirm() ? 'text' : 'password'"
               id="confirmationPassword"
               placeholder="Confirmar contraseña"

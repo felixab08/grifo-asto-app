@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   IPersonaResponse,
   LoginResponse,
@@ -20,6 +21,7 @@ export class AuthService {
   private _authStatus = signal<AuthStatus>('checking');
   private _user = signal<IPersonaResponse | null>(null);
   private _token = signal<string | null>(localStorage.getItem('token'));
+  private _router = inject(Router);
 
   private http = inject(HttpClient);
   storeService = inject(StoreService);
@@ -44,6 +46,7 @@ export class AuthService {
   }
   logoutAndReload() {
     this.logout();
+    // location.reload();
   }
 
   checkAuthStatus(): Observable<boolean> {
@@ -55,7 +58,7 @@ export class AuthService {
 
     return this.http.get<LoginResponse>(`${baseUrl}/auth/check-status`, {}).pipe(
       map((resp) => this.handerLoginSuccess(resp)),
-      catchError((error: any) => this.handleLoginError(error))
+      catchError((error: any) => this.handleLoginError(error)),
     );
   }
 
@@ -64,7 +67,9 @@ export class AuthService {
     this._user.set(null);
     this._token.set(null);
     localStorage.clear();
+    // this._router.navigate(['/']);
   }
+
   private handerLoginSuccess(resp: LoginResponse) {
     this._authStatus.set('authenticated');
     this._user.set(this.alonePersona(resp.data as UserData));

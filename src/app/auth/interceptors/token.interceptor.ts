@@ -19,7 +19,7 @@ export function isLoginInterceptor(
     catchError((error: HttpErrorResponse) => {
       if (error.status === 401 && req.url.split('/').pop() !== 'login') {
         // Limpiar el localStorage
-        _authService.logoutAndReload();
+        _authService.logout();
         // (Opcional) Mostrar un mensaje
         console.warn('Sesión expirada, redirigiendo al home.');
       }

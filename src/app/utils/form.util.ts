@@ -39,6 +39,9 @@ export class FormUtils {
           if (errors['pattern'].requiredPattern === FormUtils.emailPattern) {
             return `El campo debe ser un correo válido`;
           }
+          if (errors['pattern'].requiredPattern === FormUtils.notOnlySpacesPattern) {
+            return `El campo no debe tener espacios en blanco`;
+          }
           if (errors['pattern'].requiredPattern === `${FormUtils.urlRegex}`) {
             return `El campo debe ser un URL válido`;
           }
@@ -60,12 +63,6 @@ export class FormUtils {
           }
           if (!errors['contraseñaInsegura'].tieneNumero) {
             return `La contraseña debe contener al menos un número`;
-          }
-          if (!errors['contraseñaInsegura'].tieneEspecial) {
-            return `La contraseña debe contener al menos un carácter especial`;
-          }
-          if (!errors['contraseñaInsegura'].longitudSuficiente) {
-            return `La contraseña debe tener al menos 8 caracteres`;
           }
           return `La contraseña no cumple con los requisitos de seguridad`;
         case 'contraseñasNoCoinciden':
@@ -277,16 +274,8 @@ export class FormUtils {
       const tieneMayuscula = /[A-Z]/.test(valor);
       const tieneMinuscula = /[a-z]/.test(valor);
       const tieneNumero = /[0-9]/.test(valor);
-      const tieneEspecial = /[!@#$%^&*(),.?":{}|<>]/.test(valor);
-      const longitudSuficiente = valor.length >= 8;
 
-      const esValida =
-        tieneMayuscula &&
-        tieneMinuscula &&
-        tieneNumero &&
-        tieneEspecial &&
-        longitudSuficiente;
-
+      const esValida = tieneMayuscula && tieneMinuscula && tieneNumero;
       return esValida
         ? null
         : {
@@ -294,8 +283,6 @@ export class FormUtils {
               tieneMayuscula,
               tieneMinuscula,
               tieneNumero,
-              tieneEspecial,
-              longitudSuficiente,
             },
           };
     };
