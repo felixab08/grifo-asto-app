@@ -2,11 +2,7 @@
   <div class="mb-6 flex items-center justify-between">
     <h1 class="text-xs md:text-2xl font-semibold">Administrar registro diario de personal</h1>
 
-    <button
-      id="button-excel"
-      class="btn btn-outline btn-accent"
-      (click)="descargarXLS()"
-    >
+    <button id="button-excel" class="btn btn-outline btn-accent" (click)="descargarXLS()">
       Descargar
     </button>
   </div>
@@ -14,12 +10,13 @@
   <div class="mb-6 inline md:flex items-center justify-between">
     <select class="select my-1">
       <option disabled selected>Seleccione personal</option>
-      @if (listPersonaData() && listPersonaData()!.content.length > 0) { @for (item of
-      listPersonaData()?.content; track $index) {
-      <option (click)="listTurnoByPerson(item.idPersona)">
-        {{ item.nombre }} {{ item.apellido }}
-      </option>
-      } }
+      @if (listPersonaData() && listPersonaData()!.content.length > 0) {
+        @for (item of listPersonaData()?.content; track $index) {
+          <option (click)="listTurnoByPerson(item.idPersona)">
+            {{ item.nombre }} {{ item.apellido }}
+          </option>
+        }
+      }
     </select>
     <!-- <div class="inline md:flex gap-2">
       <div>
@@ -46,73 +43,81 @@
           <th>Observaciones</th>
         </tr>
       </thead>
-      @if(turnoList() && turnoList()!.data.length > 0) {
-      <tbody>
-        @for (lista of turnoList()!.data[0].turnos; track lista.idTurno) { @for (item of
-        lista.medidas; track item.idMedida) {
-        <tr class="hover:bg-gray-300">
-          <td class="border-t-2 text-xs md:text-xl">{{ lista.fecha_entrada | date : 'medium' }}</td>
-          <td class="border-t-2">
-            {{ turnoList()!.data[0].nombre }} {{ turnoList()!.data[0].apellido }}
-          </td>
-          <td
-            [ngStyle]="$index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }"
-          >
-            {{ item.tipo }}
-          </td>
-          <td
-            [ngStyle]="$index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }"
-          >
-            {{ item.entrada }}
-          </td>
-          <td
-            [ngStyle]="$index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }"
-          >
-            @if (item.salida) {
-            <span>
-              {{ item.salida }}
-            </span>
+      @if (turnoList() && turnoList()!.data.length > 0) {
+        <tbody>
+          @for (lista of turnoList()!.data[0].turnos; track lista.idTurno) {
+            @for (item of lista.medidas; track item.idMedida) {
+              <tr class="hover:bg-gray-300">
+                <td class="border-t-2 text-xs md:text-xl">
+                  {{ lista.fecha_entrada | date: 'medium' }}
+                </td>
+                <td class="border-t-2">
+                  {{ turnoList()!.data[0].nombre }} {{ turnoList()!.data[0].apellido }}
+                </td>
+                <td
+                  [ngStyle]="
+                    $index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }
+                  "
+                >
+                  {{ item.tipo }}
+                </td>
+                <td
+                  [ngStyle]="
+                    $index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }
+                  "
+                >
+                  {{ item.entrada }}
+                </td>
+                <td
+                  [ngStyle]="
+                    $index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }
+                  "
+                >
+                  @if (item.salida) {
+                    <span>
+                      {{ item.salida }}
+                    </span>
+                  }
+                </td>
+                <td
+                  [ngStyle]="
+                    $index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }
+                  "
+                >
+                  @if (item.salida) {
+                    <span>
+                      {{ item.salida - item.entrada | number: '1.2-2' }}
+                    </span>
+                  }
+                </td>
+                @if ($index == 0) {
+                  <td
+                    [ngStyle]="
+                      $index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }
+                    "
+                  >
+                    @if (lista.observaciones && lista.observaciones !== '') {
+                      <!-- inicio for -->
+                      @for (obs of lista.observaciones.split(','); track $index) {
+                        <!-- inicio if -->
+                        @if (obs !== '') {
+                          <div role="alert" class="alert alert-info mt-1">
+                            <span>{{ obs.trim() }}</span>
+                          </div>
+                        }
+                        <!-- fin if -->
+                      }
+                    }
+                  </td>
+                }
+                <!-- fin for -->
+              </tr>
             }
-          </td>
-          <td
-            [ngStyle]="$index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }"
-          >
-            @if (item.salida) {
-            <span>
-              {{ item.salida - item.entrada }}
-            </span>
-            }
-          </td>
-          @if ($index == 0) {
-          <td
-            [ngStyle]="$index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }"
-          >
-          @if (lista.observaciones && lista.observaciones !== '') {
-          <!-- inicio for -->
-            @for (obs of lista.observaciones.split(','); track $index){
-            <!-- inicio if -->
-            @if (obs !== '') {
-            <div role="alert" class="alert alert-info mt-1">
-              <span>{{ obs.trim() }}</span>
-            </div>
-            }
-            <!-- fin if -->
-            }
-            }
-          </td>
+            <tr>
+              <td colspan="7"></td>
+            </tr>
           }
-          <!-- fin for -->
-        </tr>
-        } @empty {
-            <p class="text-center"> <i class="fa-info-circle fa" aria-hidden="true"></i> No hay información para mostrar</p>
-          }
-        <tr>
-          <td colspan="7"></td>
-        </tr>
-        }  @empty {
-            <p class="text-center"> <i class="fa-info-circle fa" aria-hidden="true"></i> No hay información para mostrar</p>
-          }
-      </tbody>
+        </tbody>
       }
       <tfoot>
         <tr>

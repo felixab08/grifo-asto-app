@@ -1,16 +1,17 @@
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg px-5 md:px-10 m-4">
-  <div class="mb-6 flex items-center justify-between">
-    <h1 class="text-xs md:text-2xl font-semibold">
-      Registro diario de {{ registroTurno.persona.nombre }}
-    </h1>
+  <h1 class="text-xs md:text-2xl font-semibold">
+    Registro diario de {{ registroTurno.persona.nombre }}
+  </h1>
+  <div class="mb-6 flex items-center justify-between mt-2">
+    <button class="btn btn-outline btn-accent capitalize" (click)="onSave()">
+      {{ stateturno() }} turno
+    </button>
+
     @if (checkButtonEdit()) {
       <button class="btn btn-outline btn-accent" (click)="openModalMedida(modalMedidaRef)">
         Editar medida
       </button>
     }
-    <button class="btn btn-outline btn-accent capitalize" (click)="onSave()">
-      {{ stateturno() }} turno
-    </button>
   </div>
 
   <div class="overflow-x-auto">
@@ -100,7 +101,7 @@
               </tr>
             }
           } @empty {
-            <p class="text-center">
+            <p class="text-center w-max">
               <i class="fa-info-circle fa" aria-hidden="true"></i> No hay información para mostrar
             </p>
           }
@@ -143,7 +144,7 @@
 
       <div class="md:flex md:justify-end">
         <button
-        type="button"
+          type="button"
           (click)="closeModal(modalTurnoRef)"
           class="btn btn-active font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center mr-2 mb-2 md:mb-0"
         >

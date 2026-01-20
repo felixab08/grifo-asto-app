@@ -1,13 +1,13 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgStyle, DatePipe } from '@angular/common';
+import { NgStyle, DatePipe, DecimalPipe } from '@angular/common';
 import { AlertService } from 'src/app/service/alert.service';
 import { PersonaService, TurnoService } from '@oil-store/service';
 import { PersonaResponse, TurnoResponse } from '@oil-store/model';
 
 @Component({
   selector: 'app-admision',
-  imports: [NgStyle, DatePipe],
+  imports: [NgStyle, DatePipe, DecimalPipe],
   templateUrl: './admision.html',
 })
 export class Admision {
