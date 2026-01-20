@@ -35,6 +35,32 @@
           </p>
           }
         </div>
+                <!-- // * campo input -->
+        <div class="mt-5">
+          <label
+            for="pri13"
+            class="block mb-2 text-sm font-medium"
+            [ngClass]="{
+              ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'pri13')
+            }"
+            >Primiun</label
+          >
+          <input
+            type="number"
+            id="pri13"
+            formControlName="pri13"
+            class="border text-sm input-md input rounded-lg block w-full p-2.5 "
+            [ngClass]="{
+              ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+                formUtils.isValiedField(myForm, 'pri13')
+            }"
+          />
+          @if(formUtils.isValiedField(myForm,'pri13')){
+          <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+            <span class="font-medium">{{ formUtils.getFieldError(myForm, 'pri13') }}</span>
+          </p>
+          }
+        </div>
         <!-- // * campo input -->
         <div class="mt-5">
           <label
@@ -61,32 +87,7 @@
           </p>
           }
         </div>
-        <!-- // * campo input -->
-        <div class="mt-5">
-          <label
-            for="pri13"
-            class="block mb-2 text-sm font-medium"
-            [ngClass]="{
-              ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'pri13')
-            }"
-            >Primiun</label
-          >
-          <input
-            type="number"
-            id="pri13"
-            formControlName="pri13"
-            class="border text-sm input-md input rounded-lg block w-full p-2.5 "
-            [ngClass]="{
-              ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
-                formUtils.isValiedField(myForm, 'pri13')
-            }"
-          />
-          @if(formUtils.isValiedField(myForm,'pri13')){
-          <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-            <span class="font-medium">{{ formUtils.getFieldError(myForm, 'pri13') }}</span>
-          </p>
-          }
-        </div>
+
       </div>
       <div>
         <h1 class="text-center text-3xl font-semibold">Surtidor 2</h1>
@@ -116,6 +117,32 @@
           </p>
           }
         </div>
+                <!-- // * campo input -->
+        <div class="mt-5">
+          <label
+            for="pri23"
+            class="block mb-2 text-sm font-medium"
+            [ngClass]="{
+              ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'pri23')
+            }"
+            >Primiun</label
+          >
+          <input
+            type="number"
+            id="pri23"
+            formControlName="pri23"
+            class="border text-sm input-md input rounded-lg block w-full p-2.5 "
+            [ngClass]="{
+              ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+                formUtils.isValiedField(myForm, 'pri23')
+            }"
+          />
+          @if(formUtils.isValiedField(myForm,'pri23')){
+          <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+            <span class="font-medium">{{ formUtils.getFieldError(myForm, 'pri23') }}</span>
+          </p>
+          }
+        </div>
         <!-- // * campo input -->
         <div class="mt-5">
           <label
@@ -142,32 +169,7 @@
           </p>
           }
         </div>
-        <!-- // * campo input -->
-        <div class="mt-5">
-          <label
-            for="pri23"
-            class="block mb-2 text-sm font-medium"
-            [ngClass]="{
-              ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'pri23')
-            }"
-            >Primiun</label
-          >
-          <input
-            type="number"
-            id="pri23"
-            formControlName="pri23"
-            class="border text-sm input-md input rounded-lg block w-full p-2.5 "
-            [ngClass]="{
-              ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
-                formUtils.isValiedField(myForm, 'pri23')
-            }"
-          />
-          @if(formUtils.isValiedField(myForm,'pri23')){
-          <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-            <span class="font-medium">{{ formUtils.getFieldError(myForm, 'pri23') }}</span>
-          </p>
-          }
-        </div>
+
       </div>
     </div>
     <div class="md:flex md:justify-end mt-3">

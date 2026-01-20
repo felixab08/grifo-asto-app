@@ -23,6 +23,6 @@ export interface MedidorListResponse {
   idTurno:  number;
   tipo:     string;
   entrada:  number;
-  salida?:   string;
+  salida?:   number;
   code:     string;
 }

@@ -1,6 +1,13 @@
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg px-5 md:px-10 m-4">
   <div class="mb-6 flex items-center justify-between">
-    <h1 class="text-xs md:text-2xl font-semibold">Registro diario</h1>
+    <h1 class="text-xs md:text-2xl font-semibold">
+      Registro diario de {{ registroTurno.persona.nombre }}
+    </h1>
+    @if (checkButtonEdit()) {
+      <button class="btn btn-outline btn-accent" (click)="openModalMedida(modalMedidaRef)">
+        Editar medida
+      </button>
+    }
     <button class="btn btn-outline btn-accent capitalize" (click)="onSave()">
       {{ stateturno() }} turno
     </button>
@@ -32,6 +39,8 @@
                   </td>
                 }
                 <td
+                  (click)="handerMedidas(item)"
+                  class="capitalize"
                   [ngStyle]="
                     $index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }
                   "
@@ -39,6 +48,7 @@
                   {{ item.tipo }}
                 </td>
                 <td
+                  (click)="handerMedidas(item)"
                   [ngStyle]="
                     $index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }
                   "
@@ -46,6 +56,7 @@
                   {{ item.entrada }}
                 </td>
                 <td
+                  (click)="handerMedidas(item)"
                   [ngStyle]="
                     $index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }
                   "
@@ -57,13 +68,14 @@
                   }
                 </td>
                 <td
+                  (click)="handerMedidas(item)"
                   [ngStyle]="
                     $index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }
                   "
                 >
                   @if (item.salida) {
                     <span>
-                      {{ item.salida - item.entrada }}
+                      {{ item.salida - item.entrada | number: '1.2-2' }}
                     </span>
                   }
                 </td>
@@ -87,9 +99,10 @@
                 }
               </tr>
             }
-          }
-           @empty {
-            <p class="text-center"> <i class="fa-info-circle fa" aria-hidden="true"></i> No hay información para mostrar</p>
+          } @empty {
+            <p class="text-center">
+              <i class="fa-info-circle fa" aria-hidden="true"></i> No hay información para mostrar
+            </p>
           }
         </tbody>
       }
@@ -130,6 +143,7 @@
 
       <div class="md:flex md:justify-end">
         <button
+        type="button"
           (click)="closeModal(modalTurnoRef)"
           class="btn btn-active font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center mr-2 mb-2 md:mb-0"
         >
@@ -139,6 +153,88 @@
           type="submit"
           [disabled]="!myForm.valid"
           (click)="guardarObservaciones()"
+          class="text-white bg-accent focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+        >
+          Guardar
+        </button>
+      </div>
+    </form>
+  </div>
+</dialog>
+
+<dialog #modalMedidaRef class="modal" (close)="closeModal(modalMedidaRef)">
+  <div class="modal-box">
+    <h3 class="text-lg font-bold">Editar Medida</h3>
+    <form
+      method="dialog"
+      class="mt-4"
+      autocomplete="off"
+      [formGroup]="myFormMedida"
+      (ngSubmit)="onEditMedida()"
+    >
+      <div class="mt-5">
+        <label
+          for="entrada"
+          class="block mb-2 text-sm font-medium"
+          [ngClass]="{
+            ' text-red-700 dark:text-red-500': formUtils.isValiedField(myFormMedida, 'entrada'),
+          }"
+          >Entrada</label
+        >
+        <input
+          type="number"
+          id="entrada"
+          formControlName="entrada"
+          class="border text-sm input-md input rounded-lg block w-full p-2.5"
+          [ngClass]="{
+            ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+              formUtils.isValiedField(myFormMedida, 'entrada'),
+          }"
+        />
+        @if (formUtils.isValiedField(myFormMedida, 'entrada')) {
+          <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+            <span class="font-medium">{{ formUtils.getFieldError(myFormMedida, 'entrada') }}</span>
+          </p>
+        }
+      </div>
+      <div class="mt-5">
+        <label
+          for="salida"
+          class="block mb-2 text-sm font-medium"
+          [ngClass]="{
+            ' text-red-700 dark:text-red-500': formUtils.isValiedField(myFormMedida, 'salida'),
+          }"
+          >Salida</label
+        >
+        <input
+          type="number"
+          id="salida"
+          formControlName="salida"
+          class="border text-sm input-md input rounded-lg block w-full p-2.5"
+          [ngClass]="{
+            ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+              formUtils.isValiedField(myFormMedida, 'salida'),
+          }"
+        />
+        @if (formUtils.isValiedField(myFormMedida, 'salida')) {
+          <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+            <span class="font-medium">{{ formUtils.getFieldError(myFormMedida, 'salida') }}</span>
+          </p>
+        }
+      </div>
+
+      <div class="md:flex md:justify-end mt-2">
+        <button
+          type="button"
+          (click)="closeModalMedida(modalMedidaRef)"
+          class="btn btn-active font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center mr-2 mb-2 md:mb-0"
+        >
+          Salir
+        </button>
+        <button
+          type="submit"
+          [disabled]="!myFormMedida.valid"
+          (click)="generateMedida()"
           class="text-white bg-accent focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
         >
           Guardar
