@@ -18,6 +18,8 @@ export interface Turno {
   fecha_salida:  Date;
   medidas:       Medida[];
   observaciones: string;
+  rest:        number;
+  sum:         number;
 }
 
 export interface Medida {

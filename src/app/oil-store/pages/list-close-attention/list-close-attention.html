@@ -33,9 +33,9 @@
             <!--  -->
             @for (item of lista.medidas; track item.idMedida) {
               <!--  -->
-              <tr class="hover:bg-gray-300">
+              <tr class="hover:bg-gray-300" [ngClass]="{'font-bold' : item.tipo === 'Subtotal' || item.tipo === 'Total'}">
                 @if ($index == 0) {
-                  <td rowspan="6" class="border-t-2 text-xs md:text-xl">
+                  <td rowspan="8" class="border-t-2 text-xs md:text-xl">
                     {{ lista.fecha_entrada | date: 'medium' }}
                   </td>
                 }
@@ -54,18 +54,8 @@
                     $index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }
                   "
                 >
-                  {{ item.entrada }}
-                </td>
-                <td
-                  (click)="handerMedidas(item)"
-                  [ngStyle]="
-                    $index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }
-                  "
-                >
-                  @if (item.salida) {
-                    <span>
-                      {{ item.salida }}
-                    </span>
+                  @if (!((item.tipo === 'Subtotal' || item.tipo === 'Total') && (!item.salida || item.salida === 0))) {
+                    {{ item.entrada }}
                   }
                 </td>
                 <td
@@ -74,15 +64,31 @@
                     $index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }
                   "
                 >
-                  @if (item.salida) {
-                    <span>
-                      {{ item.salida - item.entrada | number: '1.2-2' }}
-                    </span>
+                  @if (!((item.tipo === 'Subtotal' || item.tipo === 'Total') && (!item.salida || item.salida === 0))) {
+                    @if (item.salida && item.salida !== 0) {
+                      <span>
+                        {{ item.salida }}
+                      </span>
+                    }
+                  }
+                </td>
+                <td
+                  (click)="handerMedidas(item)"
+                  [ngStyle]="
+                    $index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }
+                  "
+                >
+                  @if (!((item.tipo === 'Subtotal' || item.tipo === 'Total') && (!item.salida || item.salida === 0))) {
+                    @if (item.salida && item.salida !== 0) {
+                      <span>
+                        {{ item.salida - item.entrada | number: '1.2-2' }}
+                      </span>
+                    }
                   }
                 </td>
                 @if ($index == 0) {
                   <td
-                    rowspan="6"
+                    rowspan="8"
                     [ngStyle]="
                       $index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }
                     "
@@ -132,8 +138,41 @@
       [formGroup]="myForm"
       (ngSubmit)="onSave()"
     >
+      <div class="mt-5">
+        <label
+          for="rest"
+          class="block mb-2 text-sm font-medium"
+          [ngClass]="{
+            ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'rest'),
+          }"
+          >Total a Restar</label
+        >
+        <input
+          type="number"
+          id="rest"
+          formControlName="rest"
+          class="border text-sm input-md input rounded-lg block w-full p-2.5"
+        />
+      </div>
+      <div class="mt-5">
+        <label
+          for="sum"
+          class="block mb-2 text-sm font-medium"
+          [ngClass]="{
+            ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'sum'),
+          }"
+          >Total a Sumar</label
+        >
+        <input
+          type="number"
+          id="sum"
+          formControlName="sum"
+          class="border text-sm input-md input rounded-lg block w-full p-2.5"
+        />
+      </div>
+
       <div class="my-4">
-        <label for="obs" class="block mb-2 text-sm font-medium">Observaciones</label>
+        <label for="obs" class="block mb-2 text-sm font-medium">Descripción</label>
         <textarea
           id="obs"
           class="textarea block w-full"

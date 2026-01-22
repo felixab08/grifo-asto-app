@@ -18,6 +18,7 @@ import {
 } from '@angular/forms';
 import { StoreService } from 'src/app/service/store.service';
 import { FormUtils } from '@utils/form.util';
+import { addTotalTurnoMapper } from './addTotalTurno.mapper';
 
 @Component({
   selector: 'app-list-close-attention',
@@ -72,6 +73,8 @@ export class ListCloseAttention {
   private _fb = inject(FormBuilder);
   myForm: FormGroup = this._fb.group({
     obs: [''],
+    sum: [0],
+    rest: [0],
   });
 
   myFormMedida: FormGroup = this._fb.group({
@@ -96,7 +99,10 @@ export class ListCloseAttention {
     this._turnoService.getAllTurnosByIdPerson(id).subscribe({
       next: (resp: any) => {
         this.verificateStateTurno(resp.data[0].turnos[0]?.medidas[0]?.salida);
-        this.turnoList.set(resp);
+        const respWithTotal = addTotalTurnoMapper(resp);
+        console.log(respWithTotal);
+
+        this.turnoList.set(respWithTotal);
       },
       error: (error: any) => {
         this._alertService.getAlert('Error!!!', 'Error al obtener los turnos', 'error');
@@ -130,6 +136,10 @@ export class ListCloseAttention {
     const turno = turnoListData.data[0].turnos[0] as any;
     turno.fechaSalida = new Date().toISOString();
     turno.observaciones = this.myForm.get('obs')?.value || '';
+    turno.sum = this.myForm.get('sum')?.value || 0;
+    turno.rest = this.myForm.get('rest')?.value || 0;
+    console.log(turno);
+
     this._turnoService.putRegisterTurnoByIdPersona(turno.idTurno, turno).subscribe({
       next: (resp) => {
         this._alertService.getAlert('Turno editado', 'Turno editado satisfactoriamente', 'success');
@@ -185,6 +195,11 @@ export class ListCloseAttention {
     }
   }
   handerMedidas(item: any) {
+    console.log(item);
+    if (item.code === 'subtotal' || item.code === 'total' || item.salida === null) {
+      this.checkButtonEdit.set(false);
+      return;
+    }
     this.editMedidar.set(item);
     this.checkButtonEdit.set(true);
     this.myFormMedida.get('entrada')?.setValue(item.entrada);

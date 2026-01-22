@@ -22,5 +22,7 @@ export interface TurnoRegisterResponse {
   fechaEntrada:  Date;
   fechaSalida:   Date;
   persona:       Persona;
+  sum: number;
+  rest: number;
 }
 
