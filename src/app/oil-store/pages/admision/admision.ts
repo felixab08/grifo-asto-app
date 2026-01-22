@@ -4,7 +4,7 @@ import { NgStyle, DatePipe, DecimalPipe, NgClass } from '@angular/common';
 import { AlertService } from 'src/app/service/alert.service';
 import { PersonaService, TurnoService } from '@oil-store/service';
 import { PersonaResponse, TurnoResponse } from '@oil-store/model';
-import { addTotalTurnoMapper } from '../list-close-attention/addTotalTurno.mapper';
+import { addTotalTurnoMapper } from '../../../mapper/addTotalTurno.mapper';
 
 @Component({
   selector: 'app-admision',

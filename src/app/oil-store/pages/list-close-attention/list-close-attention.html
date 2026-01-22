@@ -1,20 +1,22 @@
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg px-5 md:px-10 m-4">
-  <h1 class="text-xs md:text-2xl font-semibold">
-    Registro diario de {{ registroTurno.persona.nombre }}
-  </h1>
-  <div class="mb-6 flex items-center justify-between mt-2">
-    <button class="btn btn-outline btn-accent capitalize" (click)="onSave()">
-      {{ stateturno() }} turno
-    </button>
-
-    @if (checkButtonEdit()) {
-      <button class="btn btn-outline btn-accent" (click)="openModalMedida(modalMedidaRef)">
-        Editar medida
+  <div class="z-5 fixed top-16 bg-base-100 w-full px-5 md:px-10 py-4">
+    <h1 class="text-xs md:text-2xl font-semibold relative mb-3">
+      Registro diario de {{ registroTurno.persona.nombre }}
+    </h1>
+    <div class="mb-6 flex items-center mr-4 mt-2">
+      <button class="btn btn-outline btn-accent capitalize" (click)="onSave()">
+        {{ stateturno() }} turno
       </button>
-    }
+
+      @if (checkButtonEdit()) {
+        <button class="btn btn-outline btn-accent ml-5" (click)="openModalMedida(modalMedidaRef)">
+          Editar medida
+        </button>
+      }
+    </div>
   </div>
 
-  <div class="overflow-x-auto">
+  <div class="overflow-x-auto md:mt-48 mt-42 ">
     <table class="table sm:table-xs md:table-xl">
       <thead>
         <tr>
@@ -33,7 +35,10 @@
             <!--  -->
             @for (item of lista.medidas; track item.idMedida) {
               <!--  -->
-              <tr class="hover:bg-gray-300" [ngClass]="{'font-bold' : item.tipo === 'Subtotal' || item.tipo === 'Total'}">
+              <tr
+                class="hover:bg-gray-300"
+                [ngClass]="{ 'font-bold': item.tipo === 'Subtotal' || item.tipo === 'Total' }"
+              >
                 @if ($index == 0) {
                   <td rowspan="8" class="border-t-2 text-xs md:text-xl">
                     {{ lista.fecha_entrada | date: 'medium' }}
@@ -54,7 +59,12 @@
                     $index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }
                   "
                 >
-                  @if (!((item.tipo === 'Subtotal' || item.tipo === 'Total') && (!item.salida || item.salida === 0))) {
+                  @if (
+                    !(
+                      (item.tipo === 'Subtotal' || item.tipo === 'Total') &&
+                      (!item.salida || item.salida === 0)
+                    )
+                  ) {
                     {{ item.entrada }}
                   }
                 </td>
@@ -64,7 +74,12 @@
                     $index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }
                   "
                 >
-                  @if (!((item.tipo === 'Subtotal' || item.tipo === 'Total') && (!item.salida || item.salida === 0))) {
+                  @if (
+                    !(
+                      (item.tipo === 'Subtotal' || item.tipo === 'Total') &&
+                      (!item.salida || item.salida === 0)
+                    )
+                  ) {
                     @if (item.salida && item.salida !== 0) {
                       <span>
                         {{ item.salida }}
@@ -78,7 +93,12 @@
                     $index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }
                   "
                 >
-                  @if (!((item.tipo === 'Subtotal' || item.tipo === 'Total') && (!item.salida || item.salida === 0))) {
+                  @if (
+                    !(
+                      (item.tipo === 'Subtotal' || item.tipo === 'Total') &&
+                      (!item.salida || item.salida === 0)
+                    )
+                  ) {
                     @if (item.salida && item.salida !== 0) {
                       <span>
                         {{ item.salida - item.entrada | number: '1.2-2' }}

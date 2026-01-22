@@ -18,7 +18,7 @@ import {
 } from '@angular/forms';
 import { StoreService } from 'src/app/service/store.service';
 import { FormUtils } from '@utils/form.util';
-import { addTotalTurnoMapper } from './addTotalTurno.mapper';
+import { addTotalTurnoMapper } from '../../../mapper/addTotalTurno.mapper';
 
 @Component({
   selector: 'app-list-close-attention',
@@ -136,8 +136,6 @@ export class ListCloseAttention {
     turno.observaciones = this.myForm.get('obs')?.value || '';
     turno.sum = this.myForm.get('sum')?.value || 0;
     turno.rest = this.myForm.get('rest')?.value || 0;
-    console.log(turno);
-
     this._turnoService.putRegisterTurnoByIdPersona(turno.idTurno, turno).subscribe({
       next: (resp) => {
         this._alertService.getAlert('Turno editado', 'Turno editado satisfactoriamente', 'success');
@@ -246,6 +244,7 @@ export class ListCloseAttention {
             'Medida Modificada satisfactoriamente',
             'success',
           );
+          this.listTurnoByPerson(this.registroTurno.persona.idPersona);
         },
         error: (error: any) => {
           this._alertService.getAlert('Error!!!', 'Error al modificar el medidor', 'error');
