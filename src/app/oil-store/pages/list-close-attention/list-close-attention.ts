@@ -100,8 +100,6 @@ export class ListCloseAttention {
       next: (resp: any) => {
         this.verificateStateTurno(resp.data[0].turnos[0]?.medidas[0]?.salida);
         const respWithTotal = addTotalTurnoMapper(resp);
-        console.log(respWithTotal);
-
         this.turnoList.set(respWithTotal);
       },
       error: (error: any) => {

@@ -1,13 +1,14 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgStyle, DatePipe, DecimalPipe } from '@angular/common';
+import { NgStyle, DatePipe, DecimalPipe, NgClass } from '@angular/common';
 import { AlertService } from 'src/app/service/alert.service';
 import { PersonaService, TurnoService } from '@oil-store/service';
 import { PersonaResponse, TurnoResponse } from '@oil-store/model';
+import { addTotalTurnoMapper } from '../list-close-attention/addTotalTurno.mapper';
 
 @Component({
   selector: 'app-admision',
-  imports: [NgStyle, DatePipe, DecimalPipe],
+  imports: [NgStyle, DatePipe, DecimalPipe, NgClass],
   templateUrl: './admision.html',
 })
 export class Admision {
@@ -41,7 +42,8 @@ export class Admision {
   listTurnoByPerson(id: number) {
     this._turnoService.getAllTurnosByIdPerson(id).subscribe({
       next: (resp) => {
-        this.turnoList.set(resp);
+        const respWithTotal = addTotalTurnoMapper(resp);
+        this.turnoList.set(respWithTotal);
       },
       error: (error: any) => {
         this._alertService.getAlert('Error!!!', 'Error al obtener los turnos', 'error');
