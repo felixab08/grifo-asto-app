@@ -4,6 +4,7 @@ export interface MedidorRequest {
   salida:     number;
   tipo:       string;
   turno:      Turno;
+  code?:     string;
 }
 
 interface Turno {

@@ -68,21 +68,24 @@ export class RegisterCloseAttention {
         this.typeRegister,
         anterior
       );
-      await registro.map((medidor: MedidorRequest) =>
+      await registro.map((medidor: MedidorRequest) => {
+        console.log(medidor);
+        if (medidor.code === 'subtotal') return;
+        if (medidor.code === 'total') return;
         this._medidorService.putMedidaByTurno(medidor.idMedida, medidor).subscribe({
           next: (resp) => {
             this._alertService.getAlert(
               'Medida Modificada',
               'Medida Modificada satisfactoriamente',
-              'success'
+              'success',
             );
           },
           error: (error: any) => {
             this._alertService.getAlert('Error!!!', 'Error al modificar el medidor', 'error');
             return;
           },
-        })
-      );
+        });
+      });
       localStorage.removeItem('registro');
       localStorage.removeItem('turno');
     }
