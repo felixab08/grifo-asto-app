@@ -28,7 +28,7 @@
       [placeholder]="placeholder()"
       autofocus
       (keyup)="searchTermLink.set(txtSearch.value)"
-      class="block w-full p-2.5 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-purple-500 dark:focus:border-purple-500"
+      class="block w-full p-2.5 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-purple-500 dark:focus:border-purple-500"
     />
     }
   </div>
@@ -41,7 +41,7 @@
       placeholder="Fecha desde"
       [value]="currentDateStartValue()"
       (change)="initialDateStart.set(txtFilterStartDate.value)"
-      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-purple-500 dark:focus:border-purple-500"
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-purple-500 dark:focus:border-purple-500"
     />
     <span class="mx-4 text-gray-500">al</span>
     <input
@@ -50,7 +50,7 @@
       [value]="currentDateEndValue()"
       (change)="initialDateEnd.set(txtFilterEndDate.value)"
       placeholder="Fecha hasta"
-      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-purple-500 dark:focus:border-purple-500"
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-purple-500 dark:focus:border-purple-500"
     />
     }
   </div>
@@ -61,7 +61,7 @@
       id="status"
       (ngModelChange)="filterByStatus($event)"
       [(ngModel)]="isState"
-      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-purple-500 dark:focus:border-purple-500"
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-purple-500 dark:focus:border-purple-500"
     >
       <option ngValue="All" selected>Todos</option>
       @for(item of filterMenu().filterSelectList ; track $index){

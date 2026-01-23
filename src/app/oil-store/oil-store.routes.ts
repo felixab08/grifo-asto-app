@@ -33,6 +33,11 @@ export const pagesRoutes: Routes = [
         component: PersonalList,
       },
       {
+        path: 'institution',
+        loadChildren: () =>
+          import('./pages/institutions/institutions.routes').then((m) => m.InstitutionsRoutes),
+      },
+      {
         path: 'register-close-attention/:type/:idturno',
         component: RegisterCloseAttention,
       },

@@ -1,6 +1,9 @@
 export interface OptionsRequest {
-  page?:          number; //0
-  size?:          number; //5 cantidad de registros por pagina
+  searchTerm?:   string;
+  status?:       boolean;
+  id?:            number;
+  page?:         number; //0
+  size?:         number; //5 cantidad de registros por pagina
 }
 
 export interface DataPaginationResponse {

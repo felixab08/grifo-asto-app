@@ -11,58 +11,52 @@ export class LinkParamService {
   currentPage = toSignal(
     this._activatedRoute.queryParamMap.pipe(
       map((params) => (params.get('page') ? +params.get('page')! : 1)),
-      map((page) => (isNaN(page) ? 1 : page))
+      map((page) => (isNaN(page) ? 1 : page)),
     ),
     {
       initialValue: 1,
-    }
+    },
   );
 
   currentSize = toSignal(
     this._activatedRoute.queryParamMap.pipe(
       map((params) => (params.get('size') ? +params.get('size')! : 5)),
-      map((size) => (isNaN(size) ? 5 : size))
+      map((size) => (isNaN(size) ? 5 : size)),
     ),
     {
       initialValue: 5,
-    }
+    },
   );
   currentStatus = toSignal(
     this._activatedRoute.queryParamMap.pipe(
-      map((params) => (params.get('status') ? params.get('status')! : 'All'))
+      map((params) => (params.get('status') ? params.get('status')! : false)),
     ),
     {
-      initialValue: 'All',
-    }
+      initialValue: false,
+    },
   );
   currentSearchTerm = toSignal(
     this._activatedRoute.queryParamMap.pipe(
-      map((params) =>
-        params.get('searchTerm') ? params.get('searchTerm')! : ''
-      )
+      map((params) => (params.get('searchTerm') ? params.get('searchTerm')! : '')),
     ),
     {
       initialValue: '',
-    }
+    },
   );
   currentDateInitialFilter = toSignal(
     this._activatedRoute.queryParamMap.pipe(
-      map((params) =>
-        params.get('dateInitialFilter') ? params.get('dateInitialFilter')! : ''
-      )
+      map((params) => (params.get('dateInitialFilter') ? params.get('dateInitialFilter')! : '')),
     ),
     {
       initialValue: '',
-    }
+    },
   );
   currentDateEndFilter = toSignal(
     this._activatedRoute.queryParamMap.pipe(
-      map((params) =>
-        params.get('dateEndFilter') ? params.get('dateEndFilter')! : ''
-      )
+      map((params) => (params.get('dateEndFilter') ? params.get('dateEndFilter')! : '')),
     ),
     {
       initialValue: '',
-    }
+    },
   );
 }

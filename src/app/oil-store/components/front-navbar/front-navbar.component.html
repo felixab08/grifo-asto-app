@@ -22,10 +22,18 @@
         class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
       >
         @for (item of navMenu; track item.name) {
-        <li>
-          <a [routerLink]="item.routes" routerLinkActive="bg-accent">{{ item.name }}</a>
-        </li>
+          <li>
+            <a [routerLink]="item.routes" routerLinkActive="bg-accent">{{ item.name }}</a>
+          </li>
         }
+        <li>
+          <a>Ventas</a>
+          <ul class="p-2">
+           <li routerLink="/grifo/institution/list"><a>Organizaciones</a></li>
+            <li><a>Ordenes</a></li>
+            <li><a>Reportes</a></li>
+          </ul>
+        </li>
       </ul>
     </div>
     <div class="flex items-center justify-center w-10 h-10 rounded-l">
@@ -35,10 +43,20 @@
   <div class="navbar-center hidden lg:flex">
     <ul class="menu menu-horizontal px-1">
       @for (item of navMenu; track item.name) {
-      <li>
-        <a [routerLink]="item.routes" routerLinkActive="bg-accent">{{ item.name }}</a>
-      </li>
+        <li>
+          <a [routerLink]="item.routes" routerLinkActive="bg-accent">{{ item.name }}</a>
+        </li>
       }
+      <li>
+        <details>
+          <summary>Ventas</summary>
+          <ul class="p-2 bg-base-100 w-40 z-1">
+            <li routerLink="/grifo/institution/list"><a>Organizaciones</a></li>
+            <li><a>Ordenes</a></li>
+            <li><a>Reportes</a></li>
+          </ul>
+        </details>
+      </li>
     </ul>
   </div>
   <div class="navbar-end">

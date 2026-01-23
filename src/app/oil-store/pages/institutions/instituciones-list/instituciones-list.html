@@ -1,0 +1,66 @@
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg px-5 md:px-10 m-4">
+  <div class="z-5 fixed top-16 bg-base-100 w-full px-5 md:px-10 py-4">
+    <h1 class="text-xs md:text-2xl font-semibold mb-2">Medición de combustible</h1>
+    <button class="btn btn-outline btn-accent">Nueva medición</button>
+  </div>
+
+  <!-- Búsqueda general -->
+  <div class="overflow-x-auto">
+    <tyn-filter
+      [filterMenu]="filterMenu()"
+      (selectFilter)="changeState($event)"
+      placeholder="Buscar"
+      [currentPage]="_linkService.currentPage()"
+      [currentSize]="_linkService.currentSize()"
+      [currentSearchTerm]="_linkService.currentSearchTerm()"
+      [currentDateStartValue]="_linkService.currentDateInitialFilter()"
+      [currentDateEndValue]="_linkService.currentDateEndFilter()"
+    ></tyn-filter>
+
+    <table class="table sm:table-xs md:table-xl">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Estado</th>
+          <th>Ruc</th>
+        </tr>
+      </thead>
+      @if (listOrganizationRx.hasValue()) {
+        <tbody>
+          @for (item of listOrganizationRx.value().content; track $index) {
+            <tr class="hover:bg-gray-300">
+              <td class="text-xs md:text-xl">{{ item.nombreOrganization }}</td>
+              <td>
+                {{ item.status ? 'Activo' : 'Inactivo' }}
+              </td>
+
+              <td>
+                {{ item.ruc }}
+              </td>
+            </tr>
+          } @empty {
+            <p class="text-center w-max">
+              <i class="fa-info-circle fa" aria-hidden="true"></i> No hay información para mostrar
+            </p>
+          }
+        </tbody>
+      }
+      <tfoot>
+        <tr>
+          <th>Nombre</th>
+          <th>Estado</th>
+          <th>Ruc</th>
+        </tr>
+      </tfoot>
+    </table>
+    <!-- Paginación -->
+    @if (listOrganizationRx.hasValue()) {
+      <app-pagination
+        [pages]="listOrganizationRx.value().totalPages"
+        [totalElements]="listOrganizationRx.value().totalElements"
+        [currentPage]="_linkService.currentPage()"
+        [currentSize]="_linkService.currentSize()"
+      />
+    }
+  </div>
+</div>
