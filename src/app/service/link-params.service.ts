@@ -29,10 +29,10 @@ export class LinkParamService {
   );
   currentStatus = toSignal(
     this._activatedRoute.queryParamMap.pipe(
-      map((params) => (params.get('status') ? params.get('status')! : false)),
+      map((params) => (params.get('status') ? params.get('status')! : 'All')),
     ),
     {
-      initialValue: false,
+      initialValue: 'All',
     },
   );
   currentSearchTerm = toSignal(

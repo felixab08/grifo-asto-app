@@ -18,14 +18,12 @@ export class OrganizationService {
   private _http = inject(HttpClient);
 
   getAllOrganization(options: OptionsRequest): Observable<IOrganizationListResponse> {
-    const { page = 0, size = 5, status = true, searchTerm = '' } = options;
     const params: any = {
-      page,
-      size,
-      status,
+      page: options.page,
+      size: options.size,
+      searchTerm: options.searchTerm || '',
     };
-    if (status) params.status = status;
-    if (searchTerm) params.searchTerm = searchTerm;
+    if (options.status !== 'All') params.status = options.status;
     return this._http.get<IOrganizationListResponse>(`${baseUrl}/organization/list`, { params });
   }
 

@@ -5,10 +5,12 @@ import { AlertService, LinkParamService } from 'src/app/service';
 import { PaginationComponent } from 'src/app/components/pagination/pagination.component';
 import { FilterComponent } from 'src/app/components/filter/filter.component';
 import { Router } from '@angular/router';
+import { HeaderSelectVentas } from '@oil-store/components/header-select-ventas/header-select-ventas';
+import { PersonaResponse } from '@oil-store/model';
 
 @Component({
   selector: 'app-ventas-institution',
-  imports: [PaginationComponent, FilterComponent],
+  imports: [HeaderSelectVentas],
   templateUrl: './ventas-institution.html',
 })
-export class VentasInstitution {}
+export default class VentasInstitution {}

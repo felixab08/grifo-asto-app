@@ -35,7 +35,6 @@ export class EntranceDiesel {
     });
   }
 
-  handlerNewMeassure() {}
 
   onSave() {
     if (this.myForm.invalid) {

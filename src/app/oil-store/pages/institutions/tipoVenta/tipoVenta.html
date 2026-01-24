@@ -1,8 +1,8 @@
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg px-5 md:px-10 m-4">
   <div class="z-5 fixed top-16 bg-base-100 w-full px-5 md:px-10 py-4">
-    <h1 class="text-xs md:text-2xl font-semibold mb-2">Instituciones</h1>
+    <h1 class="text-xs md:text-2xl font-semibold mb-2">Ordenes de Compra</h1>
     <button class="btn btn-outline btn-accent" onclick="my_modal_1.showModal()">
-      Crear institución
+      Crear Orden de Compra
     </button>
   </div>
 
@@ -14,9 +14,6 @@
       placeholder="Buscar"
       [currentPage]="_linkService.currentPage()"
       [currentSize]="_linkService.currentSize()"
-      [currentSearchTerm]="_linkService.currentSearchTerm()"
-      [currentDateStartValue]="_linkService.currentDateInitialFilter()"
-      [currentDateEndValue]="_linkService.currentDateEndFilter()"
     ></tyn-filter>
 
     <table class="table sm:table-xs md:table-xl">
@@ -24,26 +21,26 @@
         <tr>
           <th>Nombre</th>
           <th>Estado</th>
-          <th>Ruc</th>
+          <th>Código</th>
           <th>Opciones</th>
         </tr>
       </thead>
-      @if (listOrganizationRx.hasValue()) {
+      @if (listTipoVentaRx.hasValue()) {
         <tbody>
-          @for (item of listOrganizationRx.value().content; track $index) {
+          @for (item of listTipoVentaRx.value().content; track item.idTipoVenta) {
             <tr class="hover:bg-gray-300">
-              <td class="text-xs md:text-xl">{{ item.nombreOrganization }}</td>
+              <td class="text-xs md:text-xl">{{ item.tipo }}</td>
               <td>
                 {{ item.status ? 'Activo' : 'Inactivo' }}
               </td>
 
               <td>
-                {{ item.ruc }}
+                {{ item.codigo }}
               </td>
               <td>
                 <button
                   class="btn btn-sm btn-outline btn-accent"
-                  (click)="openModal(item,modalOrgRef)"
+                  (click)="openModal(item, modalOrgRef)"
                 >
                   Editar
                 </button>
@@ -60,16 +57,16 @@
         <tr>
           <th>Nombre</th>
           <th>Estado</th>
-          <th>Ruc</th>
+          <th>Código</th>
           <th>Opciones</th>
         </tr>
       </tfoot>
     </table>
     <!-- Paginación -->
-    @if (listOrganizationRx.hasValue()) {
+    @if (listTipoVentaRx.hasValue()) {
       <app-pagination
-        [pages]="listOrganizationRx.value().totalPages"
-        [totalElements]="listOrganizationRx.value().totalElements"
+        [pages]="listTipoVentaRx.value().totalPages"
+        [totalElements]="listTipoVentaRx.value().totalElements"
         [currentPage]="_linkService.currentPage()"
         [currentSize]="_linkService.currentSize()"
       />

@@ -10,6 +10,14 @@ export const InstitutionsRoutes: Routes = [
         loadComponent: () => import('./instituciones-list/instituciones-list'),
       },
       {
+        path: 'ordenes-compra',
+        loadComponent: () => import('./tipoVenta/tipoVenta'),
+      },
+      {
+        path: 'ventas-institution',
+        loadComponent: () => import('./ventas-institution/ventas-institution'),
+      },
+      {
         path: '',
         redirectTo: 'list',
         pathMatch: 'full',
