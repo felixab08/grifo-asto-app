@@ -1,4 +1,4 @@
-<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="grid grid-cols-1 gap-4" [ngClass]="{'md:grid-cols-1': !lookTypeVenta(), 'md:grid-cols-2': lookTypeVenta()}">
   <select
     class="select select-accent w-full"
     (ngModelChange)="listTipoVentas($event)"
@@ -9,7 +9,7 @@
       <option value="{{ item.idOrganization }}">{{ item.nombreOrganization }}</option>
     }
   </select>
-  @if (listTipoVentaData() != null && listTipoVentaData()!.length > 0) {
+  @if (lookTypeVenta() && listTipoVentaData() != null && listTipoVentaData()!.length > 0) {
     <select
       class="select select-accent w-full"
       (ngModelChange)="listaVentas($event)"

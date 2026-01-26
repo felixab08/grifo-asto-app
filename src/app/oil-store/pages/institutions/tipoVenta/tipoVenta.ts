@@ -2,17 +2,18 @@ import { Component, ElementRef, inject, signal, ViewChild } from '@angular/core'
 import { rxResource } from '@angular/core/rxjs-interop';
 import { OrganizationService } from '@oil-store/service/organization.service';
 import { TipoVentaService } from '@oil-store/service/tipoVenta.service';
-import { LinkParamService } from 'src/app/service';
+import { AlertService, LinkParamService } from 'src/app/service';
 import { FilterComponent } from 'src/app/components/filter/filter.component';
 import { PaginationComponent } from 'src/app/components/pagination/pagination.component';
 import { Router } from '@angular/router';
 import { FormUtils } from '@utils/form.util';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgClass } from '@angular/common';
+import { HeaderSelectVentas } from '@oil-store/components/header-select-ventas/header-select-ventas';
 
 @Component({
   selector: 'app-tipo-venta',
-  imports: [ReactiveFormsModule, FilterComponent, PaginationComponent, NgClass],
+  imports: [ReactiveFormsModule, FilterComponent, PaginationComponent, NgClass, HeaderSelectVentas],
   templateUrl: './tipoVenta.html',
 })
 export default class TipoVenta {
@@ -21,6 +22,8 @@ export default class TipoVenta {
   public _linkService = inject(LinkParamService);
   private _router = inject(Router);
   modalOpen = signal(false);
+  typeDialog = signal<'Crear' | 'Editar'>('Crear');
+  private _alertService = inject(AlertService);
 
   filterMenu = signal({
     searchShow: false,
@@ -44,9 +47,13 @@ export default class TipoVenta {
 
   private _fb = inject(FormBuilder);
   myForm: FormGroup = this._fb.group({
-    nombreOrganization: ['', [Validators.required]],
+    idTipoVenta: [0],
+    tipo: ['', [Validators.required]],
+    codigo: [''],
     status: ['true', [Validators.required]],
-    ruc: [''],
+    organization: {
+      idOrganization: [null, [Validators.required]],
+    },
   });
 
   listTipoVentaRx = rxResource({
@@ -72,11 +79,53 @@ export default class TipoVenta {
       queryParamsHandling: 'merge',
     });
   }
-
+  idorganizationSelected(event: any) {
+    this.myForm.patchValue({
+      organization: { idOrganization: event },
+    });
+  }
   onSave() {
     if (this.myForm.invalid) {
       this.myForm.markAllAsTouched();
       return;
+    }
+    console.log(this.myForm.value);
+    if (this.typeDialog() === 'Editar') {
+      this._tipoVentaService
+        .putTipoVenta(this.myForm.value.idTipoVenta, this.myForm.value)
+        .subscribe({
+          next: (resp: any) => {
+            this._alertService.getAlert(
+              'Tipo de venta editada',
+              'Tipo de venta editada satisfactoriamente',
+              'success',
+            );
+            this.listTipoVentaRx.reload();
+            this.myForm.reset();
+            this.closeModal(this.modalOrgRef?.nativeElement);
+          },
+          error: (err: any) => {
+            this._alertService.getAlert('Error!!!', 'Error al editar la tipo de venta', 'error');
+          },
+        });
+    } else {
+      const data = this.myForm.value;
+      delete data.idTipoVenta;
+      this._tipoVentaService.postTipoVenta(data).subscribe({
+        next: (resp: any) => {
+          this._alertService.getAlert(
+            'Tipo de venta creada',
+            'Tipo de venta creada satisfactoriamente',
+            'success',
+          );
+          this.listTipoVentaRx.reload();
+          this.myForm.reset();
+          this.closeModal(this.modalOrgRef?.nativeElement);
+        },
+        error: (err: any) => {
+          this._alertService.getAlert('Error!!!', 'Error al crear la tipo de venta', 'error');
+        },
+      });
     }
   }
 
@@ -95,6 +144,18 @@ export default class TipoVenta {
     },
   });
 
+  onEdit(item: any) {
+    this.myForm.patchValue({
+      idTipoVenta: item.idTipoVenta,
+      tipo: item.tipo,
+      codigo: item.codigo,
+      status: item.status,
+      organization: {
+        idOrganization: item.organization.idOrganization,
+      },
+    });
+  }
+
   openModal(item: any, dialog?: HTMLDialogElement | null): void {
     if (!dialog) return;
     try {
@@ -104,7 +165,8 @@ export default class TipoVenta {
         dialog.setAttribute('open', '');
       }
       this.modalOpen.set(true);
-      console.log(item);
+      this.typeDialog.set(item ? 'Editar' : 'Crear');
+      this.onEdit(item);
     } catch (err) {
       console.error('No se pudo abrir el modal', err);
     }

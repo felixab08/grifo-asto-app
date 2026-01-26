@@ -1,4 +1,4 @@
-import { Component, inject, output, signal } from '@angular/core';
+import { Component, inject, input, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   IOrganizationListResponse,
@@ -8,10 +8,10 @@ import {
 } from '@oil-store/model';
 import { OrganizationService, TipoVentaService } from '@oil-store/service';
 import { AlertService } from 'src/app/service';
-
+import { NgClass } from '@angular/common';
 @Component({
   selector: 'app-header-select-ventas',
-  imports: [FormsModule],
+  imports: [FormsModule, NgClass],
   templateUrl: './header-select-ventas.html',
 })
 export class HeaderSelectVentas {
@@ -24,6 +24,8 @@ export class HeaderSelectVentas {
   listOrganizationData = signal<IOrganizationResp[] | null>(null);
   listTipoVentaData = signal<TipoVentaContent[] | null>(null);
 
+  lookTypeVenta = input<boolean>(true);
+  idorganization = output<number>();
   idTipoVenta = output<number>();
 
   constructor() {
@@ -46,6 +48,7 @@ export class HeaderSelectVentas {
   }
 
   listTipoVentas(value: any) {
+    this.idorganization.emit(value);
     this.idTipoVenta.emit(0);
     this._tipoVentaService
       .getAllTipoVenta({ page: 0, size: 100, id: value, status: true })

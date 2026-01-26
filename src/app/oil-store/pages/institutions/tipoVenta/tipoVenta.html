@@ -74,38 +74,65 @@
   </div>
 </div>
 <dialog #modalOrgRef id="my_modal_1" class="modal" (close)="closeModal(modalOrgRef)">
-  <div class="modal-box">
+  <div class="modal-box w-11/12 max-w-5xl">
     <form method="dialog" autocomplete="off" [formGroup]="myForm" (ngSubmit)="onSave()">
       <div class="mt-5">
         <div>
           <div class="mt-5">
+            <app-header-select-ventas [lookTypeVenta]="false" class="w-full" (idorganization)="idorganizationSelected($event)" />
             <label
-              for="nombreOrganization"
+              for="tipo"
               class="block mb-2 text-sm font-medium"
               [ngClass]="{
                 ' text-red-700 dark:text-red-500': formUtils.isValiedField(
                   myForm,
-                  'nombreOrganization'
+                  'tipo'
                 ),
               }"
-              >Nombre de la institución</label
+              >Tipo</label
             >
             <input
               type="text"
-              id="nombreOrganization"
-              formControlName="nombreOrganization"
+              id="tipo"
+              formControlName="tipo"
               placeholder="Nombre de la institución"
               class="border text-sm input-md input rounded-lg block w-full p-2.5"
               [ngClass]="{
                 ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
-                  formUtils.isValiedField(myForm, 'nombreOrganization'),
+                  formUtils.isValiedField(myForm, 'tipo'),
               }"
             />
-            @if (formUtils.isValiedField(myForm, 'nombreOrganization')) {
+            @if (formUtils.isValiedField(myForm, 'tipo')) {
               <p class="mt-2 text-sm text-red-600 dark:text-red-500">
                 <span class="font-medium">{{
-                  formUtils.getFieldError(myForm, 'nombreOrganization')
+                  formUtils.getFieldError(myForm, 'tipo')
                 }}</span>
+              </p>
+            }
+          </div>
+                    <div class="mt-5">
+            <label
+              for="codigo"
+              class="block mb-2 text-sm font-medium"
+              [ngClass]="{
+                ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'codigo'),
+              }"
+              >Codigo</label
+            >
+            <input
+              type="text"
+              id="codigo"
+              formControlName="codigo"
+              placeholder="codigo"
+              class="border text-sm input-md input rounded-lg block w-full p-2.5"
+              [ngClass]="{
+                ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+                  formUtils.isValiedField(myForm, 'codigo'),
+              }"
+            />
+            @if (formUtils.isValiedField(myForm, 'codigo')) {
+              <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                <span class="font-medium">{{ formUtils.getFieldError(myForm, 'codigo') }}</span>
               </p>
             }
           </div>
@@ -139,32 +166,7 @@
               </p>
             }
           </div>
-          <div class="mt-5">
-            <label
-              for="ruc"
-              class="block mb-2 text-sm font-medium"
-              [ngClass]="{
-                ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'ruc'),
-              }"
-              >RUC</label
-            >
-            <input
-              type="text"
-              id="ruc"
-              formControlName="ruc"
-              placeholder="RUC"
-              class="border text-sm input-md input rounded-lg block w-full p-2.5"
-              [ngClass]="{
-                ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
-                  formUtils.isValiedField(myForm, 'ruc'),
-              }"
-            />
-            @if (formUtils.isValiedField(myForm, 'ruc')) {
-              <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-                <span class="font-medium">{{ formUtils.getFieldError(myForm, 'ruc') }}</span>
-              </p>
-            }
-          </div>
+
         </div>
       </div>
 

@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { FormUtils } from '@utils/form.util';
 import { NgClass } from '@angular/common';
 import { OrganizationService } from '@oil-store/service';
+import { IOrganizationResp } from '@oil-store/model';
 
 @Component({
   selector: 'app-instituciones-list',
@@ -20,7 +21,7 @@ export default class InstitucionesList {
   _linkService = inject(LinkParamService);
   private _router = inject(Router);
   modalOpen = signal(false);
-
+  typeDialog = signal<'Crear' | 'Editar'>('Crear');
   @ViewChild('modalOrgRef') modalOrgRef!: ElementRef;
 
   filterMenu = signal({
@@ -42,6 +43,7 @@ export default class InstitucionesList {
 
   private _fb = inject(FormBuilder);
   myForm: FormGroup = this._fb.group({
+    idOrganization: [0],
     nombreOrganization: ['', [Validators.required]],
     status: ['true', [Validators.required]],
     ruc: [''],
@@ -52,23 +54,54 @@ export default class InstitucionesList {
       this.myForm.markAllAsTouched();
       return;
     }
-    this._organizationSrv.getAllOrganization(this.myForm.value).subscribe({
-      next: (resp: any) => {
-        this._alertService.getAlert(
-          'Organización creada',
-          'Organización creada satisfactoriamente',
-          'success',
-        );
-        this.listOrganizationRx.reload();
-        this.myForm.reset();
-      },
-      error: (error: any) => {
-        this._alertService.getAlert('Error!!!', 'Error al crear la Organización', 'error');
-        return;
-      },
+    if (this.typeDialog() === 'Editar') {
+      this._organizationSrv
+        .putOrganization(this.myForm.value.idOrganization, this.myForm.value)
+        .subscribe({
+          next: (resp: any) => {
+            this._alertService.getAlert(
+              'Organización editada',
+              'Organización editada satisfactoriamente',
+              'success',
+            );
+            this.listOrganizationRx.reload();
+            this.myForm.reset();
+          },
+          error: (error: any) => {
+            this._alertService.getAlert('Error!!!', 'Error al editar la Organización', 'error');
+            return;
+          },
+        });
+    }
+    if (this.typeDialog() === 'Crear') {
+      const data = this.myForm.value;
+      delete data.idOrganization;
+      this._organizationSrv.postOrganization(this.myForm.value).subscribe({
+        next: (resp: any) => {
+          this._alertService.getAlert(
+            'Organización creada',
+            'Organización creada satisfactoriamente',
+            'success',
+          );
+          this.listOrganizationRx.reload();
+          this.myForm.reset();
+        },
+        error: (error: any) => {
+          this._alertService.getAlert('Error!!!', 'Error al crear la Organización', 'error');
+          return;
+        },
+      });
+    }
+  }
+
+  onEdit(organization: IOrganizationResp) {
+    this.myForm.patchValue({
+      idOrganization: organization.idOrganization,
+      nombreOrganization: organization.nombreOrganization,
+      status: organization.status,
+      ruc: organization.ruc,
     });
   }
-  onEdit(idOrganization: number) {}
 
   openModal(item: any, dialog?: HTMLDialogElement | null): void {
     if (!dialog) return;
@@ -79,7 +112,8 @@ export default class InstitucionesList {
         dialog.setAttribute('open', '');
       }
       this.modalOpen.set(true);
-      console.log(item);
+      this.typeDialog.set(item ? 'Editar' : 'Crear');
+      this.onEdit(item);
     } catch (err) {
       console.error('No se pudo abrir el modal', err);
     }
