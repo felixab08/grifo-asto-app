@@ -1,9 +1,11 @@
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg px-5 md:px-10 m-4">
   <div class="z-5 fixed top-16 bg-base-100 w-full px-5 md:px-10 py-4">
     <h1 class="text-xs md:text-2xl font-semibold mb-2">Listar Ventas</h1>
-    <button class="btn btn-outline btn-accent" onclick="my_modal_1.showModal()">
-      crear nueve venta
-    </button>
+    @if (idTipeoVenta() !== 0) {
+      <button class="btn btn-outline btn-accent" onclick="my_modal_1.showModal()">
+        crear nueve venta
+      </button>
+    }
   </div>
   <app-header-select-ventas (idTipoVenta)="listaVenta($event)" class="mb-4" />
   @if (handleCalendar()) {
@@ -84,3 +86,239 @@
     </table>
   }
 </div>
+
+<dialog #modalVentaRef id="my_modal_1" class="modal" (close)="closeModal(modalVentaRef)">
+  <div class="modal-box w-11/12 max-w-5xl">
+    <form method="dialog" autocomplete="true" [formGroup]="myForm" (ngSubmit)="onSave()">
+      <div class="mt-5">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="mt-5">
+            <label
+              for="numVale"
+              class="block mb-2 text-sm font-medium"
+              [ngClass]="{
+                ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'numVale'),
+              }"
+              >Número de vale</label
+            >
+            <input
+              type="text"
+              id="numVale"
+              formControlName="numVale"
+              placeholder="Nombre de la institución"
+              class="border text-sm input-md input rounded-lg block w-full p-2.5"
+              [ngClass]="{
+                ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+                  formUtils.isValiedField(myForm, 'numVale'),
+              }"
+            />
+            @if (formUtils.isValiedField(myForm, 'numVale')) {
+              <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                <span class="font-medium">{{ formUtils.getFieldError(myForm, 'numVale') }}</span>
+              </p>
+            }
+          </div>
+          <div class="mt-5">
+            <label
+              for="persona"
+              class="block mb-2 text-sm font-medium"
+              [ngClass]="{
+                ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'persona'),
+              }"
+              >Conductor</label
+            >
+            <input
+              type="text"
+              id="persona"
+              formControlName="persona"
+              placeholder="Conductor"
+              class="border text-sm input-md input rounded-lg block w-full p-2.5"
+              [ngClass]="{
+                ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+                  formUtils.isValiedField(myForm, 'persona'),
+              }"
+            />
+            @if (formUtils.isValiedField(myForm, 'persona')) {
+              <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                <span class="font-medium">{{ formUtils.getFieldError(myForm, 'persona') }}</span>
+              </p>
+            }
+          </div>
+          <div class="mt-5">
+            <label
+              for="placa"
+              class="block mb-2 text-sm font-medium"
+              [ngClass]="{
+                ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'placa'),
+              }"
+              >Número de placa</label
+            >
+            <input
+              type="text"
+              id="placa"
+              formControlName="placa"
+              placeholder="Número de placa"
+              class="border text-sm input-md input rounded-lg block w-full p-2.5"
+              [ngClass]="{
+                ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+                  formUtils.isValiedField(myForm, 'placa'),
+              }"
+            />
+            @if (formUtils.isValiedField(myForm, 'placa')) {
+              <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                <span class="font-medium">{{ formUtils.getFieldError(myForm, 'placa') }}</span>
+              </p>
+            }
+          </div>
+          <div class="mt-5">
+            <label
+              for="area"
+              class="block mb-2 text-sm font-medium"
+              [ngClass]="{
+                ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'area'),
+              }"
+              >Area</label
+            >
+            <input
+              type="text"
+              id="area"
+              formControlName="area"
+              placeholder="Area"
+              class="border text-sm input-md input rounded-lg block w-full p-2.5"
+              [ngClass]="{
+                ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+                  formUtils.isValiedField(myForm, 'area'),
+              }"
+            />
+            @if (formUtils.isValiedField(myForm, 'area')) {
+              <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                <span class="font-medium">{{ formUtils.getFieldError(myForm, 'area') }}</span>
+              </p>
+            }
+          </div>
+          <div class="mt-5">
+            <label
+              for="diesel"
+              class="block mb-2 text-sm font-medium"
+              [ngClass]="{
+                ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'diesel'),
+              }"
+              >Diesel</label
+            >
+            <input
+              type="number"
+              id="diesel"
+              formControlName="diesel"
+              placeholder="Diesel"
+              class="border text-sm input-md input rounded-lg block w-full p-2.5"
+              [ngClass]="{
+                ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+                  formUtils.isValiedField(myForm, 'diesel'),
+              }"
+            />
+            @if (formUtils.isValiedField(myForm, 'diesel')) {
+              <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                <span class="font-medium">{{ formUtils.getFieldError(myForm, 'diesel') }}</span>
+              </p>
+            }
+          </div>
+          <div class="mt-5">
+            <label
+              for="regular"
+              class="block mb-2 text-sm font-medium"
+              [ngClass]="{
+                ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'regular'),
+              }"
+              >Regular</label
+            >
+            <input
+              type="number"
+              id="regular"
+              formControlName="regular"
+              placeholder="Regular"
+              class="border text-sm input-md input rounded-lg block w-full p-2.5"
+              [ngClass]="{
+                ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+                  formUtils.isValiedField(myForm, 'regular'),
+              }"
+            />
+            @if (formUtils.isValiedField(myForm, 'regular')) {
+              <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                <span class="font-medium">{{ formUtils.getFieldError(myForm, 'regular') }}</span>
+              </p>
+            }
+          </div>
+          <div class="mt-5">
+            <label
+              for="premiun"
+              class="block mb-2 text-sm font-medium"
+              [ngClass]="{
+                ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'premiun'),
+              }"
+              >Premiun</label
+            >
+            <input
+              type="number"
+              id="premiun"
+              formControlName="premiun"
+              placeholder="Premiun"
+              class="border text-sm input-md input rounded-lg block w-full p-2.5"
+              [ngClass]="{
+                ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+                  formUtils.isValiedField(myForm, 'premiun'),
+              }"
+            />
+            @if (formUtils.isValiedField(myForm, 'premiun')) {
+              <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                <span class="font-medium">{{ formUtils.getFieldError(myForm, 'premiun') }}</span>
+              </p>
+            }
+          </div>
+          <div class="mt-5">
+            <label
+              for="fechaVenta"
+              class="block mb-2 text-sm font-medium"
+              [ngClass]="{
+                ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'fechaVenta'),
+              }"
+              >fechaVenta</label
+            >
+            <input
+              type="date"
+              id="fechaVenta"
+              formControlName="fechaVenta"
+              placeholder="fechaVenta"
+              class="border text-sm input-md input rounded-lg block w-full p-2.5"
+              [ngClass]="{
+                ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+                  formUtils.isValiedField(myForm, 'fechaVenta'),
+              }"
+            />
+            @if (formUtils.isValiedField(myForm, 'fechaVenta')) {
+              <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                <span class="font-medium">{{ formUtils.getFieldError(myForm, 'fechaVenta') }}</span>
+              </p>
+            }
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+      <div class="md:flex md:justify-end mt-2">
+        <button
+          class="btn btn-active font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center mr-2 mb-2 md:mb-0"
+          onclick="my_modal_1.close()"
+        >
+          Salir
+        </button>
+        <button
+          type="submit"
+          [disabled]="!myForm.valid"
+          class="btn btn-accent items-center text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+        >
+          Guardar
+        </button>
+      </div>
+    </form>
+  </div>
+</dialog>
