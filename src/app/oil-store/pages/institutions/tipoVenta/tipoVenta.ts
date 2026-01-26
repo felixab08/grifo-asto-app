@@ -24,7 +24,7 @@ export default class TipoVenta {
   modalOpen = signal(false);
   typeDialog = signal<'Crear' | 'Editar'>('Crear');
   private _alertService = inject(AlertService);
-
+  idOrga = signal(0);
   filterMenu = signal({
     searchShow: false,
     datesShow: false,
@@ -50,7 +50,7 @@ export default class TipoVenta {
     idTipoVenta: [0],
     tipo: ['', [Validators.required]],
     codigo: [''],
-    status: ['true', [Validators.required]],
+    status: [true, [Validators.required]],
     organization: {
       idOrganization: [null, [Validators.required]],
     },
@@ -61,7 +61,7 @@ export default class TipoVenta {
       page: this._linkService.currentPage() - 1,
       size: this._linkService.currentSize(),
       status: this._linkService.currentStatus(),
-      id: 1,
+      id: this.idOrga(),
     }),
     stream: ({ params }) => {
       return this._tipoVentaService.getAllTipoVenta({
@@ -80,6 +80,7 @@ export default class TipoVenta {
     });
   }
   idorganizationSelected(event: any) {
+    this.idOrga.set(event);
     this.myForm.patchValue({
       organization: { idOrganization: event },
     });

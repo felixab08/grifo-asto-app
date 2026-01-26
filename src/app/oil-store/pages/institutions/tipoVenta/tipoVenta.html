@@ -8,68 +8,78 @@
 
   <!-- Búsqueda general -->
   <div class="overflow-x-auto">
-    <tyn-filter
-      [filterMenu]="filterMenu()"
-      (selectFilter)="changeState($event)"
-      placeholder="Buscar"
-      [currentPage]="_linkService.currentPage()"
-      [currentSize]="_linkService.currentSize()"
-    ></tyn-filter>
-
-    <table class="table sm:table-xs md:table-xl">
-      <thead>
-        <tr>
-          <th>Nombre</th>
-          <th>Estado</th>
-          <th>Código</th>
-          <th>Opciones</th>
-        </tr>
-      </thead>
-      @if (listTipoVentaRx.hasValue()) {
-        <tbody>
-          @for (item of listTipoVentaRx.value().content; track item.idTipoVenta) {
-            <tr class="hover:bg-gray-300">
-              <td class="text-xs md:text-xl">{{ item.tipo }}</td>
-              <td>
-                {{ item.status ? 'Activo' : 'Inactivo' }}
-              </td>
-
-              <td>
-                {{ item.codigo }}
-              </td>
-              <td>
-                <button
-                  class="btn btn-sm btn-outline btn-accent"
-                  (click)="openModal(item, modalOrgRef)"
-                >
-                  Editar
-                </button>
-              </td>
-            </tr>
-          } @empty {
-            <p class="text-center w-max">
-              <i class="fa-info-circle fa" aria-hidden="true"></i> No hay información para mostrar
-            </p>
-          }
-        </tbody>
-      }
-      <tfoot>
-        <tr>
-          <th>Nombre</th>
-          <th>Estado</th>
-          <th>Código</th>
-          <th>Opciones</th>
-        </tr>
-      </tfoot>
-    </table>
-    <!-- Paginación -->
-    @if (listTipoVentaRx.hasValue()) {
-      <app-pagination
-        [pages]="listTipoVentaRx.value().totalPages"
-        [totalElements]="listTipoVentaRx.value().totalElements"
+    <div class="md:flex">
+      <app-header-select-ventas
+        [lookTypeVenta]="false"
+        class="w-1/2 mb-4"
+        (idorganization)="idorganizationSelected($event)"
+      />
+      @if (idOrga() != 0) {
+      <tyn-filter
+        [filterMenu]="filterMenu()"
+        (selectFilter)="changeState($event)"
+        placeholder="Buscar"
         [currentPage]="_linkService.currentPage()"
         [currentSize]="_linkService.currentSize()"
-      />
+      ></tyn-filter>
+      }
+    </div>
+    @if (idOrga() != 0) {
+      <table class="table sm:table-xs md:table-xl">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Estado</th>
+            <th>Código</th>
+            <th>Opciones</th>
+          </tr>
+        </thead>
+        @if (listTipoVentaRx.hasValue()) {
+          <tbody>
+            @for (item of listTipoVentaRx.value().content; track item.idTipoVenta) {
+              <tr class="hover:bg-gray-300">
+                <td class="text-xs md:text-xl">{{ item.tipo }}</td>
+                <td>
+                  {{ item.status ? 'Activo' : 'Inactivo' }}
+                </td>
+
+                <td>
+                  {{ item.codigo }}
+                </td>
+                <td>
+                  <button
+                    class="btn btn-sm btn-outline btn-accent"
+                    (click)="openModal(item, modalOrgRef)"
+                  >
+                    Editar
+                  </button>
+                </td>
+              </tr>
+            } @empty {
+              <p class="text-center w-max">
+                <i class="fa-info-circle fa" aria-hidden="true"></i> No hay información para mostrar
+              </p>
+            }
+          </tbody>
+        }
+        <tfoot>
+          <tr>
+            <th>Nombre</th>
+            <th>Estado</th>
+            <th>Código</th>
+            <th>Opciones</th>
+          </tr>
+        </tfoot>
+      </table>
+      <!-- Paginación -->
+      @if (listTipoVentaRx.hasValue()) {
+        <app-pagination
+          [pages]="listTipoVentaRx.value().totalPages"
+          [totalElements]="listTipoVentaRx.value().totalElements"
+          [currentPage]="_linkService.currentPage()"
+          [currentSize]="_linkService.currentSize()"
+        />
+      }
     }
   </div>
 </div>
@@ -79,15 +89,12 @@
       <div class="mt-5">
         <div>
           <div class="mt-5">
-            <app-header-select-ventas [lookTypeVenta]="false" class="w-full" (idorganization)="idorganizationSelected($event)" />
+            <!-- <app-header-select-ventas [lookTypeVenta]="false" class="w-full" (idorganization)="idorganizationSelected($event)" /> -->
             <label
               for="tipo"
               class="block mb-2 text-sm font-medium"
               [ngClass]="{
-                ' text-red-700 dark:text-red-500': formUtils.isValiedField(
-                  myForm,
-                  'tipo'
-                ),
+                ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'tipo'),
               }"
               >Tipo</label
             >
@@ -104,13 +111,11 @@
             />
             @if (formUtils.isValiedField(myForm, 'tipo')) {
               <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-                <span class="font-medium">{{
-                  formUtils.getFieldError(myForm, 'tipo')
-                }}</span>
+                <span class="font-medium">{{ formUtils.getFieldError(myForm, 'tipo') }}</span>
               </p>
             }
           </div>
-                    <div class="mt-5">
+          <div class="mt-5">
             <label
               for="codigo"
               class="block mb-2 text-sm font-medium"
@@ -166,7 +171,6 @@
               </p>
             }
           </div>
-
         </div>
       </div>
 
