@@ -8,3 +8,4 @@ export * from './register.interface';
 export * from './services.interface';
 export * from './organization.interface';
 export * from './tipoVenta.interface';
+export * from './detalle-ventas.interface';

@@ -1,18 +1,30 @@
-import { Component, inject, signal } from '@angular/core';
-import { PersonaResponse } from '@oil-store/model';
-import { OrganizationService } from '@oil-store/service/organization.service';
+import { Component, inject, output, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import {
+  IOrganizationListResponse,
+  IOrganizationResp,
+  ITipoVentaResponse,
+  TipoVentaContent,
+} from '@oil-store/model';
+import { OrganizationService, TipoVentaService } from '@oil-store/service';
 import { AlertService } from 'src/app/service';
 
 @Component({
   selector: 'app-header-select-ventas',
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './header-select-ventas.html',
 })
 export class HeaderSelectVentas {
   private _organizationSrv = inject(OrganizationService);
-  private _alertService = inject(AlertService);
+  private _tipoVentaService = inject(TipoVentaService);
 
-  listOrganizationData = signal<PersonaResponse | null>(null);
+  private _alertService = inject(AlertService);
+  organizationSelected = 'All';
+  tipoVentaSelected = 'All';
+  listOrganizationData = signal<IOrganizationResp[] | null>(null);
+  listTipoVentaData = signal<TipoVentaContent[] | null>(null);
+
+  idTipoVenta = output<string>();
 
   constructor() {
     this.listOrganizaciones();
@@ -22,14 +34,31 @@ export class HeaderSelectVentas {
     this._organizationSrv
       .getAllOrganization({ page: 0, size: 100, searchTerm: '', status: true })
       .subscribe({
-        next: (resp: any) => {
-          console.log(resp);
-
-          this.listOrganizationData.set(resp);
+        next: (resp: IOrganizationListResponse) => {
+          this.listOrganizationData.set(resp.content);
+          this.tipoVentaSelected = 'All';
         },
         error: (err: any) => {
           this._alertService.getAlert('Error al obtener la lista de personas', err);
         },
       });
+  }
+
+  listTipoVentas(value: any) {
+    console.log(value);
+    this._tipoVentaService
+      .getAllTipoVenta({ page: 0, size: 100, id: value, status: true })
+      .subscribe({
+        next: (resp: ITipoVentaResponse) => {
+          this.listTipoVentaData.set(resp.content);
+        },
+        error: (err: any) => {
+          this._alertService.getAlert('Error al obtener la lista de personas', err);
+        },
+      });
+  }
+
+  listaVentas(value: any) {
+    this.idTipoVenta.emit(value);
   }
 }

@@ -4,6 +4,8 @@ export interface OptionsRequest {
   id?:            number;
   page?:         number; //0
   size?:         number; //5 cantidad de registros por pagina
+  startDate?:  Date;
+  endDate?:    Date;
 }
 
 export interface DataPaginationResponse {

@@ -1,22 +1,24 @@
-<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-  <select class="select select-accent">
-    <option selected disabled>Color scheme</option>
-    <option>Light mode</option>
-    <option>Dark mode</option>
-    <option>System</option>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+  <select
+    class="select select-accent w-full"
+    (ngModelChange)="listTipoVentas($event)"
+    [(ngModel)]="organizationSelected"
+  >
+    <option selected value="All" disabled>Organizaciones</option>
+    @for (item of listOrganizationData(); track $index) {
+      <option value="{{ item.idOrganization }}">{{ item.nombreOrganization }}</option>
+    }
   </select>
-
-  <select class="select select-accent">
-    <option selected disabled>Color scheme</option>
-    <option>Light mode</option>
-    <option>Dark mode</option>
-    <option>System</option>
-  </select>
-
-  <select class="select select-accent">
-    <option selected disabled>Color scheme</option>
-    <option>Light mode</option>
-    <option>Dark mode</option>
-    <option>System</option>
-  </select>
+  @if (listTipoVentaData() != null && listTipoVentaData()!.length > 0) {
+    <select
+      class="select select-accent w-full"
+      (ngModelChange)="listaVentas($event)"
+      [(ngModel)]="tipoVentaSelected"
+    >
+      <option value="All" selected disabled>Tipo de Venta</option>
+      @for (item of listTipoVentaData(); track $index) {
+        <option value="{{ item.idTipoVenta }}">{{ item.tipo }} - {{ item.codigo }}</option>
+      }
+    </select>
+  }
 </div>
