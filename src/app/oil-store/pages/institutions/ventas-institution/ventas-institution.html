@@ -6,8 +6,28 @@
     </button>
   </div>
   <app-header-select-ventas (idTipoVenta)="listaVenta($event)" />
-<button popovertarget="cally-popover1" class="input input-border" id="cally1" style="anchor-name:--cally1">
-  Pick a date
-</button>
-
+  @if (handleCalendar()) {
+    <div class="mt-5">
+      <button
+        popovertarget="cally-popover1"
+        class="input input-border"
+        id="cally1"
+        style="anchor-name: --cally1"
+      >
+        Seleccionar rango de fecha
+      </button>
+      <div
+        popover
+        id="cally-popover1"
+        class="dropdown bg-base-100 rounded-box shadow-lg"
+        style="position-anchor: --cally1"
+      >
+        <calendar-range #calendarRange months="1" (change)="onRangeChange()">
+          <calendar-month></calendar-month>
+          <calendar-month offset="1"></calendar-month>
+        </calendar-range>
+      </div>
+    </div>
+  }
+  <!-- <button class="btn btn-accent" (click)="searchDetalleVenta()">Accent</button> -->
 </div>

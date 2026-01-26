@@ -18,6 +18,8 @@ export class DetalleVentaService {
       page: options.page,
       size: options.size,
       id: options.id || 1,
+      startDate: options.startDate ? options.startDate : new Date(0).toISOString(),
+      endDate: options.endDate ? options.endDate : new Date(0).toISOString(),
     };
     return this._http.get<IVentasResponse>(`${baseUrl}/detalle-venta/list`, { params });
   }

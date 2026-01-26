@@ -22,3 +22,9 @@
   font-family: "Montserrat";
   src: url("/assets/fonts/montserrat-alternates/montserrat-alternates-medium.ttf");
 }
+calendar-range::part(months) {
+    display: flex;
+    gap: 1em;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
