@@ -24,13 +24,14 @@ export class HeaderSelectVentas {
   listOrganizationData = signal<IOrganizationResp[] | null>(null);
   listTipoVentaData = signal<TipoVentaContent[] | null>(null);
 
-  idTipoVenta = output<string>();
+  idTipoVenta = output<number>();
 
   constructor() {
     this.listOrganizaciones();
   }
 
   listOrganizaciones() {
+    this.idTipoVenta.emit(0);
     this._organizationSrv
       .getAllOrganization({ page: 0, size: 100, searchTerm: '', status: true })
       .subscribe({
@@ -45,7 +46,7 @@ export class HeaderSelectVentas {
   }
 
   listTipoVentas(value: any) {
-    console.log(value);
+    this.idTipoVenta.emit(0);
     this._tipoVentaService
       .getAllTipoVenta({ page: 0, size: 100, id: value, status: true })
       .subscribe({

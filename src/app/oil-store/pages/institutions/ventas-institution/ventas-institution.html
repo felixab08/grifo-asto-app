@@ -5,7 +5,7 @@
       crear nueve venta
     </button>
   </div>
-  <app-header-select-ventas (idTipoVenta)="listaVenta($event)" />
+  <app-header-select-ventas (idTipoVenta)="listaVenta($event)" class="mb-4" />
   @if (handleCalendar()) {
     <div class="mt-5">
       <button
@@ -29,5 +29,58 @@
       </div>
     </div>
   }
-  <!-- <button class="btn btn-accent" (click)="searchDetalleVenta()">Accent</button> -->
+  @if (handleCalendar() && listDetalleVenta()) {
+    <table class="table sm:table-xs md:table-xl">
+      <thead>
+        <tr>
+          <th>N°</th>
+          <th>Fecha</th>
+          <th>Número de Vale</th>
+          <th>Persona</th>
+          <th>Placa</th>
+          <th>Premiun</th>
+          <th>Regular</th>
+          <th>Diesel</th>
+          <th>Área</th>
+          <th>Opciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of listDetalleVenta()?.content; track item.idDetalleVenta) {
+          <tr class="hover:bg-gray-300">
+            <td>{{ $index + 1 }}</td>
+            <td class="text-xs md:text-xl">{{ item.fechaVenta }}</td>
+            <td>
+              {{ item.numVale }}
+            </td>
+            <td>
+              {{ item.persona }}
+            </td>
+            <td>
+              {{ item.placa }}
+            </td>
+            <td>
+              {{ item.premiun }}
+            </td>
+            <td>
+              {{ item.regular }}
+            </td>
+            <td>
+              {{ item.diesel }}
+            </td>
+            <td>
+              {{ item.area }}
+            </td>
+            <td>
+              <button class="btn btn-sm btn-outline btn-accent">Eliminar</button>
+            </td>
+          </tr>
+        } @empty {
+          <p class="text-center w-max">
+            <i class="fa-info-circle fa" aria-hidden="true"></i> No hay información para mostrar
+          </p>
+        }
+      </tbody>
+    </table>
+  }
 </div>
