@@ -25,15 +25,15 @@ export class HeaderSelectVentas {
   listTipoVentaData = signal<TipoVentaContent[] | null>(null);
 
   lookTypeVenta = input<boolean>(true);
-  idorganization = output<number>();
-  idTipoVenta = output<number>();
+  idorganization = output<number | null>();
+  idTipoVenta = output<TipoVentaContent | null>();
 
   constructor() {
     this.listOrganizaciones();
   }
 
   listOrganizaciones() {
-    this.idTipoVenta.emit(0);
+    this.idTipoVenta.emit(null);
     this.tipoVentaSelected = 'All';
     this.organizationSelected = 'All';
     this.listTipoVentaData.set(null);
@@ -51,7 +51,7 @@ export class HeaderSelectVentas {
 
   listTipoVentas(value: any) {
     this.idorganization.emit(value);
-    this.idTipoVenta.emit(0);
+    this.idTipoVenta.emit(null);
     // Al cambiar la organización, resetear la selección de Tipo de Venta
     this.tipoVentaSelected = 'All';
     this._tipoVentaService
@@ -66,7 +66,8 @@ export class HeaderSelectVentas {
       });
   }
 
-  listaVentas(value: any) {
-    this.idTipoVenta.emit(value);
+  listaVentas(id: number) {
+    let detallVenta = this.listTipoVentaData()?.find((venta) => venta.idTipoVenta === +id);
+    if (detallVenta) this.idTipoVenta.emit(detallVenta);
   }
 }

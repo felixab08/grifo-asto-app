@@ -12,6 +12,7 @@ export interface TipoVentaContent {
   status:       boolean;
   organization: {
     idOrganization:     number;
+    nombreOrganization?: string;
   };
 }
 

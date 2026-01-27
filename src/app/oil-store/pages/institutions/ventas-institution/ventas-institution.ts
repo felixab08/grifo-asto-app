@@ -9,7 +9,7 @@ import {
 import { AlertService, LinkParamService } from 'src/app/service';
 import { HeaderSelectVentas } from '@oil-store/components/header-select-ventas/header-select-ventas';
 import { DetalleVentaService } from '@oil-store/service';
-import { IVentasResponse, OptionsRequest, VentasContent } from '@oil-store/model';
+import { IVentasResponse, OptionsRequest, TipoVentaContent, VentasContent } from '@oil-store/model';
 import 'cally';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormUtils } from '@utils/form.util';
@@ -31,7 +31,7 @@ export default class VentasInstitution {
   public _linkService = inject(LinkParamService);
 
   handleCalendar = signal<boolean>(false);
-  idTipeoVenta = signal<number>(0);
+  idTipeoVenta = signal<TipoVentaContent | null>(null);
 
   modalOpen = signal(false);
   typeDialog = signal<'Crear' | 'Editar'>('Crear');
@@ -61,13 +61,15 @@ export default class VentasInstitution {
     let range = this.rangeFechaSelected().split('/');
     let startDate = range[0];
     let endDate = range[1];
-    this.searchDetalleVenta(this.idTipeoVenta(), startDate, endDate);
+    if (this.idTipeoVenta() !== null)
+      this.searchDetalleVenta(this.idTipeoVenta()!.idTipoVenta, startDate, endDate);
   }
 
-  listaVenta(id: any) {
-    this.idTipeoVenta.set(id);
+  listaVenta(venta: TipoVentaContent | null) {
+    this.idTipeoVenta.set(venta);
+    console.log(this.idTipeoVenta());
     this.rangeFechaSelected.set('Seleccionar rango de fecha');
-    id !== 0 ? this.handleCalendar.set(true) : this.handleCalendar.set(false);
+    venta !== null ? this.handleCalendar.set(true) : this.handleCalendar.set(false);
     this.listDetalleVenta.set(null);
   }
 
@@ -103,7 +105,7 @@ export default class VentasInstitution {
           this.listDetalleVenta.set(null);
           if (this.oldFilterOptions() !== undefined && this.oldFilterOptions() !== null) {
             this.searchDetalleVenta(
-              this.idTipeoVenta(),
+              this.idTipeoVenta()!.idTipoVenta,
               this.oldFilterOptions()!.startDate!,
               this.oldFilterOptions()!.endDate!,
             );
@@ -123,7 +125,7 @@ export default class VentasInstitution {
             this.listDetalleVenta.set(null);
             if (this.oldFilterOptions() !== undefined && this.oldFilterOptions() !== null) {
               this.searchDetalleVenta(
-                this.idTipeoVenta(),
+                this.idTipeoVenta()!.idTipoVenta,
                 this.oldFilterOptions()!.startDate!,
                 this.oldFilterOptions()!.endDate!,
               );
