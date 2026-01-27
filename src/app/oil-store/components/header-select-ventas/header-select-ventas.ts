@@ -34,12 +34,14 @@ export class HeaderSelectVentas {
 
   listOrganizaciones() {
     this.idTipoVenta.emit(0);
+    this.tipoVentaSelected = 'All';
+    this.organizationSelected = 'All';
+    this.listTipoVentaData.set(null);
     this._organizationSrv
       .getAllOrganization({ page: 0, size: 100, searchTerm: '', status: true })
       .subscribe({
         next: (resp: IOrganizationListResponse) => {
           this.listOrganizationData.set(resp.content);
-          this.tipoVentaSelected = 'All';
         },
         error: (err: any) => {
           this._alertService.getAlert('Error al obtener la lista de personas', err);

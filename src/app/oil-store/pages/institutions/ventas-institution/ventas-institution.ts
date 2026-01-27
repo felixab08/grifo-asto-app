@@ -87,7 +87,33 @@ export default class VentasInstitution {
       this.myForm.markAllAsTouched();
       return;
     }
+    this.myForm.value.tipoVenta.idTipoVenta = this.idTipeoVenta();
     console.log(this.myForm.value);
+
+    if (this.typeDialog() === 'Crear') {
+      delete this.myForm.value.idDetalleVenta;
+      this._detalleVentaSrv.postTipoVenta(this.myForm.value).subscribe({
+        next: (resp: any) => {
+          this._alertService.getAlert('Éxito', 'Venta creada correctamente', 'success');
+          this.closeModal(this.modalOrgRef?.nativeElement);
+          this.listDetalleVenta.set(null);
+        },
+        error: (err: any) => {
+          this._alertService.getAlert('Error al crear la venta', err);
+        },
+      });
+    } else {
+      this._detalleVentaSrv.putTipoVenta(this.myForm.value.idDetalleVenta, this.myForm.value).subscribe({
+        next: (resp: any) => {
+          this._alertService.getAlert('Éxito', 'Venta actualizada correctamente', 'success');
+          this.closeModal(this.modalOrgRef?.nativeElement);
+          this.listDetalleVenta.set(null);
+        },
+        error: (err: any) => {
+          this._alertService.getAlert('Error al actualizar la venta', err);
+        },
+      });
+    }
   }
 
   onEdit(item: VentasContent) {
@@ -106,6 +132,11 @@ export default class VentasInstitution {
       },
     });
   }
+
+  deleteVenta(id: number) {
+    // Lógica para eliminar la venta por su ID
+  }
+
   openModal(item: VentasContent, dialog?: HTMLDialogElement | null): void {
     if (!dialog) return;
     try {
