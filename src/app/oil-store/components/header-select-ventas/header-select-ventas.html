@@ -1,24 +1,34 @@
-<div class="grid grid-cols-1 gap-4" [ngClass]="{'md:grid-cols-1': !lookTypeVenta(), 'md:grid-cols-2': lookTypeVenta()}">
-  <select
-    class="select select-accent w-full"
-    (ngModelChange)="listTipoVentas($event)"
-    [(ngModel)]="organizationSelected"
-  >
-    <option selected value="All" disabled>Organizaciones</option>
-    @for (item of listOrganizationData(); track $index) {
-      <option value="{{ item.idOrganization }}">{{ item.nombreOrganization }}</option>
-    }
-  </select>
-  @if (lookTypeVenta() && listTipoVentaData() != null && listTipoVentaData()!.length > 0) {
+<div
+  class="grid grid-cols-1 gap-4"
+  [ngClass]="{ 'md:grid-cols-1': !lookTypeVenta(), 'md:grid-cols-2': lookTypeVenta() }"
+>
+  <fieldset class="fieldset">
+    <legend class="fieldset-legend">Seleccione la organización</legend>
     <select
       class="select select-accent w-full"
-      (ngModelChange)="listaVentas($event)"
-      [(ngModel)]="tipoVentaSelected"
+      (ngModelChange)="listTipoVentas($event)"
+      [(ngModel)]="organizationSelected"
     >
-      <option value="All" selected disabled>Tipo de Venta</option>
-      @for (item of listTipoVentaData(); track $index) {
-        <option value="{{ item.idTipoVenta }}">{{ item.tipo }} - {{ item.codigo }}</option>
+      <option selected value="All" disabled>Organizaciones</option>
+      @for (item of listOrganizationData(); track $index) {
+        <option value="{{ item.idOrganization }}">{{ item.nombreOrganization }}</option>
       }
     </select>
+  </fieldset>
+
+  @if (lookTypeVenta() && listTipoVentaData() != null && listTipoVentaData()!.length > 0) {
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend">Seleccione tipo de venta</legend>
+      <select
+        class="select select-accent w-full"
+        (ngModelChange)="listaVentas($event)"
+        [(ngModel)]="tipoVentaSelected"
+      >
+        <option value="All" selected disabled>Tipo de Venta</option>
+        @for (item of listTipoVentaData(); track $index) {
+          <option value="{{ item.idTipoVenta }}">{{ item.tipo }} - {{ item.codigo }}</option>
+        }
+      </select>
+    </fieldset>
   }
 </div>

@@ -1,4 +1,4 @@
-<div class="relative overflow-x-auto shadow-md sm:rounded-lg px-5 md:px-10 m-4">
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg px-5 md:px-10 m-4 min-h-40">
   <div class="z-5 fixed top-16 bg-base-100 w-full px-5 md:px-10 py-4">
     <h1 class="text-xs md:text-2xl font-semibold mb-2">Listar Ventas</h1>
     @if (idTipeoVenta() !== 0) {
@@ -16,7 +16,7 @@
         id="cally1"
         style="anchor-name: --cally1"
       >
-        Seleccionar rango de fecha
+        {{rangeFechaSelected()}}
       </button>
       <div
         popover

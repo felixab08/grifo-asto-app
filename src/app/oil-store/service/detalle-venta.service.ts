@@ -12,8 +12,6 @@ export class DetalleVentaService {
   private _http = inject(HttpClient);
 
   getAllTipoVenta(options: OptionsRequest): Observable<IVentasResponse> {
-    console.log(options);
-
     const params: any = {
       page: options.page,
       size: options.size,

@@ -9,7 +9,7 @@ import {
 import { AlertService, LinkParamService } from 'src/app/service';
 import { HeaderSelectVentas } from '@oil-store/components/header-select-ventas/header-select-ventas';
 import { DetalleVentaService } from '@oil-store/service';
-import { IVentasResponse, VentasContent } from '@oil-store/model';
+import { IVentasResponse, OptionsRequest, VentasContent } from '@oil-store/model';
 import 'cally';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormUtils } from '@utils/form.util';
@@ -25,8 +25,9 @@ export default class VentasInstitution {
   @ViewChild('calendarRange', { static: false }) calendarRange!: ElementRef;
   private _detalleVentaSrv = inject(DetalleVentaService);
   public listDetalleVenta = signal<IVentasResponse | null>(null);
+  public oldFilterOptions = signal<OptionsRequest | null>(null);
   private _alertService = inject(AlertService);
-  public rangeFechaSelected = signal<string>('');
+  public rangeFechaSelected = signal<string>('Seleccionar rango de fecha');
   public _linkService = inject(LinkParamService);
 
   handleCalendar = signal<boolean>(false);
@@ -65,15 +66,20 @@ export default class VentasInstitution {
 
   listaVenta(id: any) {
     this.idTipeoVenta.set(id);
+    this.rangeFechaSelected.set('Seleccionar rango de fecha');
     id !== 0 ? this.handleCalendar.set(true) : this.handleCalendar.set(false);
     this.listDetalleVenta.set(null);
   }
+
   searchDetalleVenta(id: number, fechaInicio: string, fechaFin: string) {
+    this.oldFilterOptions.set({
+      startDate: fechaInicio,
+      endDate: fechaFin,
+    });
     this._detalleVentaSrv
       .getAllTipoVenta({ page: 0, size: 100, id: id, startDate: fechaInicio, endDate: fechaFin })
       .subscribe({
         next: (resp: any) => {
-          console.log(resp);
           this.listDetalleVenta.set(resp);
         },
         error: (err: any) => {
@@ -88,8 +94,6 @@ export default class VentasInstitution {
       return;
     }
     this.myForm.value.tipoVenta.idTipoVenta = this.idTipeoVenta();
-    console.log(this.myForm.value);
-
     if (this.typeDialog() === 'Crear') {
       delete this.myForm.value.idDetalleVenta;
       this._detalleVentaSrv.postTipoVenta(this.myForm.value).subscribe({
@@ -97,22 +101,38 @@ export default class VentasInstitution {
           this._alertService.getAlert('Éxito', 'Venta creada correctamente', 'success');
           this.closeModal(this.modalOrgRef?.nativeElement);
           this.listDetalleVenta.set(null);
+          if (this.oldFilterOptions() !== undefined && this.oldFilterOptions() !== null) {
+            this.searchDetalleVenta(
+              this.idTipeoVenta(),
+              this.oldFilterOptions()!.startDate!,
+              this.oldFilterOptions()!.endDate!,
+            );
+          }
         },
         error: (err: any) => {
           this._alertService.getAlert('Error al crear la venta', err);
         },
       });
     } else {
-      this._detalleVentaSrv.putTipoVenta(this.myForm.value.idDetalleVenta, this.myForm.value).subscribe({
-        next: (resp: any) => {
-          this._alertService.getAlert('Éxito', 'Venta actualizada correctamente', 'success');
-          this.closeModal(this.modalOrgRef?.nativeElement);
-          this.listDetalleVenta.set(null);
-        },
-        error: (err: any) => {
-          this._alertService.getAlert('Error al actualizar la venta', err);
-        },
-      });
+      this._detalleVentaSrv
+        .putTipoVenta(this.myForm.value.idDetalleVenta, this.myForm.value)
+        .subscribe({
+          next: (resp: any) => {
+            this._alertService.getAlert('Éxito', 'Venta actualizada correctamente', 'success');
+            this.closeModal(this.modalOrgRef?.nativeElement);
+            this.listDetalleVenta.set(null);
+            if (this.oldFilterOptions() !== undefined && this.oldFilterOptions() !== null) {
+              this.searchDetalleVenta(
+                this.idTipeoVenta(),
+                this.oldFilterOptions()!.startDate!,
+                this.oldFilterOptions()!.endDate!,
+              );
+            }
+          },
+          error: (err: any) => {
+            this._alertService.getAlert('Error al actualizar la venta', err);
+          },
+        });
     }
   }
 

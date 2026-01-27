@@ -52,6 +52,8 @@ export class HeaderSelectVentas {
   listTipoVentas(value: any) {
     this.idorganization.emit(value);
     this.idTipoVenta.emit(0);
+    // Al cambiar la organización, resetear la selección de Tipo de Venta
+    this.tipoVentaSelected = 'All';
     this._tipoVentaService
       .getAllTipoVenta({ page: 0, size: 100, id: value, status: true })
       .subscribe({

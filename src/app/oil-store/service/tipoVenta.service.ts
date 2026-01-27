@@ -13,8 +13,6 @@ export class TipoVentaService {
   private _http = inject(HttpClient);
 
   getAllTipoVenta(options: OptionsRequest): Observable<ITipoVentaResponse> {
-    console.log(options);
-
     const params: any = {
       page: options.page,
       size: options.size,
