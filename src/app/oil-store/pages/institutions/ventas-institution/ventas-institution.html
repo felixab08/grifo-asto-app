@@ -1,21 +1,21 @@
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg px-5 md:px-10 m-4 min-h-40">
-  <div class="z-5 fixed top-16 bg-base-100 w-full px-5 md:px-10 py-4">
+  <div class="z-5 fixed top-16 bg-base-100 w-full py-4">
     <h1 class="text-xs md:text-2xl font-semibold mb-2">Listar Ventas</h1>
     @if (idTipeoVenta() !== null) {
-      <button class="btn btn-outline btn-accent" onclick="my_modal_1.showModal()">
-        Crear nueve venta
-      </button>
-      <button id="button-excel-2" class="btn btn-outline btn-success mx-2" (click)="descargarXLS()">
-        <i class="fa-regular fa-file-excel"></i> Descargar
-      </button>
+        <button class="btn btn-outline btn-accent" onclick="my_modal_1.showModal()">
+          Crear nueve venta
+        </button>
+        <button id="button-excel-2" class="btn btn-outline btn-success mx-2 min-w-36" (click)="descargarXLS()">
+          <i class="fa-regular fa-file-excel"></i> Descargar
+        </button>
     }
   </div>
   <app-header-select-ventas (idTipoVenta)="listaVenta($event)" class="mb-4" />
   @if (handleCalendar()) {
-    <div class="mt-5">
+    <div class="mt-5 w-full">
       <button
         popovertarget="cally-popover1"
-        class="input input-border"
+        class="input input-border w-full md:max-w-50"
         id="cally1"
         style="anchor-name: --cally1"
       >
@@ -35,7 +35,7 @@
     </div>
   }
   @if (handleCalendar() && listDetalleVenta()) {
-    <div id="simpleTable2">
+    <div id="simpleTable2" class="overflow-x-scroll">
       <table class="table sm:table-xs md:table-xl">
         <thead>
           <tr>

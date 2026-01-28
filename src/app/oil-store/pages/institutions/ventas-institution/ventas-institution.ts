@@ -95,7 +95,7 @@ export default class VentasInstitution {
       this.myForm.markAllAsTouched();
       return;
     }
-    this.myForm.value.tipoVenta.idTipoVenta = this.idTipeoVenta();
+    this.myForm.value.tipoVenta.idTipoVenta = this.idTipeoVenta()?.idTipoVenta;
     if (this.typeDialog() === 'Crear') {
       delete this.myForm.value.idDetalleVenta;
       this._detalleVentaSrv.postTipoVenta(this.myForm.value).subscribe({

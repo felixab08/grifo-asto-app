@@ -1,17 +1,14 @@
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg px-5 md:px-10 m-4">
-  <div class="z-5 fixed top-16 bg-base-100 w-full px-5 md:px-10 py-4">
-  <h1 class="text-xs md:text-2xl font-semibold mb-2">Lista de entrada de combustible</h1>
+  <div class="z-5 fixed top-16 bg-base-100 w-full py-4">
+    <h1 class="text-xs md:text-2xl font-semibold mb-2">Lista de entrada de combustible</h1>
     <div class="mb-6 flex items-center mr-4 mt-2">
-      <button
-      class="btn btn-outline btn-accent"
-      onclick="my_modal_1.showModal()"
-      >
-      Entrada de combustible
-    </button>
-  </div>
+      <button class="btn btn-outline btn-accent" onclick="my_modal_1.showModal()">
+        Entrada de combustible
+      </button>
+    </div>
   </div>
 
-  <div class="overflow-x-auto">
+  <div class="overflow-x-auto mt-10 md:mt-2">
     <table class="table sm:table-xs md:table-xl">
       <thead>
         <tr>
@@ -22,44 +19,45 @@
         </tr>
       </thead>
       @if (listaEntranse.hasValue()) {
-      <tbody>
-        @for (item of listaEntranse.value().content; track item.idEntrada) {
-        <tr class="hover:bg-gray-300">
-          <td class="text-xs md:text-xl">{{ item.fechaEntrada | date : 'medium' }}</td>
-          <td>
-            <p>{{ item.persona.nombre }} {{ item.persona.apellido }}</p>
-          </td>
-          <td>
-            <p>{{ item.tipo }}</p>
-          </td>
-          <td>
-            <p>{{ item.cantidad }}</p>
-          </td>
-        </tr>
-        }
-        @empty {
-            <p class="text-center w-max"> <i class="fa-info-circle fa" aria-hidden="true"></i> No hay información para mostrar</p>
+        <tbody>
+          @for (item of listaEntranse.value().content; track item.idEntrada) {
+            <tr class="hover:bg-gray-300">
+              <td class="text-xs md:text-xl">{{ item.fechaEntrada | date: 'medium' }}</td>
+              <td>
+                <p>{{ item.persona.nombre }} {{ item.persona.apellido }}</p>
+              </td>
+              <td>
+                <p>{{ item.tipo }}</p>
+              </td>
+              <td>
+                <p>{{ item.cantidad }}</p>
+              </td>
+            </tr>
+          } @empty {
+            <p class="text-center w-max">
+              <i class="fa-info-circle fa" aria-hidden="true"></i> No hay información para mostrar
+            </p>
           }
-      </tbody>
+        </tbody>
       }
       <tfoot>
         <tr>
           <th>Fecha</th>
-          <th>Petroleo</th>
-          <th>Regular</th>
-          <th>Premiun</th>
+          <th>Persona</th>
+          <th>Tipo</th>
+          <th>Combustible</th>
         </tr>
       </tfoot>
     </table>
-      <!-- Paginación -->
-  @if(listaEntranse.hasValue()){
-  <app-pagination
-    [pages]="listaEntranse.value().totalPages"
-    [totalElements]="listaEntranse.value().totalElements"
-    [currentPage]="_linkService.currentPage()"
-    [currentSize]="_linkService.currentSize()"
-  />
-  }
+    <!-- Paginación -->
+    @if (listaEntranse.hasValue()) {
+      <app-pagination
+        [pages]="listaEntranse.value().totalPages"
+        [totalElements]="listaEntranse.value().totalElements"
+        [currentPage]="_linkService.currentPage()"
+        [currentSize]="_linkService.currentSize()"
+      />
+    }
   </div>
 </div>
 <dialog id="my_modal_1" class="modal">
@@ -70,7 +68,7 @@
           for="tipo"
           class="block mb-2 text-sm font-medium"
           [ngClass]="{
-            ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'tipo')
+            ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'tipo'),
           }"
           >Combustible que llego</label
         >
@@ -83,7 +81,7 @@
               id="tipo"
               [ngClass]="{
                 ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
-                  formUtils.isValiedField(myForm, 'tipo')
+                  formUtils.isValiedField(myForm, 'tipo'),
               }"
             >
               <option disabled selected value="">Seleccione el combustible</option>
@@ -91,10 +89,10 @@
               <option value="regular">Regular</option>
               <option value="premiun">Premiun</option>
             </select>
-            @if(formUtils.isValiedField(myForm,'tipo')){
-            <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-              <span class="font-medium">{{ formUtils.getFieldError(myForm, 'tipo') }}</span>
-            </p>
+            @if (formUtils.isValiedField(myForm, 'tipo')) {
+              <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                <span class="font-medium">{{ formUtils.getFieldError(myForm, 'tipo') }}</span>
+              </p>
             }
           </div>
           <div>
@@ -106,13 +104,13 @@
               class="border text-sm input-md input rounded-lg block w-full p-2.5"
               [ngClass]="{
                 ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
-                  formUtils.isValiedField(myForm, 'cantidad')
+                  formUtils.isValiedField(myForm, 'cantidad'),
               }"
             />
-            @if(formUtils.isValiedField(myForm,'cantidad')){
-            <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-              <span class="font-medium">{{ formUtils.getFieldError(myForm, 'cantidad') }}</span>
-            </p>
+            @if (formUtils.isValiedField(myForm, 'cantidad')) {
+              <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                <span class="font-medium">{{ formUtils.getFieldError(myForm, 'cantidad') }}</span>
+              </p>
             }
           </div>
         </div>

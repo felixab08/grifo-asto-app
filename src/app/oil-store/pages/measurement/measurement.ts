@@ -31,9 +31,9 @@ export class Measurement {
 
   private _fb = inject(FormBuilder);
   myForm: FormGroup = this._fb.group({
-    diesel: ['', [Validators.required]],
-    regular: ['', [Validators.required]],
-    premiun: ['', [Validators.required]],
+    diesel: ['', [Validators.required, Validators.min(0), Validators.max(230)]],
+    regular: ['', [Validators.required, Validators.min(0), Validators.max(230)]],
+    premiun: ['', [Validators.required, Validators.min(0), Validators.max(230)]],
   });
 
   handlerNewMeassure() {}
@@ -50,7 +50,7 @@ export class Measurement {
         this._alertService.getAlert(
           'Medición creada',
           'Medición creada satisfactoriamente',
-          'success'
+          'success',
         );
         this.listaMeasure.reload();
         this.myForm.reset();
