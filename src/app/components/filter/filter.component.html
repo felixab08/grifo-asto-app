@@ -21,6 +21,8 @@
           [placeholder]="placeholder()"
           autofocus
           (keyup)="searchTermLink.set(txtSearch.value)"
+          (input)="searchTermLink.set(txtSearch.value)"
+          (search)="searchTermLink.set(txtSearch.value)"
           type="search"
           class="grow"
         />

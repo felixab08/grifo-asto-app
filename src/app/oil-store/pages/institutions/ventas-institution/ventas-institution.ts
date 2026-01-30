@@ -46,9 +46,9 @@ export default class VentasInstitution {
     persona: ['', [Validators.required]],
     placa: [''],
     area: [''],
-    diesel: [0],
-    regular: [0],
-    premiun: [0],
+    diesel: [],
+    regular: [],
+    premiun: [],
     fechaVenta: ['', Validators.required],
     tipoVenta: {
       idTipoVenta: this.idTipeoVenta(),
@@ -156,7 +156,12 @@ export default class VentasInstitution {
   }
 
   deleteVenta(id: number) {
-    // Lógica para eliminar la venta por su ID
+    this._detalleVentaSrv.deleteVentas(id);
+    this.searchDetalleVenta(
+      this.idTipeoVenta()!.idTipoVenta,
+      this.oldFilterOptions()!.startDate!,
+      this.oldFilterOptions()!.endDate!,
+    );
   }
 
   openModal(item: VentasContent, dialog?: HTMLDialogElement | null): void {

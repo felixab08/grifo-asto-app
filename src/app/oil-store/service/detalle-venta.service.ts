@@ -29,4 +29,8 @@ export class DetalleVentaService {
   putTipoVenta(id: number, organization: IVentasReq): Observable<IVentasReq> {
     return this._http.put<IVentasReq>(`${baseUrl}/detalle-venta/editar/${id}`, organization);
   }
+
+  public deleteVentas(id: number): void {
+    this._http.delete(`${baseUrl}/detalle-venta/eliminar/${id}`).subscribe();
+  }
 }

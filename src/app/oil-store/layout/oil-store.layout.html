@@ -3,5 +3,21 @@
   <router-outlet />
 </section>
 @if (_alertService.isAlert()) {
-<tyn-alert [alertMenu]="_alertService.alertMenu()"> </tyn-alert>
+  <tyn-alert [alertMenu]="_alertService.alertMenu()"> </tyn-alert>
 }
+
+<dialog id="my_modal_3" class="modal" #modalRef  (close)="closeModal(modalRef)">
+  <div class="modal-box">
+    <form method="dialog">
+      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+    </form>
+    <h3 class="text-lg font-bold text-center">Eliminar!</h3>
+    <p class="py-4 text-center">Esta seguro que quiere eliminar</p>
+      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" (close)="closeModal(modalRef)">✕</button>
+      <div class="md:flex md:justify-center mt-2 gap-2">
+
+      <button class="btn btn-active btn-warning" (click)="closeDialog()">Cancelar</button>
+      <button class="btn btn-active btn-accent" (click)="confirm()">Aceptar</button>
+    </div>
+  </div>
+</dialog>
