@@ -67,7 +67,6 @@ export default class VentasInstitution {
 
   listaVenta(venta: TipoVentaContent | null) {
     this.idTipeoVenta.set(venta);
-    console.log(this.idTipeoVenta());
     this.rangeFechaSelected.set('Seleccionar rango de fecha');
     venta !== null ? this.handleCalendar.set(true) : this.handleCalendar.set(false);
     this.listDetalleVenta.set(null);

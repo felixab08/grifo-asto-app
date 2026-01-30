@@ -90,7 +90,6 @@ export default class TipoVenta {
       this.myForm.markAllAsTouched();
       return;
     }
-    console.log(this.myForm.value);
     if (this.typeDialog() === 'Editar') {
       this._tipoVentaService
         .putTipoVenta(this.myForm.value.idTipoVenta, this.myForm.value)

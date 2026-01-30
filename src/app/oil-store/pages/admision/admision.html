@@ -48,100 +48,103 @@
         <tbody>
           @for (lista of turnoList()!.data[0].turnos; track lista.idTurno) {
             <!--  -->
+            @if (lista.medidas.length > 2) {
+            <!--  -->
             @for (item of lista.medidas; track item.idMedida) {
-              <!--  -->
-              <tr
-                class="hover:bg-gray-300"
-                [ngClass]="{ 'font-bold': item.tipo === 'Subtotal' || item.tipo === 'Total' }"
-              >
-                <td class="border-t-2 text-xs md:text-xl">
-                  {{ lista.fecha_entrada | date: 'medium' }}
-                </td>
+                <!--  -->
+                <tr
+                  class="hover:bg-gray-300"
+                  [ngClass]="{ 'font-bold': item.tipo === 'Subtotal' || item.tipo === 'Total' }"
+                >
+                  <td class="border-t-2 text-xs md:text-xl">
+                    {{ lista.fecha_entrada | date: 'medium' }}
+                  </td>
 
-                <td class="border-t-2">
-                  {{ turnoList()!.data[0].nombre }} {{ turnoList()!.data[0].apellido }}
-                </td>
-                <td
-                  class="capitalize"
-                  [ngStyle]="
-                    $index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }
-                  "
-                >
-                  {{ item.tipo }}
-                </td>
-                <td
-                  [ngStyle]="
-                    $index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }
-                  "
-                >
-                  @if (
-                    !(
-                      (item.tipo === 'Subtotal' || item.tipo === 'Total') &&
-                      (!item.salida || item.salida === 0)
-                    )
-                  ) {
-                    {{ item.entrada }}
-                  }
-                </td>
-                <td
-                  [ngStyle]="
-                    $index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }
-                  "
-                >
-                  @if (
-                    !(
-                      (item.tipo === 'Subtotal' || item.tipo === 'Total') &&
-                      (!item.salida || item.salida === 0)
-                    )
-                  ) {
-                    @if (item.salida && item.salida !== 0) {
-                      <span>
-                        {{ item.salida }}
-                      </span>
-                    }
-                  }
-                </td>
-                <td
-                  [ngStyle]="
-                    $index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }
-                  "
-                >
-                  @if (
-                    !(
-                      (item.tipo === 'Subtotal' || item.tipo === 'Total') &&
-                      (!item.salida || item.salida === 0)
-                    )
-                  ) {
-                    @if (item.salida && item.salida !== 0) {
-                      <span>
-                        {{ item.salida - item.entrada | number: '1.2-2' }}
-                      </span>
-                    }
-                  }
-                </td>
-                @if ($index == 0) {
+                  <td class="border-t-2">
+                    {{ turnoList()!.data[0].nombre }} {{ turnoList()!.data[0].apellido }}
+                  </td>
                   <td
-                    rowspan="8"
+                    class="capitalize"
                     [ngStyle]="
                       $index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }
                     "
                   >
-                    @if (lista.observaciones) {
-                      @for (obs of lista.observaciones.split(','); track $index) {
-                        @if (obs !== '') {
-                          <div role="alert" class="alert alert-info mt-1">
-                            <span>{{ obs.trim() }}</span>
-                          </div>
-                        }
+                    {{ item.tipo }}
+                  </td>
+                  <td
+                    [ngStyle]="
+                      $index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }
+                    "
+                  >
+                    @if (
+                      !(
+                        (item.tipo === 'Subtotal' || item.tipo === 'Total') &&
+                        (!item.salida || item.salida === 0)
+                      )
+                    ) {
+                      {{ item.entrada }}
+                    }
+                  </td>
+                  <td
+                    [ngStyle]="
+                      $index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }
+                    "
+                  >
+                    @if (
+                      !(
+                        (item.tipo === 'Subtotal' || item.tipo === 'Total') &&
+                        (!item.salida || item.salida === 0)
+                      )
+                    ) {
+                      @if (item.salida && item.salida !== 0) {
+                        <span>
+                          {{ item.salida }}
+                        </span>
                       }
                     }
                   </td>
-                }
+                  <td
+                    [ngStyle]="
+                      $index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }
+                    "
+                  >
+                    @if (
+                      !(
+                        (item.tipo === 'Subtotal' || item.tipo === 'Total') &&
+                        (!item.salida || item.salida === 0)
+                      )
+                    ) {
+                      @if (item.salida && item.salida !== 0) {
+                        <span>
+                          {{ item.salida - item.entrada | number: '1.2-2' }}
+                        </span>
+                      }
+                    }
+                  </td>
+                  @if ($index == 0) {
+                    <td
+                      rowspan="8"
+                      [ngStyle]="
+                        $index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }
+                      "
+                    >
+                      @if (lista.observaciones) {
+                        @for (obs of lista.observaciones.split(','); track $index) {
+                          @if (obs !== '') {
+                            <div role="alert" class="alert alert-info mt-1">
+                              <span>{{ obs.trim() }}</span>
+                            </div>
+                          }
+                        }
+                      }
+                    </td>
+                  }
+                </tr>
+              }
+              <tr>
+                <td colspan="7"></td>
               </tr>
             }
-            <tr>
-              <td colspan="7"></td>
-            </tr>
           } @empty {
             <p class="text-center w-max">
               <i class="fa-info-circle fa" aria-hidden="true"></i> No hay información para mostrar

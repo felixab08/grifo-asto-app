@@ -191,7 +191,6 @@ export class ListCloseAttention {
     }
   }
   handerMedidas(item: any) {
-    console.log(item);
     if (item.code === 'subtotal' || item.code === 'total' || item.salida === null) {
       this.checkButtonEdit.set(false);
       return;

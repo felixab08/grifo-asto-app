@@ -69,7 +69,6 @@ export class RegisterCloseAttention {
         anterior
       );
       await registro.map((medidor: MedidorRequest) => {
-        console.log(medidor);
         if (medidor.code === 'subtotal') return;
         if (medidor.code === 'total') return;
         this._medidorService.putMedidaByTurno(medidor.idMedida, medidor).subscribe({

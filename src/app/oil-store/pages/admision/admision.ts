@@ -50,6 +50,7 @@ export class Admision {
       },
     });
   }
+
   descargarXLS(): void {
     // Lee la tabla HTML y genera un CSV con BOM UTF-8 (Excel lo abre correctamente)
     const table = document.querySelector<HTMLTableElement>('#simpleTable1');
