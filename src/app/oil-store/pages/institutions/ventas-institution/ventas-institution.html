@@ -2,12 +2,16 @@
   <div class="z-5 fixed top-16 bg-base-100 w-full py-4">
     <h1 class="text-xs md:text-2xl font-semibold mb-2">Listar Ventas</h1>
     @if (idTipeoVenta() !== null) {
-        <button class="btn btn-outline btn-accent" onclick="my_modal_1.showModal()">
-          Crear nueve venta
-        </button>
-        <button id="button-excel-2" class="btn btn-outline btn-success mx-2 min-w-36" (click)="descargarXLS()">
-          <i class="fa-regular fa-file-excel"></i> Descargar
-        </button>
+      <button class="btn btn-outline btn-accent" onclick="my_modal_1.showModal()">
+        Crear nueve venta
+      </button>
+      <button
+        id="button-excel-2"
+        class="btn btn-outline btn-success mx-2 min-w-36"
+        (click)="descargarXLS()"
+      >
+        <i class="fa-regular fa-file-excel"></i> Descargar
+      </button>
     }
   </div>
   <app-header-select-ventas (idTipoVenta)="listaVenta($event)" class="mb-4" />
@@ -28,6 +32,17 @@
         style="position-anchor: --cally1"
       >
         <calendar-range #calendarRange months="1" (change)="onRangeChange()">
+          <svg
+            aria-label="Previous"
+            slot="previous"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+          >
+            <path fill="red" d="M15.75 19.5 8.25 12l7.5-7.5"></path>
+          </svg>
+          <svg aria-label="Next" slot="next" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path fill="red" d="m8.25 4.5 7.5 7.5-7.5 7.5"></path>
+          </svg>
           <calendar-month></calendar-month>
           <calendar-month offset="1"></calendar-month>
         </calendar-range>
@@ -41,8 +56,8 @@
           <tr>
             <th colspan="10" class="my-4 font-bold">
               REPORTE DE CONSUMO DE COMBUSTIBLE DE LA
-              {{ idTipeoVenta()?.organization?.nombreOrganization | uppercase }} {{ idTipeoVenta()?.codigo | uppercase}} -
-              FECHA: {{ rangeFechaSelected() }}
+              {{ idTipeoVenta()?.organization?.nombreOrganization | uppercase }}
+              {{ idTipeoVenta()?.codigo | uppercase }} - FECHA: {{ rangeFechaSelected() }}
             </th>
           </tr>
           <tr>

@@ -1,11 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import "tailwindcss";
+@import 'tailwindcss';
 @plugin "daisyui" {
   themes: retro --default;
 }
 @theme {
-  --font-montserrat: "Montserrat", "sans-serif";
+  --font-montserrat: 'Montserrat', 'sans-serif';
 
   --animate-fadeIn: fadeIn 0.3s ease-in-out;
 
@@ -19,15 +19,9 @@
   }
 }
 @font-face {
-  font-family: "Montserrat";
-  src: url("/assets/fonts/montserrat-alternates/montserrat-alternates-medium.ttf");
+  font-family: 'Montserrat';
+  src: url('/assets/fonts/montserrat-alternates/montserrat-alternates-medium.ttf');
 }
-calendar-range::part(months) {
-    display: flex;
-    gap: 1em;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
 /* this will not work */
 svg {
   fill: red;
@@ -36,4 +30,28 @@ svg {
 /* this will work */
 svg path {
   fill: red;
+}
+
+calendar-range svg {
+  height: 16px;
+  width: 16px;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  fill: var(--color-base-content);
+}
+calendar-range path {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: var(--color-base-content);
+}
+calendar-month {
+    --color-accent: var(--color-base-content);
+    --color-text-on-accent: #ffffff;
+  }
+
+calendar-range::part(months) {
+  display: flex;
+  gap: 1em;
+  justify-content: center;
+  flex-wrap: wrap;
 }
