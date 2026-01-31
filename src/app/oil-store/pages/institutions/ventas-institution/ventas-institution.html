@@ -15,7 +15,7 @@
     <div class="mt-5 w-full">
       <button
         popovertarget="cally-popover1"
-        class="input input-border w-full md:max-w-50"
+        class="input input-border w-full md:max-w-60 font-bold border-4"
         id="cally1"
         style="anchor-name: --cally1"
       >
@@ -41,8 +41,8 @@
           <tr>
             <th colspan="10" class="my-4 font-bold">
               REPORTE DE CONSUMO DE COMBUSTIBLE DE LA
-              {{ idTipeoVenta()?.organization?.nombreOrganization }} {{ idTipeoVenta()?.codigo }} -
-              Fecha: {{ rangeFechaSelected() }}
+              {{ idTipeoVenta()?.organization?.nombreOrganization | uppercase }} {{ idTipeoVenta()?.codigo | uppercase}} -
+              FECHA: {{ rangeFechaSelected() }}
             </th>
           </tr>
           <tr>

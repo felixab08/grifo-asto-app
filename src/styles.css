@@ -28,3 +28,12 @@ calendar-range::part(months) {
     justify-content: center;
     flex-wrap: wrap;
   }
+/* this will not work */
+svg {
+  fill: red;
+}
+
+/* this will work */
+svg path {
+  fill: red;
+}

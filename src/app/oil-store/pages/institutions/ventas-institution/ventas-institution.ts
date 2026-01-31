@@ -13,11 +13,11 @@ import { IVentasResponse, OptionsRequest, TipoVentaContent, VentasContent } from
 import 'cally';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormUtils } from '@utils/form.util';
-import { NgClass } from '@angular/common';
+import { NgClass, UpperCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-ventas-institution',
-  imports: [HeaderSelectVentas, ReactiveFormsModule, NgClass],
+  imports: [HeaderSelectVentas, ReactiveFormsModule, NgClass, UpperCasePipe],
   templateUrl: './ventas-institution.html',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
