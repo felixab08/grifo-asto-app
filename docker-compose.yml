@@ -1,0 +1,15 @@
+services:
+  angular-app:
+    container_name: angular-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '80:80'
+    restart: unless-stopped
+    networks:
+      - grifo-asto_grifo-asto-net
+
+networks:
+  grifo-asto_grifo-asto-net:
+    external: true

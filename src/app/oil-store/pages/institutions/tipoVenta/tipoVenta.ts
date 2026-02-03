@@ -50,6 +50,9 @@ export default class TipoVenta {
     idTipoVenta: [0],
     tipo: ['', [Validators.required]],
     codigo: [''],
+    premiun: [0],
+    regular: [0],
+    diesel: [0],
     status: [true, [Validators.required]],
     organization: {
       idOrganization: [null, [Validators.required]],
@@ -150,6 +153,9 @@ export default class TipoVenta {
       tipo: item.tipo,
       codigo: item.codigo,
       status: item.status,
+      premiun: item.premiun,
+      regular: item.regular,
+      diesel: item.diesel,
       organization: {
         idOrganization: item.organization.idOrganization,
       },

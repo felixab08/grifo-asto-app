@@ -23,12 +23,12 @@
   src: url('/assets/fonts/montserrat-alternates/montserrat-alternates-medium.ttf');
 }
 /* this will not work */
-svg {
+.modal-box svg {
   fill: red;
 }
 
 /* this will work */
-svg path {
+.modal-box svg path {
   fill: red;
 }
 

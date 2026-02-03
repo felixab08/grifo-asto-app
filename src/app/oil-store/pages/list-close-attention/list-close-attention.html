@@ -67,7 +67,7 @@
                         (!item.salida || item.salida === 0)
                       )
                     ) {
-                      {{ item.entrada }}
+                      {{ item.entrada | number: '1.2-2' }}
                     }
                   </td>
                   <td
@@ -84,7 +84,7 @@
                     ) {
                       @if (item.salida && item.salida !== 0) {
                         <span>
-                          {{ item.salida }}
+                          {{ item.salida | number: '1.2-2' }}
                         </span>
                       }
                     }
@@ -110,6 +110,7 @@
                   </td>
                   @if ($index == 0) {
                     <td
+                    (click)="editAtention(lista)"
                       rowspan="8"
                       [ngStyle]="
                         $index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }
@@ -159,7 +160,7 @@
       class="mt-4"
       autocomplete="off"
       [formGroup]="myForm"
-      (ngSubmit)="onSave()"
+      (ngSubmit)="guardarObservaciones()"
     >
       <div class="mt-5">
         <label
@@ -215,7 +216,6 @@
         <button
           type="submit"
           [disabled]="!myForm.valid"
-          (click)="guardarObservaciones()"
           class="text-white bg-accent focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
         >
           Guardar
@@ -233,7 +233,7 @@
       class="mt-4"
       autocomplete="off"
       [formGroup]="myFormMedida"
-      (ngSubmit)="onEditMedida()"
+      (ngSubmit)="generateMedida()"
     >
       <div class="mt-5">
         <label
@@ -297,7 +297,6 @@
         <button
           type="submit"
           [disabled]="!myFormMedida.valid"
-          (click)="generateMedida()"
           class="text-white bg-accent focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
         >
           Guardar

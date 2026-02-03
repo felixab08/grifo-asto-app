@@ -10,6 +10,9 @@ export interface TipoVentaContent {
   tipo:         string;
   codigo:       string;
   status:       boolean;
+  premiun:      number;
+  regular:      number;
+  diesel:       number;
   organization: {
     idOrganization:     number;
     nombreOrganization?: string;

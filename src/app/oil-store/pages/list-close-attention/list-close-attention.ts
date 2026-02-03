@@ -6,6 +6,7 @@ import {
   Medida,
   MedidorListResponse,
   MedidorRequest,
+  Turno,
   TurnoRequest,
   TurnoResponse,
 } from '@oil-store/model';
@@ -52,7 +53,7 @@ export class ListCloseAttention {
   router = inject(Router);
   stateturno = signal<'iniciar' | 'cerrar' | 'iniciado'>('iniciar');
   turnoList = signal<TurnoResponse | null>(null);
-
+  editTurno = signal<Turno | null>(null);
   private _medidorService = inject(MedidorService);
   _turnoService = inject(TurnoService);
   public _alertService = inject(AlertService);
@@ -131,14 +132,26 @@ export class ListCloseAttention {
       this._alertService.getAlert('Error!!!', 'No hay turnos para cerrar', 'error');
       return;
     }
-    const turno = turnoListData.data[0].turnos[0] as any;
+    let turno = null;
+    console.log(this.editTurno());
+    if (this.editTurno()) {
+      turno = this.editTurno();
+    } else {
+      turno = turnoListData.data[0].turnos[0] as any;
+    }
     turno.fechaSalida = new Date().toISOString();
     turno.observaciones = this.myForm.get('obs')?.value || '';
     turno.sum = this.myForm.get('sum')?.value || 0;
     turno.rest = this.myForm.get('rest')?.value || 0;
+    console.log(turno);
+
     this._turnoService.putRegisterTurnoByIdPersona(turno.idTurno, turno).subscribe({
       next: (resp) => {
         this._alertService.getAlert('Turno editado', 'Turno editado satisfactoriamente', 'success');
+        if (this.editTurno()) {
+          this.listTurnoByPerson(this.registroTurno.persona.idPersona);
+          return;
+        }
         const listMedidas = this.turnoList()?.data[0].turnos[0].medidas;
         localStorage.setItem('registro', JSON.stringify(listMedidas));
         this.handlerTurno(turno.idTurno);
@@ -152,6 +165,18 @@ export class ListCloseAttention {
   handlerTurno(idturno: number = 9) {
     localStorage.setItem('attention-type', 'iniciar');
     this.router.navigate(['/grifo/register-close-attention', this.stateturno(), idturno]);
+  }
+
+  editAtention(turno: Turno) {
+    console.log(turno);
+
+    this.editTurno.set(turno);
+    this.openModal(this.modalTurnoRef.nativeElement);
+    this.myForm.patchValue({
+      obs: turno.observaciones,
+      sum: turno.sum,
+      rest: turno.rest,
+    });
   }
 
   openModal(dialog?: HTMLDialogElement | null): void {
@@ -190,6 +215,7 @@ export class ListCloseAttention {
       localStorage.setItem('attention-type', 'iniciar');
     }
   }
+
   handerMedidas(item: any) {
     if (item.code === 'subtotal' || item.code === 'total' || item.salida === null) {
       this.checkButtonEdit.set(false);
@@ -200,8 +226,6 @@ export class ListCloseAttention {
     this.myFormMedida.get('entrada')?.setValue(item.entrada);
     this.myFormMedida.get('salida')?.setValue(item.salida);
   }
-
-  onEditMedida() {}
 
   openModalMedida(dialog?: HTMLDialogElement | null): void {
     if (!dialog) return;
@@ -229,6 +253,7 @@ export class ListCloseAttention {
       console.error('No se pudo cerrar el modal', err);
     }
   }
+
   generateMedida() {
     if (this.editMedidar() !== null) {
       this.editMedidar().entrada = this.myFormMedida.get('entrada')?.value || 0;
