@@ -78,6 +78,8 @@
           class="theme-controller w-full btn btn-sm btn-block btn-ghost justify-start"
           aria-label="Retro"
           value="retro"
+          (change)="onThemeChange($event)"
+          [checked]="selectedTheme === 'retro'"
         />
       </li>
       <li>
@@ -88,6 +90,8 @@
           class="theme-controller w-full btn btn-sm btn-block btn-ghost justify-start"
           aria-label="winter"
           value="winter"
+          (change)="onThemeChange($event)"
+          [checked]="selectedTheme === 'winter'"
         />
       </li>
       <li>
@@ -97,6 +101,8 @@
           class="theme-controller w-full btn btn-sm btn-block btn-ghost justify-start"
           aria-label="Valentine"
           value="valentine"
+          (change)="onThemeChange($event)"
+          [checked]="selectedTheme === 'valentine'"
         />
       </li>
       <li>
@@ -106,6 +112,8 @@
           class="theme-controller w-full btn btn-sm btn-block btn-ghost justify-start"
           aria-label="Aqua"
           value="aqua"
+          (change)="onThemeChange($event)"
+          [checked]="selectedTheme === 'aqua'"
         />
       </li>
       <li>
@@ -115,6 +123,8 @@
           class="theme-controller w-full btn btn-sm btn-block btn-ghost justify-start"
           aria-label="forest"
           value="forest"
+          (change)="onThemeChange($event)"
+          [checked]="selectedTheme === 'forest'"
         />
       </li>
     </ul>

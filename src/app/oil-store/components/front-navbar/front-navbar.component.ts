@@ -17,7 +17,21 @@ export class FrontNavbarComponent {
   public user: IPersonaResponse | undefined;
 
   navMenu = navMenu;
+
+  // temas (persistencia localStorage)
+  public themes: string[] = ['retro', 'winter', 'valentine', 'aqua', 'forest'];
+  public selectedTheme: string = 'retro';
+
   constructor() {
+    // inicializar tema desde localStorage (si existe)
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme && this.themes.includes(savedTheme)) {
+      this.applyTheme(savedTheme);
+    } else {
+      // asegurar tema por defecto
+      this.applyTheme(this.selectedTheme);
+    }
+
     let user = localStorage.getItem('user');
     if (user) this.storeService.user.next(JSON.parse(user));
 
@@ -31,5 +45,20 @@ export class FrontNavbarComponent {
         ? (this.navMenu = navMenu)
         : (this.navMenu = navMenuAdmin);
     });
+  }
+
+  applyTheme(theme: string) {
+    try {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      this.selectedTheme = theme;
+    } catch (e) {
+      // ignore if not available
+    }
+  }
+
+  onThemeChange(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+    if (value) this.applyTheme(value);
   }
 }
