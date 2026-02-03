@@ -2,13 +2,13 @@
 
 ```bash
 # 1. Detiene el contenedor
-docker stop angular-app-1
+docker stop grifo-angular-app
 
 # 2. elimina uno contenedor
-docker rm angular-app-1
+docker rm grifo-angular-app
 
 # 3. elimina imagen
-docker rmi grifo-asto-app-angular-app
+docker rmi grifo-angular-app:1.0.0
 
 # 4. reconstruya las imágenes antes de iniciar los servicios
 docker-compose up -d

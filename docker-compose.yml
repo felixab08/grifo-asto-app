@@ -1,15 +1,16 @@
 services:
-  angular-app:
-    container_name: angular-app
+  grifo_angular_app:
+    container_name: grifo_angular_app
     build:
       context: .
       dockerfile: Dockerfile
+    image: grifo_angular_app:1.0.0
     ports:
       - '80:80'
     restart: unless-stopped
     networks:
-      - grifo-asto_grifo-asto-net
+      - grifo-asto-net
 
 networks:
-  grifo-asto_grifo-asto-net:
+  grifo-asto-net:
     external: true
