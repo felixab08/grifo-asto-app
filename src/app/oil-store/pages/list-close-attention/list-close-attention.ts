@@ -133,7 +133,6 @@ export class ListCloseAttention {
       return;
     }
     let turno = null;
-    console.log(this.editTurno());
     if (this.editTurno()) {
       turno = this.editTurno();
     } else {
@@ -143,7 +142,6 @@ export class ListCloseAttention {
     turno.observaciones = this.myForm.get('obs')?.value || '';
     turno.sum = this.myForm.get('sum')?.value || 0;
     turno.rest = this.myForm.get('rest')?.value || 0;
-    console.log(turno);
 
     this._turnoService.putRegisterTurnoByIdPersona(turno.idTurno, turno).subscribe({
       next: (resp) => {
@@ -168,8 +166,6 @@ export class ListCloseAttention {
   }
 
   editAtention(turno: Turno) {
-    console.log(turno);
-
     this.editTurno.set(turno);
     this.openModal(this.modalTurnoRef.nativeElement);
     this.myForm.patchValue({

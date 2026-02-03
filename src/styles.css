@@ -2,7 +2,7 @@
 
 @import 'tailwindcss';
 @plugin "daisyui" {
-  themes: retro --default, winter, valentine, aqua, forest;
+  themes: retro --default, winter, valentine, dark, forest;
 }
 @theme {
   --font-montserrat: 'Montserrat', 'sans-serif';

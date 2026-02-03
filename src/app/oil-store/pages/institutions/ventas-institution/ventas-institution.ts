@@ -68,8 +68,6 @@ export default class VentasInstitution {
   }
 
   listaVenta(venta: TipoVentaContent | null) {
-    console.log(venta);
-
     this.idTipeoVenta.set(venta);
     this.rangeFechaSelected.set('Seleccionar rango de fecha');
     venta !== null ? this.handleCalendar.set(true) : this.handleCalendar.set(false);
@@ -86,7 +84,6 @@ export default class VentasInstitution {
       .subscribe({
         next: (resp: IVentasResponse) => {
           this.alertConsuloTotal.set(generateAlert(resp.content, this.idTipeoVenta()!));
-          console.log(this.alertConsuloTotal());
           this.listDetalleVenta.set(resp);
         },
         error: (err: any) => {

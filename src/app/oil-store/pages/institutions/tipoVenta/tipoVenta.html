@@ -101,166 +101,180 @@
     <form method="dialog" autocomplete="off" [formGroup]="myForm" (ngSubmit)="onSave()">
       <div class="mt-5">
         <div>
-          <div class="mt-5">
-            <label
-              for="tipo"
-              class="block mb-2 text-sm font-medium"
-              [ngClass]="{
-                ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'tipo'),
-              }"
-              >Tipo</label
-            >
-            <input
-              type="text"
-              id="tipo"
-              formControlName="tipo"
-              placeholder="Tipo de orden"
-              class="border text-sm input-md input rounded-lg block w-full p-2.5"
-              [ngClass]="{
-                ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
-                  formUtils.isValiedField(myForm, 'tipo'),
-              }"
-            />
-            @if (formUtils.isValiedField(myForm, 'tipo')) {
-              <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-                <span class="font-medium">{{ formUtils.getFieldError(myForm, 'tipo') }}</span>
-              </p>
-            }
-          </div>
-          <div class="mt-5">
-            <label
-              for="codigo"
-              class="block mb-2 text-sm font-medium"
-              [ngClass]="{
-                ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'codigo'),
-              }"
-              >Codigo</label
-            >
-            <input
-              type="text"
-              id="codigo"
-              formControlName="codigo"
-              placeholder="codigo"
-              class="border text-sm input-md input rounded-lg block w-full p-2.5"
-              [ngClass]="{
-                ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
-                  formUtils.isValiedField(myForm, 'codigo'),
-              }"
-            />
-            @if (formUtils.isValiedField(myForm, 'codigo')) {
-              <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-                <span class="font-medium">{{ formUtils.getFieldError(myForm, 'codigo') }}</span>
-              </p>
-            }
-          </div>
-          <div class="mt-5">
-            <label
-              for="status"
-              class="block mb-2 text-sm font-medium"
-              [ngClass]="{
-                ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'status'),
-              }"
-              >Estado de la institución</label
-            >
-            <select
-              class="select"
-              formControlName="status"
-              name="status"
-              id="status"
-              class="select w-full"
-              [ngClass]="{
-                ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
-                  formUtils.isValiedField(myForm, 'status'),
-              }"
-            >
-              <option disabled selected value="">Seleccione el estado</option>
-              <option value="true">Activo</option>
-              <option value="false">Suspendido</option>
-            </select>
-            @if (formUtils.isValiedField(myForm, 'status')) {
-              <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-                <span class="font-medium">{{ formUtils.getFieldError(myForm, 'status') }}</span>
-              </p>
-            }
-          </div>
-          <div class="mt-5">
-            <label
-              for="diesel"
-              class="block mb-2 text-sm font-medium"
-              [ngClass]="{
-                ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'diesel'),
-              }"
-              >diesel</label
-            >
-            <input
-              type="number"
-              id="diesel"
-              formControlName="diesel"
-              placeholder="diesel"
-              class="border text-sm input-md input rounded-lg block w-full p-2.5"
-              [ngClass]="{
-                ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
-                  formUtils.isValiedField(myForm, 'diesel'),
-              }"
-            />
-            @if (formUtils.isValiedField(myForm, 'diesel')) {
-              <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-                <span class="font-medium">{{ formUtils.getFieldError(myForm, 'diesel') }}</span>
-              </p>
-            }
-          </div>
-          <div class="mt-5">
-            <label
-              for="regular"
-              class="block mb-2 text-sm font-medium"
-              [ngClass]="{
-                ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'regular'),
-              }"
-              >regular</label
-            >
-            <input
-              type="number"
-              id="regular"
-              formControlName="regular"
-              placeholder="regular"
-              class="border text-sm input-md input rounded-lg block w-full p-2.5"
-              [ngClass]="{
-                ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
-                  formUtils.isValiedField(myForm, 'regular'),
-              }"
-            />
-            @if (formUtils.isValiedField(myForm, 'regular')) {
-              <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-                <span class="font-medium">{{ formUtils.getFieldError(myForm, 'regular') }}</span>
-              </p>
-            }
-          </div>
-          <div class="mt-5">
-            <label
-              for="premiun"
-              class="block mb-2 text-sm font-medium"
-              [ngClass]="{
-                ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'premiun'),
-              }"
-              >premiun</label
-            >
-            <input
-              type="text"
-              id="premiun"
-              formControlName="premiun"
-              placeholder="premiun"
-              class="border text-sm input-md input rounded-lg block w-full p-2.5"
-              [ngClass]="{
-                ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
-                  formUtils.isValiedField(myForm, 'premiun'),
-              }"
-            />
-            @if (formUtils.isValiedField(myForm, 'premiun')) {
-              <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-                <span class="font-medium">{{ formUtils.getFieldError(myForm, 'premiun') }}</span>
-              </p>
-            }
-          </div>
+          <fieldset class="fieldset bg-base-200 border-base-300 rounded-box border p-4">
+            <legend class="fieldset-legend">Datos</legend>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+              <div class="mt-5">
+                <label
+                  for="tipo"
+                  class="block mb-2 text-sm font-medium"
+                  [ngClass]="{
+                    ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'tipo'),
+                  }"
+                  >Tipo</label
+                >
+                <input
+                  type="text"
+                  id="tipo"
+                  formControlName="tipo"
+                  placeholder="Tipo de orden"
+                  class="border text-sm input-md input rounded-lg block w-full p-2.5"
+                  [ngClass]="{
+                    ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+                      formUtils.isValiedField(myForm, 'tipo'),
+                  }"
+                />
+                @if (formUtils.isValiedField(myForm, 'tipo')) {
+                  <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                    <span class="font-medium">{{ formUtils.getFieldError(myForm, 'tipo') }}</span>
+                  </p>
+                }
+              </div>
+              <div class="mt-5">
+                <label
+                  for="codigo"
+                  class="block mb-2 text-sm font-medium"
+                  [ngClass]="{
+                    ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'codigo'),
+                  }"
+                  >Codigo</label
+                >
+                <input
+                  type="text"
+                  id="codigo"
+                  formControlName="codigo"
+                  placeholder="codigo"
+                  class="border text-sm input-md input rounded-lg block w-full p-2.5"
+                  [ngClass]="{
+                    ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+                      formUtils.isValiedField(myForm, 'codigo'),
+                  }"
+                />
+                @if (formUtils.isValiedField(myForm, 'codigo')) {
+                  <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                    <span class="font-medium">{{ formUtils.getFieldError(myForm, 'codigo') }}</span>
+                  </p>
+                }
+              </div>
+              <div class="mt-5">
+                <label
+                  for="status"
+                  class="block mb-2 text-sm font-medium"
+                  [ngClass]="{
+                    ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'status'),
+                  }"
+                  >Estado de la institución</label
+                >
+                <select
+                  class="select"
+                  formControlName="status"
+                  name="status"
+                  id="status"
+                  class="select w-full"
+                  [ngClass]="{
+                    ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+                      formUtils.isValiedField(myForm, 'status'),
+                  }"
+                >
+                  <option disabled selected value="">Seleccione el estado</option>
+                  <option value="true">Activo</option>
+                  <option value="false">Suspendido</option>
+                </select>
+                @if (formUtils.isValiedField(myForm, 'status')) {
+                  <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                    <span class="font-medium">{{ formUtils.getFieldError(myForm, 'status') }}</span>
+                  </p>
+                }
+              </div>
+            </div>
+          </fieldset>
+          <fieldset class="fieldset bg-base-200 border-base-300 rounded-box border p-4">
+            <legend class="fieldset-legend">Pedidos</legend>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+              <div class="mt-5">
+                <label
+                  for="diesel"
+                  class="block mb-2 text-sm font-medium"
+                  [ngClass]="{
+                    ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'diesel'),
+                  }"
+                  >Petroleo</label
+                >
+                <input
+                  type="number"
+                  id="diesel"
+                  formControlName="diesel"
+                  placeholder="diesel"
+                  class="border text-sm input-md input rounded-lg block w-full p-2.5"
+                  [ngClass]="{
+                    ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+                      formUtils.isValiedField(myForm, 'diesel'),
+                  }"
+                />
+                @if (formUtils.isValiedField(myForm, 'diesel')) {
+                  <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                    <span class="font-medium">{{ formUtils.getFieldError(myForm, 'diesel') }}</span>
+                  </p>
+                }
+              </div>
+              <div class="mt-5">
+                <label
+                  for="regular"
+                  class="block mb-2 text-sm font-medium"
+                  [ngClass]="{
+                    ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'regular'),
+                  }"
+                  >Regular</label
+                >
+                <input
+                  type="number"
+                  id="regular"
+                  formControlName="regular"
+                  placeholder="regular"
+                  class="border text-sm input-md input rounded-lg block w-full p-2.5"
+                  [ngClass]="{
+                    ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+                      formUtils.isValiedField(myForm, 'regular'),
+                  }"
+                />
+                @if (formUtils.isValiedField(myForm, 'regular')) {
+                  <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                    <span class="font-medium">{{
+                      formUtils.getFieldError(myForm, 'regular')
+                    }}</span>
+                  </p>
+                }
+              </div>
+              <div class="mt-5">
+                <label
+                  for="premiun"
+                  class="block mb-2 text-sm font-medium"
+                  [ngClass]="{
+                    ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'premiun'),
+                  }"
+                  >Premiun</label
+                >
+                <input
+                  type="text"
+                  id="premiun"
+                  formControlName="premiun"
+                  placeholder="premiun"
+                  class="border text-sm input-md input rounded-lg block w-full p-2.5"
+                  [ngClass]="{
+                    ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+                      formUtils.isValiedField(myForm, 'premiun'),
+                  }"
+                />
+                @if (formUtils.isValiedField(myForm, 'premiun')) {
+                  <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                    <span class="font-medium">{{
+                      formUtils.getFieldError(myForm, 'premiun')
+                    }}</span>
+                  </p>
+                }
+              </div>
+            </div>
+          </fieldset>
         </div>
       </div>
 
