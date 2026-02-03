@@ -10,7 +10,11 @@ const baseUrl = environment.baseUrl;
 })
 export class DetalleVentaService {
   private _http = inject(HttpClient);
-
+  /**
+   * Lista de tipo de ventas
+   * @param options
+   * @returns IVentasResponse
+   */
   getAllTipoVenta(options: OptionsRequest): Observable<IVentasResponse> {
     const params: any = {
       page: options.page,

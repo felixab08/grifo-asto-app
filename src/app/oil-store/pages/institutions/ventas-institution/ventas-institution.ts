@@ -14,6 +14,7 @@ import 'cally';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormUtils } from '@utils/form.util';
 import { NgClass, UpperCasePipe } from '@angular/common';
+import { generateAlert } from '@mapper/ventas-alert.util';
 
 @Component({
   selector: 'app-ventas-institution',
@@ -32,6 +33,7 @@ export default class VentasInstitution {
 
   handleCalendar = signal<boolean>(false);
   idTipeoVenta = signal<TipoVentaContent | null>(null);
+  alertConsuloTotal = signal<any | null>(null);
 
   modalOpen = signal(false);
   typeDialog = signal<'Crear' | 'Editar'>('Crear');
@@ -66,6 +68,8 @@ export default class VentasInstitution {
   }
 
   listaVenta(venta: TipoVentaContent | null) {
+    console.log(venta);
+
     this.idTipeoVenta.set(venta);
     this.rangeFechaSelected.set('Seleccionar rango de fecha');
     venta !== null ? this.handleCalendar.set(true) : this.handleCalendar.set(false);
@@ -80,7 +84,9 @@ export default class VentasInstitution {
     this._detalleVentaSrv
       .getAllTipoVenta({ page: 0, size: 100, id: id, startDate: fechaInicio, endDate: fechaFin })
       .subscribe({
-        next: (resp: any) => {
+        next: (resp: IVentasResponse) => {
+          this.alertConsuloTotal.set(generateAlert(resp.content, this.idTipeoVenta()!));
+          console.log(this.alertConsuloTotal());
           this.listDetalleVenta.set(resp);
         },
         error: (err: any) => {
