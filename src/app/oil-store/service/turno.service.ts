@@ -1,6 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { TurnoResponse, TurnoRequest, TurnoRegisterResponse } from '@oil-store/model';
+import {
+  TurnoResponse,
+  TurnoRequest,
+  TurnoRegisterResponse,
+  IReporteTurno,
+} from '@oil-store/model';
 import { Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 
@@ -21,8 +26,12 @@ export class TurnoService {
 
   putRegisterTurnoByIdPersona(
     id: number,
-    turno: TurnoRegisterResponse
+    turno: TurnoRegisterResponse,
   ): Observable<TurnoRegisterResponse> {
     return this._http.put<TurnoRegisterResponse>(`${baseUrl}/turno/update/${id}`, turno);
+  }
+
+  getReporte(year: number) {
+    return this._http.get<IReporteTurno>(`${baseUrl}/turno/reporte/${year}`);
   }
 }

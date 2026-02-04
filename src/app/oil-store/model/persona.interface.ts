@@ -26,3 +26,8 @@ export interface TurnoRegisterResponse {
   rest: number;
 }
 
+export interface IReporteTurno {
+  code:    number;
+  valores: number[];
+  meses:   string[];
+}

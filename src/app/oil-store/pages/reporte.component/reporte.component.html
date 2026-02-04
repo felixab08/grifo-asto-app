@@ -1,0 +1,40 @@
+@if (lookReport()) {
+  <h4>Seleccione el año</h4>
+  <select [(ngModel)]="itemsPerYear" (ngModelChange)="reporteAnual($event)" class="select">
+    @for (option of listYear; track $index) {
+      <option [ngValue]="option">{{ option }}</option>
+    }
+  </select>
+  <div class="card bg-base-100 w-full justify-center flex shadow-sm">
+    <div class="my-2 sm:mx-2 border border-gray-200 rounded-lg shadow-sm dark:border-gray-700">
+      <div class="flex items-center m-6 justify-between mb-4">
+        <span class="flex items-center space-x-2 justify-between w-full">
+          <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">
+            {{ isDataStatistic.info.title }}
+          </h5>
+          <div>
+            <h4>Tipo de grafica</h4>
+            <select
+              [(ngModel)]="itemsPerPage"
+              (ngModelChange)="onItemsPerPageChange($event)"
+              class="select"
+            >
+              @for (option of ['bar', 'line']; track $index) {
+                <option [value]="option">{{ option }}</option>
+              }
+            </select>
+          </div>
+        </span>
+      </div>
+      <div class="grid items-center m-6 mb-4 grid-rows-2">
+        <span class="text-3xl font-bold text-gray-700">
+          S/. {{ isDataStatistic.info.cant }}.00
+        </span>
+        <p class="text-sm text-gray-700 ml-2">
+          {{ isDataStatistic.info.description }}
+        </p>
+      </div>
+      <canvas id="register" class="p-5"></canvas>
+    </div>
+  </div>
+}

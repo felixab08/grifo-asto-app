@@ -6,6 +6,7 @@ import { Measurement } from './pages/measurement/measurement';
 import { EntranceDiesel } from './pages/entrance-diesel/entrance-diesel';
 import { Admision } from './pages/admision/admision';
 import { PersonalList } from './pages/personal-list/personal-list';
+import { ReporteComponent } from './pages/reporte.component/reporte.component';
 
 export const pagesRoutes: Routes = [
   {
@@ -31,6 +32,10 @@ export const pagesRoutes: Routes = [
       {
         path: 'personal',
         component: PersonalList,
+      },
+      {
+        path: 'graficas',
+        component: ReporteComponent,
       },
       {
         path: 'institution',
