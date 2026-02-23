@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { Router } from '@angular/router';
 import {
   IPersonaResponse,
   LoginResponse,
@@ -8,6 +7,7 @@ import {
 } from '@auth/interfaces/auth-response.interface';
 import { catchError, map, Observable, of, tap } from 'rxjs';
 import { StoreService } from 'src/app/service/store.service';
+import { rxResource } from '@angular/core/rxjs-interop';
 
 import { environment } from 'src/environments/environment.development';
 
@@ -21,10 +21,13 @@ export class AuthService {
   private _authStatus = signal<AuthStatus>('checking');
   private _user = signal<IPersonaResponse | null>(null);
   private _token = signal<string | null>(localStorage.getItem('token'));
-  private _router = inject(Router);
 
   private http = inject(HttpClient);
   storeService = inject(StoreService);
+
+  checkStatusResource = rxResource({
+    stream: () => this.checkAuthStatus(),
+  });
 
   authStatus = computed<AuthStatus>(() => {
     if (this._authStatus() === 'checking') return 'checking';
@@ -46,11 +49,11 @@ export class AuthService {
   }
   logoutAndReload() {
     this.logout();
-    // location.reload();
   }
 
   checkAuthStatus(): Observable<boolean> {
     const token = localStorage.getItem('token');
+
     if (!token) {
       this.logout();
       return of(false);
@@ -67,7 +70,6 @@ export class AuthService {
     this._user.set(null);
     this._token.set(null);
     localStorage.clear();
-    // this._router.navigate(['/']);
   }
 
   private handerLoginSuccess(resp: LoginResponse) {

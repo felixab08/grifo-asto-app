@@ -15,6 +15,7 @@ import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
+  Validators,
   ɵInternalFormsSharedModule,
 } from '@angular/forms';
 import { StoreService } from 'src/app/service/store.service';
@@ -71,11 +72,13 @@ export class ListCloseAttention {
     },
   };
 
+  checkTable = signal(false);
+
   private _fb = inject(FormBuilder);
   myForm: FormGroup = this._fb.group({
     obs: [''],
-    sum: [0],
-    rest: [0],
+    sum: [0, [Validators.required]],
+    rest: [0, [Validators.required]],
   });
 
   myFormMedida: FormGroup = this._fb.group({
@@ -83,6 +86,7 @@ export class ListCloseAttention {
     salida: [''],
   });
   ngOnInit(): void {
+    this.checkTable.set(false);
     this.storeService.user.subscribe((user: any) => {
       const { email, role, ...personaData } = user!;
       this.registroTurno.persona = personaData;
@@ -93,15 +97,21 @@ export class ListCloseAttention {
     if (localStorage.getItem('attention-type') === 'iniciado') {
       this.stateturno.set('cerrar');
     }
-    this.listTurnoByPerson(this.registroTurno.persona.idPersona);
   }
 
+  ngAfterViewInit(): void {
+    if (this.registroTurno.persona.idPersona !== 0) {
+      this.turnoList.set(null);
+      this.listTurnoByPerson(this.registroTurno.persona.idPersona);
+    }
+  }
   listTurnoByPerson(id: number) {
     this._turnoService.getAllTurnosByIdPerson(id).subscribe({
       next: (resp: any) => {
         this.verificateStateTurno(resp.data[0].turnos[0]?.medidas[0]?.salida);
         const respWithTotal = addTotalTurnoMapper(resp);
         this.turnoList.set(respWithTotal);
+        this.checkTable.set(true);
       },
       error: (error: any) => {
         this._alertService.getAlert('Error!!!', 'Error al obtener los turnos', 'error');
@@ -166,6 +176,7 @@ export class ListCloseAttention {
   }
 
   editAtention(turno: Turno) {
+    if (!turno.fecha_salida) return; // TODO: manejar error
     this.editTurno.set(turno);
     this.openModal(this.modalTurnoRef.nativeElement);
     this.myForm.patchValue({
@@ -212,8 +223,10 @@ export class ListCloseAttention {
     }
   }
 
-  handerMedidas(item: any) {
-    if (item.code === 'subtotal' || item.code === 'total' || item.salida === null) {
+  handerMedidas(item: any, lista: any) {
+    console.log(lista);
+
+    if (item.code === 'subtotal' || item.code === 'total' || lista.fecha_salida === null) {
       this.checkButtonEdit.set(false);
       return;
     }

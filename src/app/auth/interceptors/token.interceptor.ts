@@ -21,6 +21,7 @@ export function isLoginInterceptor(
         // Limpiar el localStorage
         _authService.logout();
         // (Opcional) Mostrar un mensaje
+            _router.navigate(['/']);
         console.warn('Sesión expirada, redirigiendo al home.');
       }
       return throwError(() => error);
