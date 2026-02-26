@@ -16,7 +16,7 @@ export class StoreService {
   // to the service and all subscribers will react at this change.
 
   isLoginSubject = new BehaviorSubject<boolean>(false);
-  user = new BehaviorSubject<IPersonaResponse | undefined>(undefined);
+  user = new BehaviorSubject<IPersonaResponse | null>(null);
   isAlertSubject = new BehaviorSubject<boolean>(false);
 
   responseModalConfirmSubject = new BehaviorSubject<IConfirmDelete>({

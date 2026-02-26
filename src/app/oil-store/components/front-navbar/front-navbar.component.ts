@@ -14,7 +14,7 @@ export class FrontNavbarComponent {
   public storeService = inject(StoreService);
   public isLogin: boolean = false;
   _authService = inject(AuthService);
-  public user: IPersonaResponse | undefined;
+  public user: IPersonaResponse | null = null;
 
   navMenu = navMenu;
 

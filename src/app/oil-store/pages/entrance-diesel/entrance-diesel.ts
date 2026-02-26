@@ -27,6 +27,7 @@ export class EntranceDiesel {
   myForm: FormGroup = this._fb.group({
     tipo: ['', [Validators.required]],
     cantidad: ['', [Validators.required]],
+    fechaEntrada: ['', [Validators.required]],
   });
 
   ngOnInit(): void {
@@ -34,7 +35,6 @@ export class EntranceDiesel {
       this.persona = user;
     });
   }
-
 
   onSave() {
     if (this.myForm.invalid) {
@@ -48,7 +48,7 @@ export class EntranceDiesel {
         this._alertService.getAlert(
           'Medición creada',
           'Medición creada satisfactoriamente',
-          'success'
+          'success',
         );
         this.listaEntranse.reload();
         this.myForm.reset();

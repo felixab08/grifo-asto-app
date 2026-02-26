@@ -1,5 +1,8 @@
 # Grifo Docker
 
+## configuracion el environment
+- baseUrl: 'http://192.168.0.43:8080/api',
+
 ```bash
 # 1. Detiene el contenedor
 docker stop grifo_angular_app

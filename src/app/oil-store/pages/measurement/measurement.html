@@ -10,7 +10,7 @@
     </button>
   </div>
 
-  <div class="overflow-x-auto ">
+  <div class="overflow-x-auto">
     <table class="table sm:table-xs md:table-xl">
       <thead>
         <tr>
@@ -41,7 +41,9 @@
               </td>
             </tr>
           } @empty {
-            <p class="text-center w-max"> <i class="fa-info-circle fa" aria-hidden="true"></i> No hay información para mostrar</p>
+            <p class="text-center w-max">
+              <i class="fa-info-circle fa" aria-hidden="true"></i> No hay información para mostrar
+            </p>
           }
         </tbody>
       }
@@ -94,6 +96,9 @@
             <span class="font-medium">{{ formUtils.getFieldError(myForm, 'diesel') }}</span>
           </p>
         }
+        <p class="font-bold justify-end flex text-left">
+          {{ myForm.get('diesel')?.value | diesel }} GL
+        </p>
       </div>
       <!-- // * campo input -->
       <div class="mt-5">
@@ -120,6 +125,9 @@
             <span class="font-medium">{{ formUtils.getFieldError(myForm, 'regular') }}</span>
           </p>
         }
+        <p class="font-bold justify-end flex text-left">
+          {{ myForm.get('regular')?.value | regular }} GL
+        </p>
       </div>
       <!-- // * campo input -->
       <div class="mt-5">
@@ -146,6 +154,9 @@
             <span class="font-medium">{{ formUtils.getFieldError(myForm, 'premiun') }}</span>
           </p>
         }
+        <p class="font-bold justify-end flex text-left">
+          {{ myForm.get('premiun')?.value | premium }} GL
+        </p>
       </div>
       <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
       <div class="md:flex md:justify-end mt-2">
@@ -158,7 +169,7 @@
         <button
           type="submit"
           [disabled]="!myForm.valid"
-          class="btn btn-accent items-center text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+          class="text-white bg-accent focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
         >
           Guardar
         </button>

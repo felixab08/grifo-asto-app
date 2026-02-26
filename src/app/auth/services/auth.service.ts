@@ -69,7 +69,9 @@ export class AuthService {
     this._authStatus.set('not-authenticated');
     this._user.set(null);
     this._token.set(null);
-    localStorage.clear();
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    this.storeService.user.next(null);
   }
 
   private handerLoginSuccess(resp: LoginResponse) {

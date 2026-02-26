@@ -1,14 +1,15 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgStyle, DatePipe, DecimalPipe, NgClass } from '@angular/common';
+import { NgStyle, DatePipe, NgClass } from '@angular/common';
 import { AlertService } from 'src/app/service/alert.service';
 import { PersonaService, TurnoService } from '@oil-store/service';
 import { PersonaResponse, TurnoResponse } from '@oil-store/model';
 import { addTotalTurnoMapper } from '../../../mapper/addTotalTurno.mapper';
+import { CortePipe, SolesPipe } from '@pipes/index';
 
 @Component({
   selector: 'app-admision',
-  imports: [NgStyle, DatePipe, DecimalPipe, NgClass],
+  imports: [NgStyle, DatePipe, NgClass, SolesPipe, CortePipe],
   templateUrl: './admision.html',
 })
 export class Admision {

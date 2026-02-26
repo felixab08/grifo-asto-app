@@ -1,4 +1,4 @@
-import { DatePipe, DecimalPipe, NgStyle, NgClass } from '@angular/common';
+import { DatePipe, NgStyle, NgClass } from '@angular/common';
 import { Component, ElementRef, inject, signal, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { MedidorService, TurnoService } from '@oil-store/service';
@@ -21,6 +21,8 @@ import {
 import { StoreService } from 'src/app/service/store.service';
 import { FormUtils } from '@utils/form.util';
 import { addTotalTurnoMapper } from '../../../mapper/addTotalTurno.mapper';
+import { SolesPipe } from '@pipes/soles.pipe';
+import { CortePipe } from '@pipes/corte.pipe';
 
 @Component({
   selector: 'app-list-close-attention',
@@ -29,8 +31,9 @@ import { addTotalTurnoMapper } from '../../../mapper/addTotalTurno.mapper';
     DatePipe,
     ɵInternalFormsSharedModule,
     ReactiveFormsModule,
-    DecimalPipe,
     NgClass,
+    SolesPipe,
+    CortePipe,
   ],
   templateUrl: './list-close-attention.html',
 })
@@ -79,7 +82,17 @@ export class ListCloseAttention {
     obs: [''],
     sum: [0, [Validators.required]],
     rest: [0, [Validators.required]],
+    fechaSalida: ['', [Validators.required]],
   });
+
+  private formatToInputDate(dateLike: Date | string | null): string {
+    if (!dateLike) return '';
+    const d = new Date(dateLike);
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const dd = String(d.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  }
 
   myFormMedida: FormGroup = this._fb.group({
     entrada: [''],
@@ -97,6 +110,8 @@ export class ListCloseAttention {
     if (localStorage.getItem('attention-type') === 'iniciado') {
       this.stateturno.set('cerrar');
     }
+    // Inicializar fechaSalida en formato yyyy-MM-dd para inputs type="date"
+    this.myForm.get('fechaSalida')?.setValue(this.formatToInputDate(new Date()));
   }
 
   ngAfterViewInit(): void {
@@ -148,7 +163,8 @@ export class ListCloseAttention {
     } else {
       turno = turnoListData.data[0].turnos[0] as any;
     }
-    turno.fechaSalida = new Date().toISOString();
+    const fechaInput = this.myForm.get('fechaSalida')?.value + 'T10:00:00'; // Agregar hora para evitar problemas de zona horaria
+    turno.fechaSalida = fechaInput ? new Date(fechaInput).toISOString() : new Date().toISOString();
     turno.observaciones = this.myForm.get('obs')?.value || '';
     turno.sum = this.myForm.get('sum')?.value || 0;
     turno.rest = this.myForm.get('rest')?.value || 0;
@@ -183,6 +199,7 @@ export class ListCloseAttention {
       obs: turno.observaciones,
       sum: turno.sum,
       rest: turno.rest,
+      fechaSalida: this.formatToInputDate(turno.fecha_salida),
     });
   }
 

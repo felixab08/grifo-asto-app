@@ -114,6 +114,31 @@
             }
           </div>
         </div>
+              <div class="mt-5">
+        <label
+          for="fechaEntrada"
+          class="block mb-2 text-sm font-medium"
+          [ngClass]="{
+            ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'fechaEntrada'),
+          }"
+          >fechaEntrada</label
+        >
+        <input
+          type="date"
+          id="fechaEntrada"
+          formControlName="fechaEntrada"
+          class="border text-sm input-md input rounded-lg block w-full p-2.5"
+          [ngClass]="{
+            ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+              formUtils.isValiedField(myForm, 'fechaEntrada'),
+          }"
+        />
+        @if (formUtils.isValiedField(myForm, 'fechaEntrada')) {
+          <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+            <span class="font-medium">{{ formUtils.getFieldError(myForm, 'fechaEntrada') }}</span>
+          </p>
+        }
+      </div>
       </div>
 
       <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
