@@ -72,7 +72,7 @@
     }
   </div>
 </div>
-<dialog #modalEntradasRef  id="my_modal_1" class="modal">
+<dialog #modalEntradasRef id="my_modal_1" class="modal">
   <div class="modal-box">
     <form method="dialog" autocomplete="off" [formGroup]="myForm" (ngSubmit)="onSave()">
       <div class="mt-5">
@@ -126,36 +126,37 @@
             }
           </div>
         </div>
-              <div class="mt-5">
-        <label
-          for="fechaEntrada"
-          class="block mb-2 text-sm font-medium"
-          [ngClass]="{
-            ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'fechaEntrada'),
-          }"
-          >Fecha de entrada*</label
-        >
-        <input
-          type="date"
-          id="fechaEntrada"
-          formControlName="fechaEntrada"
-          class="border text-sm input-md input rounded-lg block w-full p-2.5"
-          [ngClass]="{
-            ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
-              formUtils.isValiedField(myForm, 'fechaEntrada'),
-          }"
-        />
-        @if (formUtils.isValiedField(myForm, 'fechaEntrada')) {
-          <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-            <span class="font-medium">{{ formUtils.getFieldError(myForm, 'fechaEntrada') }}</span>
-          </p>
-        }
-      </div>
+        <div class="mt-5">
+          <label
+            for="fechaEntrada"
+            class="block mb-2 text-sm font-medium"
+            [ngClass]="{
+              ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'fechaEntrada'),
+            }"
+            >Fecha de entrada*</label
+          >
+          <input
+            type="date"
+            id="fechaEntrada"
+            formControlName="fechaEntrada"
+            class="border text-sm input-md input rounded-lg block w-full p-2.5"
+            [ngClass]="{
+              ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+                formUtils.isValiedField(myForm, 'fechaEntrada'),
+            }"
+          />
+          @if (formUtils.isValiedField(myForm, 'fechaEntrada')) {
+            <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+              <span class="font-medium">{{ formUtils.getFieldError(myForm, 'fechaEntrada') }}</span>
+            </p>
+          }
+        </div>
       </div>
 
       <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
       <div class="md:flex md:justify-end mt-2">
         <button
+          type="button"
           class="btn btn-active font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center mr-2 mb-2 md:mb-0"
           onclick="my_modal_11.close()"
         >
@@ -165,6 +166,7 @@
           type="submit"
           [disabled]="!myForm.valid"
           class="text-white bg-accent focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+          ngClass="disabled:bg-accent/40 disabled:cursor-not-allowed"
         >
           Guardar
         </button>

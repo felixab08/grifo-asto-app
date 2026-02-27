@@ -170,6 +170,7 @@
       <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
       <div class="md:flex md:justify-end mt-2">
         <button
+          type="button"
           class="btn btn-active font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center mr-2 mb-2 md:mb-0"
           onclick="my_modal_3.close()"
         >
@@ -179,6 +180,7 @@
           type="submit"
           [disabled]="!myForm.valid"
           class="text-white bg-accent focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+          ngClass="disabled:bg-accent/40 disabled:cursor-not-allowed"
         >
           Guardar
         </button>

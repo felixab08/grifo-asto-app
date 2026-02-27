@@ -16,8 +16,8 @@
     </div>
   </div>
 
-  <div class="overflow-x-auto mt-10 md:mt-2">
-    <table class="table sm:table-xs md:table-xl">
+  <div class="overflow-x-scroll mt-10 md:mt-2 min-w-196">
+    <table class="table">
       <thead>
         <tr>
           <th>Fecha</th>
@@ -45,7 +45,7 @@
                 >
                   @if ($index == 0) {
                     <td rowspan="8" class="border-t-2 text-xs md:text-xl">
-                      {{ lista.fecha_salida| date: 'mediumDate' }}
+                      {{ lista.fecha_salida || lista.fecha_entrada | date: 'mediumDate' }}
                     </td>
                   }
                   <td
@@ -117,6 +117,7 @@
                     <td
                     (click)="editAtention(lista)"
                       rowspan="8"
+                      class="max-w-20"
                       [ngStyle]="
                         $index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }
                       "
@@ -124,7 +125,7 @@
                       @if (lista.observaciones) {
                         @for (obs of lista.observaciones.split(','); track $index) {
                           @if (obs !== '') {
-                            <div role="alert" class="alert alert-info mt-1">
+                            <div role="alert" class="alert alert-info mt-1 p-2">
                               <span>{{ obs.trim() }}</span>
                             </div>
                           }
@@ -240,6 +241,7 @@
           type="submit"
           [disabled]="!myForm.valid"
           class="text-white bg-accent focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+          ngClass="disabled:bg-accent/40 disabled:cursor-not-allowed"
         >
           Guardar
         </button>

@@ -241,8 +241,6 @@ export class ListCloseAttention {
   }
 
   handerMedidas(item: any, lista: any) {
-    console.log(lista);
-
     if (item.code === 'subtotal' || item.code === 'total' || lista.fecha_salida === null) {
       this.checkButtonEdit.set(false);
       return;

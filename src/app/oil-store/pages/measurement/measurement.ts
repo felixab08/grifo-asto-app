@@ -39,7 +39,6 @@ export class Measurement {
     this.storeService.user.subscribe((user: any) => {
       const { email, role, ...personaData } = user!;
       this.user = personaData;
-      console.log(this.user);
     });
   }
   private _fb = inject(FormBuilder);

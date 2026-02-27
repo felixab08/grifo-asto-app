@@ -20,8 +20,8 @@
     </select>
   </div>
 
-  <div class="overflow-x-auto">
-    <table class="table sm:table-xs md:table-xl" id="simpleTable1">
+  <div class="overflow-x-auto min-w-200">
+    <table class="table" id="simpleTable1">
       <thead>
         <tr>
           <th>Fecha</th>
@@ -114,6 +114,7 @@
                   @if ($index == 0) {
                     <td
                       rowspan="8"
+                      class="max-w-20"
                       [ngStyle]="
                         $index == 0 ? { 'border-top': '2px solid' } : { 'border-top-style': 'none' }
                       "
