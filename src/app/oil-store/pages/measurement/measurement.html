@@ -4,7 +4,6 @@
     <button
       class="btn btn-outline btn-accent min-w-36"
       onclick="my_modal_3.showModal()"
-      (click)="handlerNewMeassure()"
     >
       Nueva medición
     </button>
@@ -19,6 +18,7 @@
           <th>Petroleo</th>
           <th>Regular</th>
           <th>Premiun</th>
+          <th>Opciones</th>
         </tr>
       </thead>
       @if (listaMeasure.hasValue()) {
@@ -38,6 +38,18 @@
               <td>
                 <p>{{ item.premiun }} cm</p>
                 <p class="font-bold">{{ item.premiun | premium }} GL</p>
+              </td>
+                            <td>
+                <i
+                  (click)="openModal(item, modalMedidaRef)"
+                  class="fa fa-pencil mx-2 cursor-pointer hover:text-amber-600"
+                  aria-hidden="true"
+                ></i>
+                <i
+                  (click)="deleteMedida(item.idMedicion)"
+                  class="fa fa-trash mx-2 cursor-pointer hover:text-amber-600"
+                  aria-hidden="true"
+                ></i>
               </td>
             </tr>
           } @empty {
@@ -67,7 +79,7 @@
     }
   </div>
 </div>
-<dialog id="my_modal_3" class="modal">
+<dialog #modalMedidaRef id="my_modal_3" class="modal">
   <div class="modal-box">
     <h3 class="font-bold text-lg mb-4">Medición de combustible</h3>
 

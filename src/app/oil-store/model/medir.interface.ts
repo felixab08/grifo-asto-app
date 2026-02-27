@@ -2,10 +2,10 @@ import { Persona } from './persona.interface';
 import { IResponse } from './response.interface';
 
 export interface IResponseMedidor extends IResponse {
-  content:    Medida[];
+  content:    MedidaContent[];
 }
 
-export interface Medida {
+export interface MedidaContent {
   idMedicion:    number;
   idpersona:     Persona;
   fechaMedicion: Date;

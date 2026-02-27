@@ -24,4 +24,12 @@ export class MedirService {
   postMedition(medida: MedidaRequest): Observable<Medida> {
     return this._http.post<Medida>(`${baseUrl}/medicion/registrar`, medida);
   }
+
+  putMedition(id: number, medida: MedidaRequest): Observable<Medida> {
+    return this._http.put<Medida>(`${baseUrl}/medicion/${id}`, medida);
+  }
+
+  deleteMedition(id: number): Observable<void> {
+    return this._http.delete<void>(`${baseUrl}/medicion/${id}`);
+  }
 }

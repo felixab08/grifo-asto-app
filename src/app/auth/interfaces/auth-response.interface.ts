@@ -22,3 +22,9 @@ export interface IPersonaResponse {
   telefono?:     string;
   fechaCreate?:     string;
 }
+export interface IPersonaStore{
+  idPersona: number;
+  nombre: string;
+  apellido: string;
+  telefono: string;
+}
