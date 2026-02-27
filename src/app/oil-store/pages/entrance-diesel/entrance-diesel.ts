@@ -43,6 +43,7 @@ export class EntranceDiesel {
     }
     let combustible = this.myForm.value;
     combustible.persona = { idPersona: this.persona?.idPersona };
+    combustible.fechaEntrada = combustible.fechaEntrada + 'T10:00:00';
     this._combustibleService.postEntradas(combustible).subscribe({
       next: (resp: any) => {
         this._alertService.getAlert(

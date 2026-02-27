@@ -1,6 +1,5 @@
 import { IPersonaResponse, UserData } from "@auth/interfaces/auth-response.interface";
 import { IResponse } from "./response.interface";
-import { Idpersona } from './medir.interface';
 
 export interface PersonaResponse extends IResponse {
   content: Persona[];
