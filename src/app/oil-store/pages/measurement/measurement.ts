@@ -26,7 +26,7 @@ import { IPersonaStore } from '@auth/interfaces/auth-response.interface';
 })
 export class Measurement {
   formUtils = FormUtils;
-  @ViewChild('modalMedidaRef') modalOrgRef!: ElementRef;
+  @ViewChild('modalMedidaRef') modalMedidaRef!: ElementRef;
   modalOpen = signal(false);
   typeDialog = signal<'Crear' | 'Editar'>('Crear');
   storeService = inject(StoreService);
@@ -85,7 +85,7 @@ export class Measurement {
             'success',
           );
           this.listaMeasure.reload();
-          this.closeModal(this.modalOrgRef.nativeElement);
+          this.closeModal(this.modalMedidaRef.nativeElement);
         },
         error: (error: any) => {
           this._alertService.getAlert('Error!!!', 'Error al actualizar la medición', 'error');

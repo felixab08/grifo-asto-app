@@ -21,7 +21,15 @@ export class EntradaCombustibleService {
     return this._http.get<CombustibleResponse>(`${baseUrl}/entrada-combustible/list`, { params });
   }
 
+  putEntradas(id: number, medida: CombustibleRequest): Observable<ICombustible> {
+    return this._http.put<ICombustible>(`${baseUrl}/entrada-combustible/${id}`, medida);
+  }
+
   postEntradas(medida: CombustibleRequest): Observable<ICombustible> {
     return this._http.post<ICombustible>(`${baseUrl}/entrada-combustible/registrar`, medida);
+  }
+
+  deleteEntrada(id: number): Observable<any> {
+    return this._http.delete(`${baseUrl}/entrada-combustible/${id}`);
   }
 }
