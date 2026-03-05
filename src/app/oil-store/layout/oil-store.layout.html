@@ -6,7 +6,7 @@
   <tyn-alert [alertMenu]="_alertService.alertMenu()"> </tyn-alert>
 }
 
-<dialog id="my_modal_13" class="modal" #modalRef (click)="closeDialog()">
+<dialog id="my_modal_13" class="modal" #modalRef (click)="onDialogClick($event)">
   <div class="modal-box">
     <form method="dialog">
       <button type="button" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">

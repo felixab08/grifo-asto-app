@@ -19,11 +19,24 @@ export class OilLayout {
   @ViewChild('modalRef') modalRef!: ElementRef;
 
   constructor() {
-    //isModalConfirm
+    // Listen modal open/close and act accordingly
     this._storeService.isModalConfirm$.subscribe((isModalConfirm) => {
       this.isModalConfirm = isModalConfirm;
-      this.openModal(this.modalRef.nativeElement);
+      const dialog = this.modalRef?.nativeElement ?? null;
+      if (isModalConfirm) {
+        this.openModal(dialog);
+      } else {
+        this.closeModal(dialog);
+      }
     });
+  }
+
+  onDialogClick(event: Event) {
+    const dialogEl = this.modalRef?.nativeElement as HTMLDialogElement | undefined;
+    if (!dialogEl) return;
+    if (event.target === dialogEl) {
+      this.closeDialog();
+    }
   }
 
   openModal(dialog: HTMLDialogElement | null): void {

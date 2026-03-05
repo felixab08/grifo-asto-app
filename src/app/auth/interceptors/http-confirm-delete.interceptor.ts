@@ -9,7 +9,7 @@ export function confirmDeleteInterceptor(
   req: HttpRequest<unknown>,
   next: HttpHandlerFn,
 ): Observable<HttpEvent<unknown>> {
-  const store = inject(StoreService);
+  const _storeService = inject(StoreService);
 
   // Only handle DELETE requests
   if (req.method !== 'DELETE') return next(req);
@@ -20,15 +20,15 @@ export function confirmDeleteInterceptor(
     return next(newReq);
   }
 
-  // Ask for confirmation via the shared store and wait for an answer
-  store.isModalConfirm$.emit(true);
+  // Ask for confirmation via the shared _storeService and wait for an answer
+  _storeService.isModalConfirm$.emit(true);
 
-  return store.responseModalConfirm$.pipe(
+  return _storeService.responseModalConfirm$.pipe(
     filter((resp: IConfirmDelete) => resp.answered),
     take(1),
     switchMap((resp: IConfirmDelete) => {
-      store.isModalConfirm$.emit(false);
-      store.responseModalConfirmSubject.next({ answered: false, response: false });
+      _storeService.isModalConfirm$.emit(false);
+      _storeService.responseModalConfirmSubject.next({ answered: false, response: false });
       return resp.response ? next(req) : EMPTY;
     }),
   );
