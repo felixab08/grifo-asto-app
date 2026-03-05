@@ -167,7 +167,13 @@
           {{ myForm.get('premiun')?.value | premium }} GL
         </p>
       </div>
-      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+      <button
+        type="button"
+        class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+        onclick="my_modal_3.close()"
+      >
+        ✕
+      </button>
       <div class="md:flex md:justify-end mt-2">
         <button
           type="button"
