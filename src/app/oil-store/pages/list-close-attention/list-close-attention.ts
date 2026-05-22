@@ -10,6 +10,8 @@ import {
   TurnoRequest,
   TurnoResponse,
   TurnoRegisterResponse,
+  OptionsRequest,
+  ContentTurno,
 } from '@oil-store/model';
 import { AlertService } from 'src/app/service/alert.service';
 import { StoreService } from 'src/app/service/store.service';
@@ -45,7 +47,7 @@ export class ListCloseAttention {
   // State signals
   modalOpen = signal(false);
   checkButtonEdit = signal(false);
-  turnoList = signal<Turno[] | null>(null);
+  turnoList = signal<ContentTurno[] | null>(null);
   stateturno = signal<'iniciar' | 'cerrar' | 'iniciado'>('iniciar');
   checkTable = signal(false);
 
@@ -64,7 +66,7 @@ export class ListCloseAttention {
 
   // Edit state
   editMedida = signal<MedidorListResponse | Medida | null>(null);
-  editTurno = signal<Turno | null>(null);
+  editTurno = signal<ContentTurno | null>(null);
 
   // Registro turno inicial
   registroTurno: TurnoRequest = {
@@ -119,17 +121,17 @@ export class ListCloseAttention {
     const personaId = this.registroTurno.persona.idPersona;
     if (personaId !== 0) {
       this.turnoList.set(null);
-      this.listTurnoByPerson(personaId);
+      this.listTurnoByPerson(personaId, { page: 0, size: 10 });
     }
   }
 
   // ![TODO] : no esta funcionando correctamente, revisar
-  listTurnoByPerson(id: number): void {
-    this.turnoService.getAllTurnosByIdPerson(id).subscribe({
+  listTurnoByPerson(id: number, params: OptionsRequest): void {
+    this.turnoService.getAllTurnosByIdPerson(id, params).subscribe({
       next: (resp: TurnoResponse) => {
-        const turnoData = resp.data?.turnos?.[0]?.medidas?.[0]?.salida;
+        const turnoData = resp.data.turnos.content?.[0]?.medidas?.[0]?.salida;
         this.verificateStateTurno(turnoData);
-        this.turnoList.set(addTotalTurnoMapper(resp.data?.turnos));
+        this.turnoList.set(addTotalTurnoMapper(resp.data?.turnos.content || []));
         console.log(this.turnoList());
         this.checkTable.set(true);
       },
@@ -162,7 +164,7 @@ export class ListCloseAttention {
       return;
     }
 
-    const turno = (this.editTurno() || turnoListData[0]) as Turno;
+    const turno = (this.editTurno() || turnoListData[0]) as ContentTurno;
     const fechaInput = this.myForm.get('fechaSalida')?.value + 'T10:00:00';
 
     const turnoToUpdate: TurnoRegisterResponse = {
@@ -181,7 +183,7 @@ export class ListCloseAttention {
 
         if (this.editTurno()) {
           this.editTurno.set(null);
-          this.listTurnoByPerson(this.registroTurno.persona.idPersona);
+          this.listTurnoByPerson(this.registroTurno.persona.idPersona, { page: 0, size: 10 });
           return;
         }
 
@@ -202,7 +204,7 @@ export class ListCloseAttention {
     this.router.navigate(['/grifo/register-close-attention', this.stateturno(), idturno]);
   }
 
-  editAtention(turno: Turno): void {
+  editAtention(turno: ContentTurno): void {
     if (!turno.fecha_salida) {
       console.warn('Turno sin fecha de salida');
       return;
@@ -296,7 +298,7 @@ export class ListCloseAttention {
           'Medida Modificada satisfactoriamente',
           'success',
         );
-        this.listTurnoByPerson(this.registroTurno.persona.idPersona);
+        this.listTurnoByPerson(this.registroTurno.persona.idPersona, { page: 0, size: 10 });
         this.closeModalMedida(this.getModalMedidaRef());
       },
       error: () => {

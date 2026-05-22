@@ -1,4 +1,3 @@
-import { Persona } from "./persona.interface";
 import { IResponse } from "./response.interface";
 
 export interface TurnoResponse extends IResponse {
@@ -6,20 +5,10 @@ export interface TurnoResponse extends IResponse {
 }
 
 export interface TurnoPersona {
-  turnos:    Turno[];
+  turnos:    Turno;
   nombre:    string;
   apellido:  string;
   idPersona: number;
-}
-
-export interface Turno {
-  idTurno:       number;
-  fecha_entrada: Date;
-  fecha_salida:  Date;
-  medidas:       Medida[];
-  observaciones: string;
-  rest:        number;
-  sum:         number;
 }
 
 export interface Medida {
@@ -28,4 +17,26 @@ export interface Medida {
   tipo?:     string;
   entrada:  number;
   salida?:   number;
+}
+
+export interface Turno extends IResponse{
+  content:          ContentTurno[];
+}
+
+export interface ContentTurno {
+  idTurno:       number;
+  fecha_entrada: Date;
+  fecha_salida:  Date;
+  medidas:       Medida[];
+  observaciones:  string;
+  sum:           number;
+  rest:          number;
+}
+
+
+
+export enum Tipo {
+  Petroleo = "petroleo",
+  Primiun = "primiun",
+  Regular = "regular",
 }

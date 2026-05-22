@@ -5,6 +5,7 @@ import {
   TurnoRequest,
   TurnoRegisterResponse,
   IReporteTurno,
+  OptionsRequest,
 } from '@oil-store/model';
 import { Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
@@ -16,8 +17,13 @@ const baseUrl = environment.baseUrl;
 export class TurnoService {
   private _http = inject(HttpClient);
 
-  getAllTurnosByIdPerson(id: number): Observable<TurnoResponse> {
-    return this._http.get<TurnoResponse>(`${baseUrl}/turno/list/${id}`);
+  getAllTurnosByIdPerson(id: number, options: OptionsRequest): Observable<TurnoResponse> {
+    const { page = 0, size = 10 } = options;
+    const params = {
+      page,
+      size,
+    };
+    return this._http.get<TurnoResponse>(`${baseUrl}/turno/list/${id}`, { params });
   }
 
   postRegisterTurnoByIdPersona(turno: TurnoRequest): Observable<TurnoRegisterResponse> {
