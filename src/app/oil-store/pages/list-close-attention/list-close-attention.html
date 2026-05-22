@@ -9,7 +9,7 @@
       </button>
 
       @if (checkButtonEdit()) {
-        <button class="btn btn-outline btn-accent ml-5" (click)="openModalMedida(modalMedidaRef)">
+        <button class="btn btn-outline btn-accent ml-5" (click)="openModalMedida(getModalMedidaRef())">
           Editar medida
         </button>
       }
@@ -29,11 +29,10 @@
         </tr>
       </thead>
       @if(checkTable()){
-      <!--  -->
-      @if (turnoList() && turnoList()!.data.length > 0) {
-        <!--  -->
+  <!--  -->
+      @if (turnoList()) {
         <tbody>
-          @for (lista of turnoList()!.data[0].turnos; track lista.idTurno) {
+          @for (lista of turnoList(); track lista.idTurno) {
             <!--  -->
             @if (lista.medidas.length > 2) {
               <!--  -->
@@ -142,8 +141,10 @@
             </p>
           }
         </tbody>
+
       }
-      <!--  -->
+
+
     }
       <tfoot>
         <tr>
@@ -159,7 +160,7 @@
   </div>
 </div>
 
-<dialog #modalTurnoRef class="modal" (close)="closeModal(modalTurnoRef)">
+<dialog data-modal="turno" class="modal" (close)="closeModal(getModalTurnoRef())">
   <div class="modal-box">
     <h3 class="text-lg font-bold">Observaciones</h3>
     <p class="py-4">Introduce observaciones separadas por comas y guarda.</p>
@@ -232,7 +233,7 @@
       <div class="md:flex md:justify-end">
         <button
           type="button"
-          (click)="closeModal(modalTurnoRef)"
+          (click)="closeModal(getModalTurnoRef())"
           class="btn btn-active font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center mr-2 mb-2 md:mb-0"
         >
           Salir
@@ -250,7 +251,7 @@
   </div>
 </dialog>
 
-<dialog #modalMedidaRef class="modal" (close)="closeModal(modalMedidaRef)">
+<dialog data-modal="medida" class="modal" (close)="closeModal(getModalMedidaRef())">
   <div class="modal-box">
     <h3 class="text-lg font-bold">Editar Medida</h3>
     <form
@@ -314,7 +315,7 @@
       <div class="md:flex md:justify-end mt-2">
         <button
           type="button"
-          (click)="closeModalMedida(modalMedidaRef)"
+          (click)="closeModalMedida(getModalMedidaRef())"
           class="btn btn-active font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center mr-2 mb-2 md:mb-0"
         >
           Salir

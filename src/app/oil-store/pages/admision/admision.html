@@ -25,7 +25,7 @@
       <thead>
         <tr>
           <th>Fecha</th>
-          <th>Persona</th>
+          <!-- <th>Persona</th> -->
           <th>Tipo</th>
           <th>Entrada</th>
           <th>Salida</th>
@@ -33,10 +33,10 @@
           <th>Observaciones</th>
         </tr>
       </thead>
-      @if (turnoList() && turnoList()!.data.length > 0) {
+      @if (turnoList()) {
         <!--  -->
         <tbody>
-          @for (lista of turnoList()!.data[0].turnos; track lista.idTurno) {
+          @for (lista of turnoList(); track lista.idTurno) {
             <!--  -->
             @if (lista.medidas.length > 2) {
             <!--  -->
@@ -50,9 +50,9 @@
                     {{ lista.fecha_entrada | date: 'mediumDate' }}
                   </td>
 
-                  <td class="border-t-2">
-                    {{ turnoList()!.data[0].nombre }} {{ turnoList()!.data[0].apellido }}
-                  </td>
+                  <!-- <td class="border-t-2">
+                    Nombre
+                  </td> -->
                   <td
                     class="capitalize"
                     [ngStyle]="

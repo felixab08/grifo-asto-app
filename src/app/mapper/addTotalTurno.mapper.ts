@@ -1,21 +1,15 @@
-import { TurnoResponse } from '@oil-store/model';
+import { Turno } from '@oil-store/model';
 
-export const addTotalTurnoMapper = (data: TurnoResponse) => {
-  return {
-    ...data,
-    data: data.data.map((turnoPersona) => ({
-      ...turnoPersona,
-      turnos: turnoPersona.turnos.map((turno) => ({
-        ...turno,
-        medidas: addTotalMedidas(
-          addSubTotalMedidas(turno.medidas, turno.idTurno),
-          turno.idTurno,
-          turno.sum,
-          turno.rest,
-        ),
-      })),
-    })),
-  };
+export const addTotalTurnoMapper = (data: Turno[]): Turno[] => {
+  return data.map((turno) => ({
+    ...turno,
+    medidas: addTotalMedidas(
+      addSubTotalMedidas(turno.medidas, turno.idTurno),
+      turno.idTurno,
+      turno.sum,
+      turno.rest,
+    ),
+  }));
 };
 
 const addSubTotalMedidas = (medidas: any[], idTurno: number) => {

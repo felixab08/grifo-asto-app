@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { NgStyle, DatePipe, NgClass } from '@angular/common';
 import { AlertService } from 'src/app/service/alert.service';
 import { PersonaService, TurnoService } from '@oil-store/service';
-import { PersonaResponse, TurnoResponse } from '@oil-store/model';
+import { PersonaResponse, Turno, TurnoResponse } from '@oil-store/model';
 import { addTotalTurnoMapper } from '../../../mapper/addTotalTurno.mapper';
 import { CortePipe, SolesPipe } from '@pipes/index';
 
@@ -17,7 +17,7 @@ export class Admision {
   private _alertService = inject(AlertService);
   listPersonaData = signal<PersonaResponse | null>(null);
   _turnoService = inject(TurnoService);
-  turnoList = signal<TurnoResponse | null>(null);
+  turnoList = signal<Turno[] | null>(null);
 
   router = inject(Router);
   turno = signal<'iniciar' | 'cerrar' | 'iniciado'>('iniciar');
@@ -43,7 +43,7 @@ export class Admision {
   listTurnoByPerson(id: number) {
     this._turnoService.getAllTurnosByIdPerson(id).subscribe({
       next: (resp) => {
-        const respWithTotal = addTotalTurnoMapper(resp);
+        const respWithTotal = addTotalTurnoMapper(resp?.data.turnos || []);
         this.turnoList.set(respWithTotal);
       },
       error: (error: any) => {

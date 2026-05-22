@@ -1,67 +1,72 @@
-import { DatePipe, NgStyle, NgClass } from '@angular/common';
-import { Component, ElementRef, inject, signal, ViewChild } from '@angular/core';
+import { CommonModule, DatePipe } from '@angular/common';
+import { Component, inject, signal, computed } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MedidorService, TurnoService } from '@oil-store/service';
 import {
-  Medida,
   MedidorListResponse,
   MedidorRequest,
   Turno,
   TurnoRequest,
   TurnoResponse,
+  TurnoRegisterResponse,
 } from '@oil-store/model';
 import { AlertService } from 'src/app/service/alert.service';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-  ɵInternalFormsSharedModule,
-} from '@angular/forms';
 import { StoreService } from 'src/app/service/store.service';
 import { FormUtils } from '@utils/form.util';
 import { addTotalTurnoMapper } from '../../../mapper/addTotalTurno.mapper';
 import { SolesPipe } from '@pipes/soles.pipe';
 import { CortePipe } from '@pipes/corte.pipe';
 
+interface Medida {
+  idMedida: number;
+  idTurno: number;
+  tipo: string;
+  entrada: number;
+  salida: number;
+  code: string;
+}
+
 @Component({
   selector: 'app-list-close-attention',
-  imports: [
-    NgStyle,
-    DatePipe,
-    ɵInternalFormsSharedModule,
-    ReactiveFormsModule,
-    NgClass,
-    SolesPipe,
-    CortePipe,
-  ],
+  imports: [CommonModule, DatePipe, ReactiveFormsModule, SolesPipe, CortePipe],
   templateUrl: './list-close-attention.html',
+  standalone: true,
 })
 export class ListCloseAttention {
-  storeService = inject(StoreService);
-  formUtils = FormUtils;
+  // Services
+  private storeService = inject(StoreService);
+  private medidorService = inject(MedidorService);
+  private turnoService = inject(TurnoService);
+  private alertService = inject(AlertService);
+  private router = inject(Router);
+  private fb = inject(FormBuilder);
 
-  @ViewChild('modalTurnoRef') modalTurnoRef!: ElementRef;
-  @ViewChild('modalMedidaRef') modalMedidaRef!: ElementRef;
+  // State signals
   modalOpen = signal(false);
   checkButtonEdit = signal(false);
-  editMedidar = signal<MedidorListResponse | Medida>({
-    idMedida: 0,
-    idTurno: 0,
-    tipo: '',
-    entrada: 0,
-    salida: 0,
-    code: '',
-  });
-  observaciones = '';
-  router = inject(Router);
+  turnoList = signal<Turno[] | null>(null);
   stateturno = signal<'iniciar' | 'cerrar' | 'iniciado'>('iniciar');
-  turnoList = signal<TurnoResponse | null>(null);
-  editTurno = signal<Turno | null>(null);
-  private _medidorService = inject(MedidorService);
-  _turnoService = inject(TurnoService);
-  public _alertService = inject(AlertService);
+  checkTable = signal(false);
 
+  // Form groups
+  myForm: FormGroup = this.fb.group({
+    obs: [''],
+    sum: [0, [Validators.required]],
+    rest: [0, [Validators.required]],
+    fechaSalida: ['', [Validators.required]],
+  });
+
+  myFormMedida: FormGroup = this.fb.group({
+    entrada: ['', [Validators.required, Validators.min(0)]],
+    salida: ['', [Validators.required, Validators.min(0)]],
+  });
+
+  // Edit state
+  editMedida = signal<MedidorListResponse | Medida | null>(null);
+  editTurno = signal<Turno | null>(null);
+
+  // Registro turno inicial
   registroTurno: TurnoRequest = {
     fechaEntrada: new Date(),
     persona: {
@@ -75,126 +80,135 @@ export class ListCloseAttention {
     },
   };
 
-  checkTable = signal(false);
+  // Computed
+  formUtils = FormUtils;
+  getModalTurnoRef = computed(
+    () => document.querySelector('[data-modal="turno"]') as HTMLDialogElement | null,
+  );
+  getModalMedidaRef = computed(
+    () => document.querySelector('[data-modal="medida"]') as HTMLDialogElement | null,
+  );
 
-  private _fb = inject(FormBuilder);
-  myForm: FormGroup = this._fb.group({
-    obs: [''],
-    sum: [0, [Validators.required]],
-    rest: [0, [Validators.required]],
-    fechaSalida: ['', [Validators.required]],
-  });
-
-  private formatToInputDate(dateLike: Date | string | null): string {
-    if (!dateLike) return '';
-    const d = new Date(dateLike);
-    const yyyy = d.getFullYear();
-    const mm = String(d.getMonth() + 1).padStart(2, '0');
-    const dd = String(d.getDate()).padStart(2, '0');
-    return `${yyyy}-${mm}-${dd}`;
-  }
-
-  myFormMedida: FormGroup = this._fb.group({
-    entrada: [''],
-    salida: [''],
-  });
   ngOnInit(): void {
-    this.checkTable.set(false);
-    this.storeService.user.subscribe((user: any) => {
-      const { email, role, ...personaData } = user!;
-      this.registroTurno.persona = personaData;
-    });
-    this.stateturno.set(
-      (localStorage.getItem('attention-type') as 'iniciar' | 'cerrar') || 'iniciar',
-    );
-    if (localStorage.getItem('attention-type') === 'iniciado') {
-      this.stateturno.set('cerrar');
-    }
-    // Inicializar fechaSalida en formato yyyy-MM-dd para inputs type="date"
-    this.myForm.get('fechaSalida')?.setValue(this.formatToInputDate(new Date()));
+    this.initializeState();
   }
 
   ngAfterViewInit(): void {
-    if (this.registroTurno.persona.idPersona !== 0) {
+    this.loadTurnosIfPersonaExists();
+  }
+
+  private initializeState(): void {
+    this.checkTable.set(false);
+
+    this.storeService.user.subscribe((user: any) => {
+      if (!user) return;
+      const { email, role, ...personaData } = user;
+      this.registroTurno.persona = personaData;
+    });
+
+    const attentionType = localStorage.getItem('attention-type') as
+      | 'iniciar'
+      | 'cerrar'
+      | 'iniciado';
+    this.stateturno.set(attentionType === 'iniciado' ? 'cerrar' : attentionType || 'iniciar');
+
+    this.myForm.get('fechaSalida')?.setValue(this.formatToInputDate(new Date()));
+  }
+
+  private loadTurnosIfPersonaExists(): void {
+    const personaId = this.registroTurno.persona.idPersona;
+    if (personaId !== 0) {
       this.turnoList.set(null);
-      this.listTurnoByPerson(this.registroTurno.persona.idPersona);
+      this.listTurnoByPerson(personaId);
     }
   }
-  listTurnoByPerson(id: number) {
-    this._turnoService.getAllTurnosByIdPerson(id).subscribe({
-      next: (resp: any) => {
-        this.verificateStateTurno(resp.data[0].turnos[0]?.medidas[0]?.salida);
-        const respWithTotal = addTotalTurnoMapper(resp);
-        this.turnoList.set(respWithTotal);
+
+  // ![TODO] : no esta funcionando correctamente, revisar
+  listTurnoByPerson(id: number): void {
+    this.turnoService.getAllTurnosByIdPerson(id).subscribe({
+      next: (resp: TurnoResponse) => {
+        const turnoData = resp.data?.turnos?.[0]?.medidas?.[0]?.salida;
+        this.verificateStateTurno(turnoData);
+        this.turnoList.set(addTotalTurnoMapper(resp.data?.turnos));
+        console.log(this.turnoList());
         this.checkTable.set(true);
       },
-      error: (error: any) => {
-        this._alertService.getAlert('Error!!!', 'Error al obtener los turnos', 'error');
+      error: () => {
+        this.alertService.getAlert('Error', 'Error al obtener los turnos', 'error');
       },
     });
   }
 
-  onSave() {
+  onSave(): void {
     if (this.stateturno() === 'iniciar') {
-      this._turnoService.postRegisterTurnoByIdPersona(this.registroTurno).subscribe({
+      this.turnoService.postRegisterTurnoByIdPersona(this.registroTurno).subscribe({
         next: (resp) => {
-          this._alertService.getAlert('Turno Creado', 'Turno creado satisfactoriamente', 'success');
-          this.handlerTurno(resp.idTurno);
+          this.alertService.getAlert('Turno Creado', 'Turno creado satisfactoriamente', 'success');
+          this.navigateWithTurno(resp.idTurno);
         },
-        error: (error: any) => {
-          this._alertService.getAlert('Error!!!', 'Error al registrar el usuario', 'error');
+        error: () => {
+          this.alertService.getAlert('Error', 'Error al registrar el turno', 'error');
         },
       });
-    }
-    if (this.stateturno() === 'cerrar') {
-      this.openModal(this.modalTurnoRef.nativeElement);
+    } else if (this.stateturno() === 'cerrar') {
+      this.openModal(this.getModalTurnoRef());
     }
   }
 
-  guardarObservaciones() {
+  guardarObservaciones(): void {
     const turnoListData = this.turnoList();
-    if (!turnoListData || turnoListData.data[0].turnos.length === 0) {
-      this._alertService.getAlert('Error!!!', 'No hay turnos para cerrar', 'error');
+    if (!turnoListData?.length) {
+      this.alertService.getAlert('Error', 'No hay turnos para cerrar', 'error');
       return;
     }
-    let turno = null;
-    if (this.editTurno()) {
-      turno = this.editTurno();
-    } else {
-      turno = turnoListData.data[0].turnos[0] as any;
-    }
-    const fechaInput = this.myForm.get('fechaSalida')?.value + 'T10:00:00'; // Agregar hora para evitar problemas de zona horaria
-    turno.fechaSalida = fechaInput ? new Date(fechaInput).toISOString() : new Date().toISOString();
-    turno.observaciones = this.myForm.get('obs')?.value || '';
-    turno.sum = this.myForm.get('sum')?.value || 0;
-    turno.rest = this.myForm.get('rest')?.value || 0;
 
-    this._turnoService.putRegisterTurnoByIdPersona(turno.idTurno, turno).subscribe({
+    const turno = (this.editTurno() || turnoListData[0]) as Turno;
+    const fechaInput = this.myForm.get('fechaSalida')?.value + 'T10:00:00';
+
+    const turnoToUpdate: TurnoRegisterResponse = {
+      idTurno: turno.idTurno,
+      observaciones: this.myForm.get('obs')?.value || '',
+      fechaEntrada: turno.fecha_entrada,
+      fechaSalida: fechaInput ? new Date(fechaInput) : new Date(),
+      persona: this.registroTurno.persona,
+      sum: this.myForm.get('sum')?.value || 0,
+      rest: this.myForm.get('rest')?.value || 0,
+    };
+
+    this.turnoService.putRegisterTurnoByIdPersona(turno.idTurno, turnoToUpdate).subscribe({
       next: (resp) => {
-        this._alertService.getAlert('Turno editado', 'Turno editado satisfactoriamente', 'success');
+        this.alertService.getAlert('Turno Editado', 'Turno editado satisfactoriamente', 'success');
+
         if (this.editTurno()) {
+          this.editTurno.set(null);
           this.listTurnoByPerson(this.registroTurno.persona.idPersona);
           return;
         }
-        const listMedidas = this.turnoList()?.data[0].turnos[0].medidas;
-        localStorage.setItem('registro', JSON.stringify(listMedidas));
-        this.handlerTurno(turno.idTurno);
+
+        const medidas = this.turnoList()?.[0].medidas;
+        if (medidas) {
+          localStorage.setItem('registro', JSON.stringify(medidas));
+        }
+        this.navigateWithTurno(turno.idTurno);
       },
-      error: (error: any) => {
-        this._alertService.getAlert('Error!!!', 'Error al registrar el usuario', 'error');
+      error: () => {
+        this.alertService.getAlert('Error', 'Error al actualizar el turno', 'error');
       },
     });
   }
 
-  handlerTurno(idturno: number = 9) {
+  navigateWithTurno(idturno: number): void {
     localStorage.setItem('attention-type', 'iniciar');
     this.router.navigate(['/grifo/register-close-attention', this.stateturno(), idturno]);
   }
 
-  editAtention(turno: Turno) {
-    if (!turno.fecha_salida) return; // TODO: manejar error
+  editAtention(turno: Turno): void {
+    if (!turno.fecha_salida) {
+      console.warn('Turno sin fecha de salida');
+      return;
+    }
     this.editTurno.set(turno);
-    this.openModal(this.modalTurnoRef.nativeElement);
+    this.openModal(this.getModalTurnoRef());
     this.myForm.patchValue({
       obs: turno.observaciones,
       sum: turno.sum,
@@ -203,14 +217,23 @@ export class ListCloseAttention {
     });
   }
 
+  handerMedidas(item: any, lista: any): void {
+    if (item.code === 'subtotal' || item.code === 'total' || !lista.fecha_salida) {
+      this.checkButtonEdit.set(false);
+      return;
+    }
+    this.editMedida.set(item);
+    this.checkButtonEdit.set(true);
+    this.myFormMedida.patchValue({
+      entrada: item.entrada,
+      salida: item.salida,
+    });
+  }
+
   openModal(dialog?: HTMLDialogElement | null): void {
     if (!dialog) return;
     try {
-      if (typeof dialog.showModal === 'function') {
-        dialog.showModal();
-      } else {
-        dialog.setAttribute('open', '');
-      }
+      dialog.showModal?.();
       this.modalOpen.set(true);
     } catch (err) {
       console.error('No se pudo abrir el modal', err);
@@ -220,88 +243,74 @@ export class ListCloseAttention {
   closeModal(dialog?: HTMLDialogElement | null): void {
     if (!dialog) return;
     try {
-      if (typeof dialog.close === 'function') {
-        dialog.close();
-      } else {
-        dialog.removeAttribute('open');
-      }
+      dialog.close?.();
       this.modalOpen.set(false);
     } catch (err) {
       console.error('No se pudo cerrar el modal', err);
     }
   }
 
-  verificateStateTurno(value: number | null) {
-    if (value === null) {
-      localStorage.setItem('attention-type', 'iniciado');
+  openModalMedida(dialog?: HTMLDialogElement | null): void {
+    if (!dialog) return;
+    dialog.showModal?.();
+    this.checkButtonEdit.set(true);
+  }
+
+  closeModalMedida(dialog?: HTMLDialogElement | null): void {
+    if (!dialog) return;
+    dialog.close?.();
+    this.checkButtonEdit.set(false);
+    this.editMedida.set(null);
+    this.myFormMedida.reset();
+  }
+
+  verificateStateTurno(value: number | undefined): void {
+    if (value === undefined) {
+      localStorage.setItem('attention-type', 'cerrar');
       this.stateturno.set('cerrar');
     } else {
       localStorage.setItem('attention-type', 'iniciar');
     }
   }
 
-  handerMedidas(item: any, lista: any) {
-    if (item.code === 'subtotal' || item.code === 'total' || lista.fecha_salida === null) {
-      this.checkButtonEdit.set(false);
+  generateMedida(): void {
+    const editData = this.editMedida();
+    const formValue = this.myFormMedida.value;
+
+    if (!editData) {
+      console.error('No hay medida seleccionada');
       return;
     }
-    this.editMedidar.set(item);
-    this.checkButtonEdit.set(true);
-    this.myFormMedida.get('entrada')?.setValue(item.entrada);
-    this.myFormMedida.get('salida')?.setValue(item.salida);
+
+    const medidaToUpdate: MedidorRequest = {
+      ...editData,
+      entrada: formValue.entrada || 0,
+      salida: formValue.salida || 0,
+      turno: { idTurno: editData.idTurno },
+    };
+
+    this.medidorService.putMedidaByTurno(editData.idMedida, medidaToUpdate).subscribe({
+      next: () => {
+        this.alertService.getAlert(
+          'Medida Modificada',
+          'Medida Modificada satisfactoriamente',
+          'success',
+        );
+        this.listTurnoByPerson(this.registroTurno.persona.idPersona);
+        this.closeModalMedida(this.getModalMedidaRef());
+      },
+      error: () => {
+        this.alertService.getAlert('Error', 'Error al modificar el medidor', 'error');
+      },
+    });
   }
 
-  openModalMedida(dialog?: HTMLDialogElement | null): void {
-    if (!dialog) return;
-    try {
-      if (typeof dialog.showModal === 'function') {
-        dialog.showModal();
-      } else {
-        dialog.setAttribute('open', '');
-      }
-      this.checkButtonEdit.set(true);
-    } catch (err) {
-      console.error('No se pudo abrir el modal', err);
-    }
-  }
-  closeModalMedida(dialog?: HTMLDialogElement | null): void {
-    if (!dialog) return;
-    try {
-      if (typeof dialog.close === 'function') {
-        dialog.close();
-      } else {
-        dialog.removeAttribute('open');
-      }
-      this.checkButtonEdit.set(false);
-    } catch (err) {
-      console.error('No se pudo cerrar el modal', err);
-    }
-  }
-
-  generateMedida() {
-    if (this.editMedidar() !== null) {
-      this.editMedidar().entrada = this.myFormMedida.get('entrada')?.value || 0;
-      this.editMedidar().salida = this.myFormMedida.get('salida')?.value || 0;
-    }
-    this._medidorService
-      .putMedidaByTurno(this.editMedidar().idMedida, this.editMedidar() as MedidorRequest)
-      .subscribe({
-        next: (resp) => {
-          this._alertService.getAlert(
-            'Medida Modificada',
-            'Medida Modificada satisfactoriamente',
-            'success',
-          );
-          this.listTurnoByPerson(this.registroTurno.persona.idPersona);
-        },
-        error: (error: any) => {
-          this._alertService.getAlert('Error!!!', 'Error al modificar el medidor', 'error');
-          return;
-        },
-      });
-    this.editMedidar.set({} as MedidorListResponse);
-    this.checkButtonEdit.set(false);
-
-    this.closeModalMedida(this.modalMedidaRef.nativeElement);
+  private formatToInputDate(dateLike: Date | string | null): string {
+    if (!dateLike) return '';
+    const d = new Date(dateLike);
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const dd = String(d.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
   }
 }

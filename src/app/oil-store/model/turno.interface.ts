@@ -2,7 +2,7 @@ import { Persona } from "./persona.interface";
 import { IResponse } from "./response.interface";
 
 export interface TurnoResponse extends IResponse {
-  data:    TurnoPersona[];
+  data:    TurnoPersona;
 }
 
 export interface TurnoPersona {
