@@ -39,7 +39,7 @@ export class LoginPageComponent {
     this._authService.login(usernameOrEmail!, password!).subscribe({
       next: (resp) => {
         if (resp) {
-          this._router.navigateByUrl('/grifo/list-oil-store');
+          this._router.navigateByUrl('/grifo/cortes');
           this.isPosting.set(false);
           return;
         }

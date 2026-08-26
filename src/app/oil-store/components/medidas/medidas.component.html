@@ -1,0 +1,365 @@
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg md:px-10 -mt-20">
+  <form
+    class="md:mt-5 p-4 md:p-10 bg-white border-2 rounded-lg mb-2"
+    autocomplete="off"
+    [formGroup]="myForm"
+    (ngSubmit)="onSave()"
+  >
+    <h1 class="text-center text-3xl font-semibold">Surtidor petroleo</h1>
+    <div class="grid md:grid-cols-2 gap-6">
+      <fieldset class="fieldset bg-base-200 border-base-300 rounded-box border p-4">
+        <legend class="fieldset-legend">Surtidor 1 - Petroleo</legend>
+        <!-- // * campo input -->
+        <div class="mt-5">
+          <label
+            for="pet11star"
+            class="block mb-2 text-sm font-medium"
+            [ngClass]="{
+              ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'pet11star'),
+            }"
+            >Entrada</label
+          >
+          <input
+            type="number"
+            id="pet11star"
+            formControlName="pet11star"
+            class="border text-sm input-md input rounded-lg block w-full p-2.5"
+            [ngClass]="{
+              ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+                formUtils.isValiedField(myForm, 'pet11star'),
+            }"
+          />
+          @if (formUtils.isValiedField(myForm, 'pet11star')) {
+            <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+              <span class="font-medium">{{ formUtils.getFieldError(myForm, 'pet11star') }}</span>
+            </p>
+          }
+        </div>
+        <!-- // * campo input -->
+        <div class="mt-5">
+          <label
+            for="pet11exit"
+            class="block mb-2 text-sm font-medium"
+            [ngClass]="{
+              ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'pet11exit'),
+            }"
+            >Salida</label
+          >
+          <input
+            type="number"
+            id="pet11exit"
+            formControlName="pet11exit"
+            class="border text-sm input-md input rounded-lg block w-full p-2.5"
+            [ngClass]="{
+              ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+                formUtils.isValiedField(myForm, 'pet11exit'),
+            }"
+          />
+          @if (formUtils.isValiedField(myForm, 'pet11exit')) {
+            <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+              <span class="font-medium">{{ formUtils.getFieldError(myForm, 'pet11exit') }}</span>
+            </p>
+          }
+        </div>
+      </fieldset>
+      <fieldset class="fieldset bg-base-200 border-base-300 rounded-box border p-4">
+        <legend class="fieldset-legend">Surtidor 2 - Petroleo</legend>
+        <!-- // * campo input -->
+        <div class="mt-5">
+          <label
+            for="pet21star"
+            class="block mb-2 text-sm font-medium"
+            [ngClass]="{
+              ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'pet21star'),
+            }"
+            >Entrada</label
+          >
+          <input
+            type="number"
+            id="pet21star"
+            formControlName="pet21star"
+            class="border text-sm input-md input rounded-lg block w-full p-2.5"
+            [ngClass]="{
+              ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+                formUtils.isValiedField(myForm, 'pet21star'),
+            }"
+          />
+          @if (formUtils.isValiedField(myForm, 'pet21star')) {
+            <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+              <span class="font-medium">{{ formUtils.getFieldError(myForm, 'pet21star') }}</span>
+            </p>
+          }
+        </div>
+        <!-- // * campo input -->
+        <div class="mt-5">
+          <label
+            for="pet21exit"
+            class="block mb-2 text-sm font-medium"
+            [ngClass]="{
+              ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'pet21exit'),
+            }"
+            >Salida</label
+          >
+          <input
+            type="number"
+            id="pet21exit"
+            formControlName="pet21exit"
+            class="border text-sm input-md input rounded-lg block w-full p-2.5"
+            [ngClass]="{
+              ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+                formUtils.isValiedField(myForm, 'pet21exit'),
+            }"
+          />
+          @if (formUtils.isValiedField(myForm, 'pet21exit')) {
+            <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+              <span class="font-medium">{{ formUtils.getFieldError(myForm, 'pet21exit') }}</span>
+            </p>
+          }
+        </div>
+      </fieldset>
+    </div>
+    <!-- Surtidor de Gasolina Regular -->
+    <h1 class="text-center text-3xl font-semibold">Surtidor regular</h1>
+    <div class="grid md:grid-cols-2 gap-6">
+      <fieldset class="fieldset bg-base-200 border-base-300 rounded-box border p-4">
+        <legend class="fieldset-legend">Surtidor 1 - regular</legend>
+        <!-- // * campo input -->
+        <div class="mt-5">
+          <label
+            for="reg12star"
+            class="block mb-2 text-sm font-medium"
+            [ngClass]="{
+              ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'reg12star'),
+            }"
+            >Entrada</label
+          >
+          <input
+            type="number"
+            id="reg12star"
+            formControlName="reg12star"
+            class="border text-sm input-md input rounded-lg block w-full p-2.5"
+            [ngClass]="{
+              ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+                formUtils.isValiedField(myForm, 'reg12star'),
+            }"
+          />
+          @if (formUtils.isValiedField(myForm, 'reg12star')) {
+            <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+              <span class="font-medium">{{ formUtils.getFieldError(myForm, 'reg12star') }}</span>
+            </p>
+          }
+        </div>
+        <!-- // * campo input -->
+        <div class="mt-5">
+          <label
+            for="reg12exit"
+            class="block mb-2 text-sm font-medium"
+            [ngClass]="{
+              ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'reg12exit'),
+            }"
+            >Salida</label
+          >
+          <input
+            type="number"
+            id="reg12exit"
+            formControlName="reg12exit"
+            class="border text-sm input-md input rounded-lg block w-full p-2.5"
+            [ngClass]="{
+              ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+                formUtils.isValiedField(myForm, 'reg12exit'),
+            }"
+          />
+          @if (formUtils.isValiedField(myForm, 'reg12exit')) {
+            <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+              <span class="font-medium">{{ formUtils.getFieldError(myForm, 'reg12exit') }}</span>
+            </p>
+          }
+        </div>
+      </fieldset>
+      <fieldset class="fieldset bg-base-200 border-base-300 rounded-box border p-4">
+        <legend class="fieldset-legend">Surtidor 2 - regular</legend>
+        <!-- // * campo input -->
+        <div class="mt-5">
+          <label
+            for="reg22star"
+            class="block mb-2 text-sm font-medium"
+            [ngClass]="{
+              ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'reg22star'),
+            }"
+            >Entrada</label
+          >
+          <input
+            type="number"
+            id="reg22star"
+            formControlName="reg22star"
+            class="border text-sm input-md input rounded-lg block w-full p-2.5"
+            [ngClass]="{
+              ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+                formUtils.isValiedField(myForm, 'reg22star'),
+            }"
+          />
+          @if (formUtils.isValiedField(myForm, 'reg22star')) {
+            <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+              <span class="font-medium">{{ formUtils.getFieldError(myForm, 'reg22star') }}</span>
+            </p>
+          }
+        </div>
+        <!-- // * campo input -->
+        <div class="mt-5">
+          <label
+            for="reg22exit"
+            class="block mb-2 text-sm font-medium"
+            [ngClass]="{
+              ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'reg22exit'),
+            }"
+            >Salida</label
+          >
+          <input
+            type="number"
+            id="reg22exit"
+            formControlName="reg22exit"
+            class="border text-sm input-md input rounded-lg block w-full p-2.5"
+            [ngClass]="{
+              ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+                formUtils.isValiedField(myForm, 'reg22exit'),
+            }"
+          />
+          @if (formUtils.isValiedField(myForm, 'reg22exit')) {
+            <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+              <span class="font-medium">{{ formUtils.getFieldError(myForm, 'reg22exit') }}</span>
+            </p>
+          }
+        </div>
+      </fieldset>
+    </div>
+    <!-- Surtidor de Gasolina Regular -->
+    <h1 class="text-center text-3xl font-semibold">Surtidor premium</h1>
+    <div class="grid md:grid-cols-2 gap-6">
+      <fieldset class="fieldset bg-base-200 border-base-300 rounded-box border p-4">
+        <legend class="fieldset-legend">Surtidor 1 - premium</legend>
+        <!-- // * campo input -->
+        <div class="mt-5">
+          <label
+            for="pri13star"
+            class="block mb-2 text-sm font-medium"
+            [ngClass]="{
+              ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'pri13star'),
+            }"
+            >Entrada</label
+          >
+          <input
+            type="number"
+            id="pri13star"
+            formControlName="pri13star"
+            class="border text-sm input-md input rounded-lg block w-full p-2.5"
+            [ngClass]="{
+              ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+                formUtils.isValiedField(myForm, 'pri13star'),
+            }"
+          />
+          @if (formUtils.isValiedField(myForm, 'pri13star')) {
+            <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+              <span class="font-medium">{{ formUtils.getFieldError(myForm, 'pri13star') }}</span>
+            </p>
+          }
+        </div>
+        <!-- // * campo input -->
+        <div class="mt-5">
+          <label
+            for="pri13exit"
+            class="block mb-2 text-sm font-medium"
+            [ngClass]="{
+              ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'pri13exit'),
+            }"
+            >Salida</label
+          >
+          <input
+            type="number"
+            id="pri13exit"
+            formControlName="pri13exit"
+            class="border text-sm input-md input rounded-lg block w-full p-2.5"
+            [ngClass]="{
+              ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+                formUtils.isValiedField(myForm, 'pri13exit'),
+            }"
+          />
+          @if (formUtils.isValiedField(myForm, 'pri13exit')) {
+            <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+              <span class="font-medium">{{ formUtils.getFieldError(myForm, 'pri13exit') }}</span>
+            </p>
+          }
+        </div>
+      </fieldset>
+      <fieldset class="fieldset bg-base-200 border-base-300 rounded-box border p-4">
+        <legend class="fieldset-legend">Surtidor 2 - premium</legend>
+        <!-- // * campo input -->
+        <div class="mt-5">
+          <label
+            for="pri23star"
+            class="block mb-2 text-sm font-medium"
+            [ngClass]="{
+              ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'pri23star'),
+            }"
+            >Entrada</label
+          >
+          <input
+            type="number"
+            id="pri23star"
+            formControlName="pri23star"
+            class="border text-sm input-md input rounded-lg block w-full p-2.5"
+            [ngClass]="{
+              ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+                formUtils.isValiedField(myForm, 'pri23star'),
+            }"
+          />
+          @if (formUtils.isValiedField(myForm, 'pri23star')) {
+            <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+              <span class="font-medium">{{ formUtils.getFieldError(myForm, 'pri23star') }}</span>
+            </p>
+          }
+        </div>
+        <!-- // * campo input -->
+        <div class="mt-5">
+          <label
+            for="pri23exit"
+            class="block mb-2 text-sm font-medium"
+            [ngClass]="{
+              ' text-red-700 dark:text-red-500': formUtils.isValiedField(myForm, 'pri23exit'),
+            }"
+            >Salida</label
+          >
+          <input
+            type="number"
+            id="pri23exit"
+            formControlName="pri23exit"
+            class="border text-sm input-md input rounded-lg block w-full p-2.5"
+            [ngClass]="{
+              ' border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 ':
+                formUtils.isValiedField(myForm, 'pri23exit'),
+            }"
+          />
+          @if (formUtils.isValiedField(myForm, 'pri23exit')) {
+            <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+              <span class="font-medium">{{ formUtils.getFieldError(myForm, 'pri23exit') }}</span>
+            </p>
+          }
+        </div>
+      </fieldset>
+    </div>
+
+    <div class="md:flex md:justify-end mt-3">
+      <button
+        class="btn btn-active font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center mr-2 mb-2 md:mb-0"
+      >
+        Salir
+      </button>
+      <button
+        type="submit"
+        [disabled]="!myForm.valid"
+        class="btn btn-accent items-center text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+      >
+        Guardar
+      </button>
+    </div>
+  </form>
+</div>

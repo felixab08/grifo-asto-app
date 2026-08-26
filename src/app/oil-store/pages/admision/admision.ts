@@ -3,13 +3,7 @@ import { Router } from '@angular/router';
 import { NgStyle, DatePipe, NgClass } from '@angular/common';
 import { AlertService } from 'src/app/service/alert.service';
 import { PersonaService, TurnoService } from '@oil-store/service';
-import {
-  ContentTurno,
-  OptionsRequest,
-  PersonaResponse,
-  Turno,
-  TurnoResponse,
-} from '@oil-store/model';
+import { ContentTurno, OptionsRequest, PersonaResponse, TurnoResponse } from '@oil-store/model';
 import { addTotalTurnoMapper } from '../../../mapper/addTotalTurno.mapper';
 import { CortePipe, SolesPipe } from '@pipes/index';
 
@@ -49,7 +43,7 @@ export class Admision {
   listTurnoByPerson(id: number, options: OptionsRequest): void {
     this._turnoService.getAllTurnosByIdPerson(id, options).subscribe({
       next: (resp) => {
-        const respWithTotal = addTotalTurnoMapper(resp?.data.turnos.content || []);
+        const respWithTotal = addTotalTurnoMapper(resp?.data.content || []);
         this.turnoList.set(respWithTotal);
       },
       error: (error: any) => {

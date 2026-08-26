@@ -4,12 +4,15 @@
       Registro diario de {{ registroTurno.persona.nombre }}
     </h1>
     <div class="mb-6 flex items-center mr-4 mt-2">
-      <button class="btn btn-outline btn-accent capitalize min-w-36" (click)="onSave()">
+      <!-- <button class="btn btn-outline btn-accent capitalize min-w-36" (click)="onSave()">
         {{ stateturno() }} turno
-      </button>
+      </button> -->
 
       @if (checkButtonEdit()) {
-        <button class="btn btn-outline btn-accent ml-5" (click)="openModalMedida(getModalMedidaRef())">
+        <button
+          class="btn btn-outline btn-accent ml-5"
+          (click)="openModalMedida(getModalMedidaRef())"
+        >
           Editar medida
         </button>
       }
@@ -28,11 +31,8 @@
           <th>Observaciones</th>
         </tr>
       </thead>
-      @if(checkTable()){
-  <!--  -->
-      @if (turnoList()) {
         <tbody>
-          @for (lista of turnoList(); track lista.idTurno) {
+          @for (lista of turnoList() || []; track lista.idTurno) {
             <!--  -->
             @if (lista.medidas.length > 2) {
               <!--  -->
@@ -114,7 +114,7 @@
                   </td>
                   @if ($index == 0) {
                     <td
-                    (click)="editAtention(lista)"
+                      (click)="editAtention(lista)"
                       rowspan="8"
                       class="max-w-20"
                       [ngStyle]="
@@ -141,11 +141,6 @@
             </p>
           }
         </tbody>
-
-      }
-
-
-    }
       <tfoot>
         <tr>
           <th>Fecha</th>
@@ -160,6 +155,7 @@
   </div>
 </div>
 
+<!-- modal para cerrar turno -->
 <dialog data-modal="turno" class="modal" (close)="closeModal(getModalTurnoRef())">
   <div class="modal-box">
     <h3 class="text-lg font-bold">Observaciones</h3>
@@ -251,6 +247,8 @@
   </div>
 </dialog>
 
+
+<!-- modal para editar las medidas -->
 <dialog data-modal="medida" class="modal" (close)="closeModal(getModalMedidaRef())">
   <div class="modal-box">
     <h3 class="text-lg font-bold">Editar Medida</h3>

@@ -7,12 +7,17 @@ import { EntranceDiesel } from './pages/entrance-diesel/entrance-diesel';
 import { Admision } from './pages/admision/admision';
 import { PersonalList } from './pages/personal-list/personal-list';
 import { ReporteComponent } from './pages/reporte.component/reporte.component';
+import { CortePage } from './pages/corte/corte.page';
 
 export const pagesRoutes: Routes = [
   {
     path: '',
     component: OilLayout,
     children: [
+      {
+        path: 'cortes',
+        component: CortePage,
+      },
       {
         path: 'list-oil-store',
         component: ListCloseAttention,

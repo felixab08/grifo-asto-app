@@ -4,7 +4,7 @@ export const createMedidaMapper = (
   data: any,
   idTurno: number,
   type: string,
-  MedidaAnterior?: MedidorListResponse[]
+  MedidaAnterior?: MedidorListResponse[],
 ) => {
   if (type === 'iniciar') {
     return [
@@ -35,4 +35,50 @@ export const createMedidaMapper = (
     });
   }
   return data;
+};
+export const lastMedidaMapper = (data: any, idTurno: number) => {
+  return [
+    {
+      entrada: +data.pet11star,
+      salida: +data.pet11exit,
+      code: 'pet11',
+      tipo: 'petroleo',
+      turno: { idTurno: idTurno },
+    },
+    {
+      entrada: +data.pet21star,
+      salida: +data.pet21exit,
+      code: 'pet21',
+      tipo: 'petroleo',
+      turno: { idTurno: idTurno },
+    },
+    {
+      entrada: +data.reg12star,
+      salida: +data.reg12exit,
+      code: 'reg12',
+      tipo: 'regular',
+      turno: { idTurno: idTurno },
+    },
+    {
+      entrada: +data.reg22star,
+      salida: +data.reg22exit,
+      code: 'reg22',
+      tipo: 'regular',
+      turno: { idTurno: idTurno },
+    },
+    {
+      entrada: +data.pri13star,
+      salida: +data.pri13exit,
+      code: 'pri13',
+      tipo: 'primiun',
+      turno: { idTurno: idTurno },
+    },
+    {
+      entrada: +data.pri23star,
+      salida: +data.pri23exit,
+      code: 'pri23',
+      tipo: 'primiun',
+      turno: { idTurno: idTurno },
+    },
+  ];
 };

@@ -6,12 +6,12 @@ import { MedidorService, TurnoService } from '@oil-store/service';
 import {
   MedidorListResponse,
   MedidorRequest,
-  Turno,
   TurnoRequest,
   TurnoResponse,
   TurnoRegisterResponse,
   OptionsRequest,
   ContentTurno,
+  IStatusTurno,
 } from '@oil-store/model';
 import { AlertService } from 'src/app/service/alert.service';
 import { StoreService } from 'src/app/service/store.service';
@@ -48,10 +48,9 @@ export class ListCloseAttention {
   modalOpen = signal(false);
   checkButtonEdit = signal(false);
   turnoList = signal<ContentTurno[] | null>(null);
-  stateturno = signal<'iniciar' | 'cerrar' | 'iniciado'>('iniciar');
-  checkTable = signal(false);
+  stateturno = signal<IStatusTurno>('iniciar');
 
-  // Form groups
+  // Formulario para cerrar turno
   myForm: FormGroup = this.fb.group({
     obs: [''],
     sum: [0, [Validators.required]],
@@ -59,6 +58,7 @@ export class ListCloseAttention {
     fechaSalida: ['', [Validators.required]],
   });
 
+  // formulario para editar medidas
   myFormMedida: FormGroup = this.fb.group({
     entrada: ['', [Validators.required, Validators.min(0)]],
     salida: ['', [Validators.required, Validators.min(0)]],
@@ -100,8 +100,6 @@ export class ListCloseAttention {
   }
 
   private initializeState(): void {
-    this.checkTable.set(false);
-
     this.storeService.user.subscribe((user: any) => {
       if (!user) return;
       const { email, role, ...personaData } = user;
@@ -129,11 +127,10 @@ export class ListCloseAttention {
   listTurnoByPerson(id: number, params: OptionsRequest): void {
     this.turnoService.getAllTurnosByIdPerson(id, params).subscribe({
       next: (resp: TurnoResponse) => {
-        const turnoData = resp.data.turnos.content?.[0]?.medidas?.[0]?.salida;
+        const turnoData = resp.data.content?.[0]?.medidas?.[0]?.salida;
         this.verificateStateTurno(turnoData);
-        this.turnoList.set(addTotalTurnoMapper(resp.data?.turnos.content || []));
+        this.turnoList.set(addTotalTurnoMapper(resp.data?.content || []));
         console.log(this.turnoList());
-        this.checkTable.set(true);
       },
       error: () => {
         this.alertService.getAlert('Error', 'Error al obtener los turnos', 'error');

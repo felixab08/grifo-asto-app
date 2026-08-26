@@ -1,4 +1,4 @@
-import { ContentTurno, Turno } from '@oil-store/model';
+import { ContentTurno } from '@oil-store/model';
 
 export const addTotalTurnoMapper = (data: ContentTurno[]): ContentTurno[] => {
   return data.map((turno) => ({

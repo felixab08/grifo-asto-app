@@ -4,11 +4,11 @@ export interface TurnoResponse extends IResponse {
   data:    TurnoPersona;
 }
 
-export interface TurnoPersona {
-  turnos:    Turno;
+export interface TurnoPersona extends IResponse{
   nombre:    string;
   apellido:  string;
   idPersona: number;
+  content:   ContentTurno[];
 }
 
 export interface Medida {
@@ -17,10 +17,7 @@ export interface Medida {
   tipo?:     string;
   entrada:  number;
   salida?:   number;
-}
-
-export interface Turno extends IResponse{
-  content:          ContentTurno[];
+  code: string;
 }
 
 export interface ContentTurno {
@@ -40,3 +37,6 @@ export enum Tipo {
   Primiun = "primiun",
   Regular = "regular",
 }
+
+export type IStatusTurno = "iniciar" | "cerrar" | "iniciado";
+
