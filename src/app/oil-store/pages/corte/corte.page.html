@@ -53,11 +53,11 @@
       </div>
 
       <div class="my-4">
-        <label for="obs" class="block mb-2 text-sm font-medium">Descripción</label>
+        <label for="observaciones" class="block mb-2 text-sm font-medium">Descripción</label>
         <textarea
-          id="obs"
+          id="observaciones"
           class="textarea block w-full"
-          formControlName="obs"
+          formControlName="observaciones"
           placeholder="Observaciones separados por comas"
         ></textarea>
       </div>
@@ -66,6 +66,7 @@
         <button
           type="button"
           class="btn btn-active font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center mr-2 mb-2 md:mb-0"
+          [routerLink]="['/grifo/list-oil-store']"
         >
           Salir
         </button>
@@ -82,5 +83,5 @@
   </div>
 }
 @if (!checkNextForm() && turno()) {
-  <app-medidas [idturno]="turno()!.idTurno" />
+  <app-medidas [idturno]="turno()!.idTurno" (created)="created($event)" />
 }

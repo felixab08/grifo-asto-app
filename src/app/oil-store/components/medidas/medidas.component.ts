@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, input } from '@angular/core';
+import { Component, inject, input, output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { lastMedidaMapper } from '@mapper/medidor.mapper';
 import { MedidorService, TurnoService } from '@oil-store/service';
@@ -13,6 +13,7 @@ import { AlertService } from 'src/app/service';
 })
 export class MedidasComponent {
   idturno = input.required<number>();
+  created = output<boolean>();
   formUtils = FormUtils;
   public _alertService = inject(AlertService);
   private _fb = inject(FormBuilder);
@@ -49,6 +50,7 @@ export class MedidasComponent {
             'Medida creada satisfactoriamente',
             'success',
           );
+          this.created.emit(true);
         },
         error: (error: any) => {
           this._alertService.getAlert('Error!!!', 'Error al crear la medidor', 'error');
