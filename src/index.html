@@ -1,21 +1,49 @@
 <!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>GrifoAstoApp</title>
-  <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <script>
-    (function() {
-      try {
-        const theme = localStorage.getItem('theme');
-        if (theme) document.documentElement.setAttribute('data-theme', theme);
-      } catch (e) {}
-    })();
-  </script>
-</head>
-<body>
-  <app-root></app-root>
-</body>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>Grifo Asto</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Grifo Asto, gestión y servicios para tu estación de combustible."
+    />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Grifo Asto" />
+    <meta
+      property="og:description"
+      content="Grifo Asto, gestión y servicios para tu estación de combustible."
+    />
+    <meta property="og:image" content="/assets/images/logo-1.png" />
+    <meta property="og:url" content="/grifo-asto-app/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Grifo Asto" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Grifo Asto" />
+    <meta
+      name="twitter:description"
+      content="Grifo Asto, gestión y servicios para tu estación de combustible."
+    />
+    <meta name="twitter:image" content="/assets/images/logo-1.png" />
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <script>
+      (function () {
+        try {
+          const theme = localStorage.getItem('theme');
+          if (theme) document.documentElement.setAttribute('data-theme', theme);
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <app-root></app-root>
+  </body>
 </html>
