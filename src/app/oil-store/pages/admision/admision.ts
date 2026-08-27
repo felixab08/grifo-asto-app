@@ -1,27 +1,51 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, linkedSignal, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgStyle, DatePipe, NgClass } from '@angular/common';
 import { AlertService } from 'src/app/service/alert.service';
 import { PersonaService, TurnoService } from '@oil-store/service';
-import { ContentTurno, OptionsRequest, PersonaResponse } from '@oil-store/model';
+import { ContentTurno, OptionsRequest, Persona, PersonaResponse } from '@oil-store/model';
 import { CortePipe, SolesPipe } from '@pipes/index';
+import { LinkParamService } from 'src/app/service';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { PaginationComponent } from 'src/app/components/pagination/pagination.component';
 
 @Component({
   selector: 'app-admision',
-  imports: [NgStyle, DatePipe, NgClass, SolesPipe, CortePipe],
+  imports: [NgStyle, DatePipe, NgClass, SolesPipe, CortePipe, PaginationComponent],
   templateUrl: './admision.html',
 })
 export class Admision {
   private _persona = inject(PersonaService);
   private _alertService = inject(AlertService);
+  _linkService = inject(LinkParamService);
+
   listPersonaData = signal<PersonaResponse | null>(null);
   _turnoService = inject(TurnoService);
   turnoList = signal<ContentTurno[] | any>(null);
-
   router = inject(Router);
+  Idpersona = signal(0);
+  activePage = linkedSignal(this.Idpersona);
+
   ngOnInit(): void {
     this.listPersona();
   }
+
+  turnoResorce = rxResource({
+    params: () => ({
+      page: this._linkService.currentPage() - 1,
+      size: this._linkService.currentSize(),
+      id: this.Idpersona(),
+    }),
+    stream: ({ params }) => {
+      return (
+        this._turnoService.getAllTurnosByIdPerson({
+          id: params.id,
+          page: params.page,
+          size: params.size,
+        }) || {}
+      );
+    },
+  });
 
   listPersona() {
     this._persona.getAllPerson({ page: 0, size: 10 }).subscribe({
@@ -34,15 +58,12 @@ export class Admision {
     });
   }
 
-  listTurnoByPerson(options: OptionsRequest): void {
-    this._turnoService.getAllTurnosByIdPerson(options).subscribe({
-      next: (resp: any) => {
-        this.turnoList.set(resp) as any;
-      },
-      error: (error: any) => {
-        this._alertService.getAlert('Error!!!', 'Error al obtener los turnos', 'error');
-      },
-    });
+  changePerson(event: Event): void {
+    const idPersona = Number((event.target as HTMLSelectElement).value);
+
+    if (Number.isInteger(idPersona) && idPersona > 0) {
+      this.Idpersona.set(idPersona);
+    }
   }
 
   descargarXLS(): void {

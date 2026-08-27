@@ -8,19 +8,25 @@
   </div>
 
   <div class="mb-6 inline md:flex items-center justify-between">
-    <select class="select my-1">
+    <select class="select my-1" (change)="changePerson($event)">
       <option disabled selected>Seleccione personal</option>
       @if (listPersonaData() && listPersonaData()!.content.length > 0) {
         @for (item of listPersonaData()?.content; track $index) {
-          <option (click)="listTurnoByPerson({ id: item.idPersona, page: 0, size: 10 })">
-            {{ item.nombre }} {{ item.apellido }}
-          </option>
+          <option [value]="item.idPersona">{{ item.nombre }} {{ item.apellido }}</option>
         }
       }
     </select>
   </div>
 
   <div class="overflow-x-auto min-w-200">
+    @if (turnoResorce.hasValue() && turnoResorce.value().data.content.length > 0) {
+      <app-pagination
+        [pages]="turnoResorce.value().data.totalPages"
+        [totalElements]="turnoResorce.value().data.totalElements"
+        [currentPage]="_linkService.currentPage()"
+        [currentSize]="_linkService.currentSize()"
+      />
+    }
     <table class="table" id="simpleTable1">
       <thead>
         <tr>
@@ -33,10 +39,10 @@
           <th>Observaciones</th>
         </tr>
       </thead>
-      @if (turnoList() && turnoList()!.data) {
+      @if (turnoResorce.hasValue() && Idpersona() !== 0) {
         <!--  -->
         <tbody>
-          @for (lista of turnoList().data.content; track lista.idTurno) {
+          @for (lista of turnoResorce.value().data.content || []; track lista.idTurno) {
             <!--  -->
             @if (lista.medidas.length > 2) {
               <!--  -->
