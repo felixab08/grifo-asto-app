@@ -12,7 +12,7 @@
       <option disabled selected>Seleccione personal</option>
       @if (listPersonaData() && listPersonaData()!.content.length > 0) {
         @for (item of listPersonaData()?.content; track $index) {
-          <option (click)="listTurnoByPerson(item.idPersona, { page: 0, size: 10 })">
+          <option (click)="listTurnoByPerson({ id: item.idPersona, page: 0, size: 10 })">
             {{ item.nombre }} {{ item.apellido }}
           </option>
         }
@@ -39,8 +39,8 @@
           @for (lista of turnoList(); track lista.idTurno) {
             <!--  -->
             @if (lista.medidas.length > 2) {
-            <!--  -->
-            @for (item of lista.medidas; track item.idMedida) {
+              <!--  -->
+              @for (item of lista.medidas; track item.idMedida) {
                 <!--  -->
                 <tr
                   class="hover:bg-gray-300"
@@ -72,7 +72,7 @@
                         (!item.salida || item.salida === 0)
                       )
                     ) {
-                      {{ item.entrada | corte}}
+                      {{ item.entrada | corte }}
                     }
                   </td>
                   <td
@@ -88,7 +88,7 @@
                     ) {
                       @if (item.salida && item.salida !== 0) {
                         <span>
-                          {{ item.salida | corte}}
+                          {{ item.salida | corte }}
                         </span>
                       }
                     }

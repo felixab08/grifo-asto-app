@@ -1,24 +1,23 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component, inject, signal, computed } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { MedidorService, TurnoService } from '@oil-store/service';
 import {
   MedidorListResponse,
   MedidorRequest,
   TurnoRequest,
-  TurnoResponse,
   TurnoRegisterResponse,
-  OptionsRequest,
   ContentTurno,
-  IStatusTurno,
 } from '@oil-store/model';
 import { AlertService } from 'src/app/service/alert.service';
 import { StoreService } from 'src/app/service/store.service';
 import { FormUtils } from '@utils/form.util';
-import { addTotalTurnoMapper } from '../../../mapper/addTotalTurno.mapper';
 import { SolesPipe } from '@pipes/soles.pipe';
 import { CortePipe } from '@pipes/corte.pipe';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { LinkParamService } from 'src/app/service';
+import { Idpersona } from '../../model/medir.interface';
+import { PaginationComponent } from 'src/app/components/pagination/pagination.component';
 
 interface Medida {
   idMedida: number;
@@ -31,7 +30,7 @@ interface Medida {
 
 @Component({
   selector: 'app-list-close-attention',
-  imports: [CommonModule, DatePipe, ReactiveFormsModule, SolesPipe, CortePipe],
+  imports: [CommonModule, DatePipe, ReactiveFormsModule, SolesPipe, CortePipe, PaginationComponent],
   templateUrl: './list-close-attention.html',
   standalone: true,
 })
@@ -41,15 +40,14 @@ export class ListCloseAttention {
   private medidorService = inject(MedidorService);
   private turnoService = inject(TurnoService);
   private alertService = inject(AlertService);
-  private router = inject(Router);
   private fb = inject(FormBuilder);
 
+  _linkService = inject(LinkParamService);
   // State signals
   modalOpen = signal(false);
   checkButtonEdit = signal(false);
   turnoList = signal<ContentTurno[] | null>(null);
-  stateturno = signal<IStatusTurno>('iniciar');
-
+  Idpersona = signal(0);
   // Formulario para cerrar turno
   myForm: FormGroup = this.fb.group({
     obs: [''],
@@ -95,80 +93,42 @@ export class ListCloseAttention {
     this.initializeState();
   }
 
-  ngAfterViewInit(): void {
-    this.loadTurnosIfPersonaExists();
-  }
-
   private initializeState(): void {
     this.storeService.user.subscribe((user: any) => {
       if (!user) return;
       const { email, role, ...personaData } = user;
       this.registroTurno.persona = personaData;
+      this.Idpersona.set(user.idPersona);
     });
-
-    const attentionType = localStorage.getItem('attention-type') as
-      | 'iniciar'
-      | 'cerrar'
-      | 'iniciado';
-    this.stateturno.set(attentionType === 'iniciado' ? 'cerrar' : attentionType || 'iniciar');
 
     this.myForm.get('fechaSalida')?.setValue(this.formatToInputDate(new Date()));
   }
 
-  private loadTurnosIfPersonaExists(): void {
-    const personaId = this.registroTurno.persona.idPersona;
-    if (personaId !== 0) {
-      this.turnoList.set(null);
-      this.listTurnoByPerson(personaId, { page: 0, size: 10 });
-    }
-  }
-
-  // ![TODO] : no esta funcionando correctamente, revisar
-  listTurnoByPerson(id: number, params: OptionsRequest): void {
-    this.turnoService.getAllTurnosByIdPerson(id, params).subscribe({
-      next: (resp: TurnoResponse) => {
-        const turnoData = resp.data.content?.[0]?.medidas?.[0]?.salida;
-        this.verificateStateTurno(turnoData);
-        this.turnoList.set(addTotalTurnoMapper(resp.data?.content || []));
-        console.log(this.turnoList());
-      },
-      error: () => {
-        this.alertService.getAlert('Error', 'Error al obtener los turnos', 'error');
-      },
-    });
-  }
-
-  onSave(): void {
-    if (this.stateturno() === 'iniciar') {
-      this.turnoService.postRegisterTurnoByIdPersona(this.registroTurno).subscribe({
-        next: (resp) => {
-          this.alertService.getAlert('Turno Creado', 'Turno creado satisfactoriamente', 'success');
-          this.navigateWithTurno(resp.idTurno);
-        },
-        error: () => {
-          this.alertService.getAlert('Error', 'Error al registrar el turno', 'error');
-        },
-      });
-    } else if (this.stateturno() === 'cerrar') {
-      this.openModal(this.getModalTurnoRef());
-    }
-  }
+  turnoResorce = rxResource({
+    params: () => ({
+      page: this._linkService.currentPage() - 1,
+      size: this._linkService.currentSize(),
+      id: this.Idpersona(),
+    }),
+    stream: ({ params }) => {
+      return (
+        this.turnoService.getAllTurnosByIdPerson({
+          id: params.id,
+          page: params.page,
+          size: params.size,
+        }) || {}
+      );
+    },
+  });
 
   guardarObservaciones(): void {
-    const turnoListData = this.turnoList();
-    if (!turnoListData?.length) {
-      this.alertService.getAlert('Error', 'No hay turnos para cerrar', 'error');
-      return;
-    }
-
-    const turno = (this.editTurno() || turnoListData[0]) as ContentTurno;
-    const fechaInput = this.myForm.get('fechaSalida')?.value + 'T10:00:00';
+    const turno = this.editTurno() as ContentTurno;
 
     const turnoToUpdate: TurnoRegisterResponse = {
       idTurno: turno.idTurno,
       observaciones: this.myForm.get('obs')?.value || '',
       fechaEntrada: turno.fecha_entrada,
-      fechaSalida: fechaInput ? new Date(fechaInput) : new Date(),
+      fechaSalida: turno.fecha_salida,
       persona: this.registroTurno.persona,
       sum: this.myForm.get('sum')?.value || 0,
       rest: this.myForm.get('rest')?.value || 0,
@@ -177,10 +137,9 @@ export class ListCloseAttention {
     this.turnoService.putRegisterTurnoByIdPersona(turno.idTurno, turnoToUpdate).subscribe({
       next: (resp) => {
         this.alertService.getAlert('Turno Editado', 'Turno editado satisfactoriamente', 'success');
-
+        this.turnoResorce.reload();
         if (this.editTurno()) {
           this.editTurno.set(null);
-          this.listTurnoByPerson(this.registroTurno.persona.idPersona, { page: 0, size: 10 });
           return;
         }
 
@@ -188,17 +147,11 @@ export class ListCloseAttention {
         if (medidas) {
           localStorage.setItem('registro', JSON.stringify(medidas));
         }
-        this.navigateWithTurno(turno.idTurno);
       },
       error: () => {
         this.alertService.getAlert('Error', 'Error al actualizar el turno', 'error');
       },
     });
-  }
-
-  navigateWithTurno(idturno: number): void {
-    localStorage.setItem('attention-type', 'iniciar');
-    this.router.navigate(['/grifo/register-close-attention', this.stateturno(), idturno]);
   }
 
   editAtention(turno: ContentTurno): void {
@@ -263,15 +216,6 @@ export class ListCloseAttention {
     this.myFormMedida.reset();
   }
 
-  verificateStateTurno(value: number | undefined): void {
-    if (value === undefined) {
-      localStorage.setItem('attention-type', 'cerrar');
-      this.stateturno.set('cerrar');
-    } else {
-      localStorage.setItem('attention-type', 'iniciar');
-    }
-  }
-
   generateMedida(): void {
     const editData = this.editMedida();
     const formValue = this.myFormMedida.value;
@@ -295,7 +239,7 @@ export class ListCloseAttention {
           'Medida Modificada satisfactoriamente',
           'success',
         );
-        this.listTurnoByPerson(this.registroTurno.persona.idPersona, { page: 0, size: 10 });
+        this.turnoResorce.reload();
         this.closeModalMedida(this.getModalMedidaRef());
       },
       error: () => {

@@ -66,14 +66,14 @@
 </div>
 <dialog id="my_modal_4" class="modal">
   <div class="modal-box">
-    <h3 class="font-bold text-lg mb-4">Crear Nuevo Personal</h3>
+    <h3 class="font-bold text-lg mb-4">Crear nuevo personal</h3>
     <form [formGroup]="myForm" autocomplete="off" (ngSubmit)="onSubmit()" method="dialog">
       <div class="mt-5">
         <label class="input validator my-2 w-full">
           <input
             type="text"
             class="w-full"
-            placeholder="Nombre"
+            placeholder="Nombre *"
             required
             formControlName="nombre"
           />
@@ -89,7 +89,7 @@
           <input
             type="text"
             class="w-full"
-            placeholder="Apellido"
+            placeholder="Apellido *"
             required
             formControlName="apellido"
           />
@@ -102,7 +102,7 @@
       </div>
       <div>
         <label class="input validator my-2 w-full">
-          <input type="text" class="w-full" placeholder="Telefono" formControlName="telefono" />
+          <input type="number" class="w-full" placeholder="Telefono" formControlName="telefono" />
         </label>
         @if (formUtils.isValiedField(myForm, 'telefono')) {
           <p class="mt-2 text-sm text-red-600 dark:text-red-500">

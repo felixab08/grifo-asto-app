@@ -7,8 +7,9 @@ import {
   IReporteTurno,
   OptionsRequest,
 } from '@oil-store/model';
-import { Observable, tap } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
+import { addTotalTurnoMapper } from '@mapper/addTotalTurno.mapper';
 
 const baseUrl = environment.baseUrl;
 @Injectable({
@@ -17,13 +18,22 @@ const baseUrl = environment.baseUrl;
 export class TurnoService {
   private _http = inject(HttpClient);
 
-  getAllTurnosByIdPerson(id: number, options: OptionsRequest): Observable<TurnoResponse> {
-    const { page = 0, size = 10 } = options;
+  getAllTurnosByIdPerson(options: OptionsRequest): Observable<TurnoResponse> {
+    const { id = 0, page = 0, size = 10 } = options;
     const params = {
       page,
       size,
     };
-    return this._http.get<TurnoResponse>(`${baseUrl}/turno/list/${id}`, { params });
+    return this._http.get<TurnoResponse>(`${baseUrl}/turno/list/${id}`, { params }).pipe(
+      map((resp: TurnoResponse) => ({
+        ...resp,
+        data: {
+          ...resp.data,
+          content: addTotalTurnoMapper(resp.data.content),
+        },
+      })),
+      tap((resp: TurnoResponse) => console.log(resp)),
+    );
   }
 
   postRegisterTurnoByIdPersona(turno: TurnoRequest): Observable<TurnoRegisterResponse> {

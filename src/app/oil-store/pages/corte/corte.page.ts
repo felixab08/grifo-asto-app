@@ -17,7 +17,7 @@ export class CortePage {
   private _storeService = inject(StoreService);
   private _turnoService = inject(TurnoService);
   private _alertService = inject(AlertService);
-  private fb = inject(FormBuilder);
+  private _fb = inject(FormBuilder);
   formUtils = FormUtils;
   turno = signal<TurnoRegisterResponse | null>(null);
   idPersona = signal(1);
@@ -25,7 +25,7 @@ export class CortePage {
 
   // State signals
   // Formulario para cerrar turno
-  myForm: FormGroup = this.fb.group({
+  myForm: FormGroup = this._fb.group({
     observaciones: [''],
     sum: [0, [Validators.required]],
     rest: [0, [Validators.required]],
@@ -37,6 +37,15 @@ export class CortePage {
       this.idPersona.set(user.idPersona);
     });
   }
+  createForm() {
+    this.myForm = this._fb.group({
+      observaciones: [''],
+      sum: [0, [Validators.required]],
+      rest: [0, [Validators.required]],
+      fechaSalida: ['', [Validators.required]],
+    });
+  }
+
   onSave(): void {
     const hoy = this.myForm.controls['fechaSalida'].value;
     console.log(hoy);
@@ -66,6 +75,7 @@ export class CortePage {
   created(e: boolean) {
     this.checkNextForm.set(e);
     this.myForm.reset();
+    this.createForm();
   }
   private formatToInputDate(dateLike: Date | string | null): string {
     if (!dateLike) return '';

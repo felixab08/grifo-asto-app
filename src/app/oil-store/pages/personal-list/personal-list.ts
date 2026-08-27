@@ -28,8 +28,8 @@ export class PersonalList {
     {
       nombre: ['', [Validators.required]],
       apellido: ['', [Validators.required]],
-      telefono: ['', [Validators.required, Validators.minLength(9), Validators.maxLength(9)]],
-      email: ['', [Validators.required, Validators.pattern(FormUtils.emailPattern)]],
+      telefono: ['', [Validators.minLength(9), Validators.maxLength(9)]],
+      email: ['', [Validators.pattern(FormUtils.emailPattern)]],
       username: ['', [Validators.required, Validators.pattern(FormUtils.notOnlySpacesPattern)]],
       role: ['ROLE_TRABAJADOR', [Validators.required]],
       activo: ['true', [Validators.required]],

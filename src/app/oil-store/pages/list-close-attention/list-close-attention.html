@@ -20,6 +20,15 @@
   </div>
 
   <div class="overflow-x-scroll mt-10 md:mt-2 min-w-196">
+            <!-- Paginación -->
+    @if (turnoResorce.hasValue()) {
+      <app-pagination
+        [pages]="turnoResorce.value().data.totalPages"
+        [totalElements]="turnoResorce.value().data.totalElements"
+        [currentPage]="_linkService.currentPage()"
+        [currentSize]="_linkService.currentSize()"
+      />
+    }
     <table class="table">
       <thead>
         <tr>
@@ -31,8 +40,9 @@
           <th>Observaciones</th>
         </tr>
       </thead>
-        <tbody>
-          @for (lista of turnoList() || []; track lista.idTurno) {
+      <tbody>
+        @if (turnoResorce.hasValue()) {
+          @for (lista of turnoResorce.value().data.content || []; track lista.idTurno) {
             <!--  -->
             @if (lista.medidas.length > 2) {
               <!--  -->
@@ -140,7 +150,8 @@
               <i class="fa-info-circle fa" aria-hidden="true"></i> No hay información para mostrar
             </p>
           }
-        </tbody>
+        }
+      </tbody>
       <tfoot>
         <tr>
           <th>Fecha</th>
@@ -152,6 +163,7 @@
         </tr>
       </tfoot>
     </table>
+
   </div>
 </div>
 
@@ -246,7 +258,6 @@
     </form>
   </div>
 </dialog>
-
 
 <!-- modal para editar las medidas -->
 <dialog data-modal="medida" class="modal" (close)="closeModal(getModalMedidaRef())">

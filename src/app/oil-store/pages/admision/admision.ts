@@ -40,11 +40,10 @@ export class Admision {
     });
   }
 
-  listTurnoByPerson(id: number, options: OptionsRequest): void {
-    this._turnoService.getAllTurnosByIdPerson(id, options).subscribe({
-      next: (resp) => {
-        const respWithTotal = addTotalTurnoMapper(resp?.data.content || []);
-        this.turnoList.set(respWithTotal);
+  listTurnoByPerson(options: OptionsRequest): void {
+    this._turnoService.getAllTurnosByIdPerson(options).subscribe({
+      next: (resp: any) => {
+        this.turnoList.set(resp);
       },
       error: (error: any) => {
         this._alertService.getAlert('Error!!!', 'Error al obtener los turnos', 'error');
