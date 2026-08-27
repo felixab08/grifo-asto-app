@@ -62,7 +62,7 @@
       </tfoot>
     </table>
     <!-- Paginación -->
-    @if (listaEntranse.hasValue()) {
+    @if (listaEntranse.hasValue() && listaEntranse.value().content.length>0) {
       <app-pagination
         [pages]="listaEntranse.value().totalPages"
         [totalElements]="listaEntranse.value().totalElements"

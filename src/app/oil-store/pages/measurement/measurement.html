@@ -66,7 +66,7 @@
       </tfoot>
     </table>
     <!-- Paginación -->
-    @if (listaMeasure.hasValue()) {
+    @if (listaMeasure.hasValue() && listaMeasure.value().content.length>0) {
       <app-pagination
         [pages]="listaMeasure.value().totalPages"
         [totalElements]="listaMeasure.value().totalElements"

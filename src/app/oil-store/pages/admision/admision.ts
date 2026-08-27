@@ -3,8 +3,7 @@ import { Router } from '@angular/router';
 import { NgStyle, DatePipe, NgClass } from '@angular/common';
 import { AlertService } from 'src/app/service/alert.service';
 import { PersonaService, TurnoService } from '@oil-store/service';
-import { ContentTurno, OptionsRequest, PersonaResponse, TurnoResponse } from '@oil-store/model';
-import { addTotalTurnoMapper } from '../../../mapper/addTotalTurno.mapper';
+import { ContentTurno, OptionsRequest, PersonaResponse } from '@oil-store/model';
 import { CortePipe, SolesPipe } from '@pipes/index';
 
 @Component({
@@ -17,15 +16,10 @@ export class Admision {
   private _alertService = inject(AlertService);
   listPersonaData = signal<PersonaResponse | null>(null);
   _turnoService = inject(TurnoService);
-  turnoList = signal<ContentTurno[] | null>(null);
+  turnoList = signal<ContentTurno[] | any>(null);
 
   router = inject(Router);
-  turno = signal<'iniciar' | 'cerrar' | 'iniciado'>('iniciar');
   ngOnInit(): void {
-    this.turno.set((localStorage.getItem('attention-type') as 'iniciar' | 'cerrar') || 'iniciar');
-    if (localStorage.getItem('attention-type') === 'iniciado') {
-      this.turno.set('cerrar');
-    }
     this.listPersona();
   }
 
@@ -43,7 +37,7 @@ export class Admision {
   listTurnoByPerson(options: OptionsRequest): void {
     this._turnoService.getAllTurnosByIdPerson(options).subscribe({
       next: (resp: any) => {
-        this.turnoList.set(resp);
+        this.turnoList.set(resp) as any;
       },
       error: (error: any) => {
         this._alertService.getAlert('Error!!!', 'Error al obtener los turnos', 'error');

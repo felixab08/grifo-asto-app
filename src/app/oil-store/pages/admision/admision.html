@@ -33,10 +33,10 @@
           <th>Observaciones</th>
         </tr>
       </thead>
-      @if (turnoList()) {
+      @if (turnoList() && turnoList()!.data) {
         <!--  -->
         <tbody>
-          @for (lista of turnoList(); track lista.idTurno) {
+          @for (lista of turnoList().data.content; track lista.idTurno) {
             <!--  -->
             @if (lista.medidas.length > 2) {
               <!--  -->

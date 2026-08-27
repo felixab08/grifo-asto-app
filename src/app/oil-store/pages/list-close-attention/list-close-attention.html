@@ -4,10 +4,6 @@
       Registro diario de {{ registroTurno.persona.nombre }}
     </h1>
     <div class="mb-6 flex items-center mr-4 mt-2">
-      <!-- <button class="btn btn-outline btn-accent capitalize min-w-36" (click)="onSave()">
-        {{ stateturno() }} turno
-      </button> -->
-
       @if (checkButtonEdit()) {
         <button
           class="btn btn-outline btn-accent ml-5"
@@ -20,7 +16,7 @@
   </div>
 
   <div class="overflow-x-scroll mt-10 md:mt-2 min-w-196">
-            <!-- Paginación -->
+    <!-- Paginación -->
     @if (turnoResorce.hasValue()) {
       <app-pagination
         [pages]="turnoResorce.value().data.totalPages"
@@ -163,7 +159,6 @@
         </tr>
       </tfoot>
     </table>
-
   </div>
 </div>
 
