@@ -32,7 +32,6 @@ export class TurnoService {
           content: addTotalTurnoMapper(resp.data.content),
         },
       })),
-      tap((resp: TurnoResponse) => console.log(resp)),
     );
   }
 
