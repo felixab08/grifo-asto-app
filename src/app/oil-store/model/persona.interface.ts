@@ -18,8 +18,8 @@ export interface TurnoRequest {
 export interface TurnoRegisterResponse {
   idTurno:       number;
   observaciones: string;
-  fechaEntrada:  Date;
-  fechaSalida:   Date;
+  fechaEntrada?:  Date | string;
+  fechaSalida:   Date | string;
   persona:       Persona;
   sum: number;
   rest: number;

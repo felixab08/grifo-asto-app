@@ -147,15 +147,8 @@ export class EntranceDiesel {
       idEntrada: item.idEntrada,
       tipo: item.tipo,
       cantidad: item.cantidad,
-      fechaEntrada: this.formatToInputDate(item.fechaEntrada),
+      fechaEntrada: item.fechaEntrada,
     });
   }
-  private formatToInputDate(dateLike: Date | string | null): string {
-    if (!dateLike) return '';
-    const d = new Date(dateLike);
-    const yyyy = d.getFullYear();
-    const mm = String(d.getMonth() + 1).padStart(2, '0');
-    const dd = String(d.getDate()).padStart(2, '0');
-    return `${yyyy}-${mm}-${dd}`;
-  }
+
 }

@@ -17,7 +17,7 @@
 
   <div class="overflow-x-scroll mt-10 md:mt-2 min-w-196">
     <!-- Paginación -->
-    @if (turnoResorce.hasValue()) {
+    @if (turnoResorce.hasValue() && turnoResorce.value().data.content.length>0) {
       <app-pagination
         [pages]="turnoResorce.value().data.totalPages"
         [totalElements]="turnoResorce.value().data.totalElements"

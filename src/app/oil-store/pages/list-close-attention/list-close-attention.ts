@@ -100,8 +100,6 @@ export class ListCloseAttention {
       this.registroTurno.persona = personaData;
       this.Idpersona.set(user.idPersona);
     });
-
-    this.myForm.get('fechaSalida')?.setValue(this.formatToInputDate(new Date()));
   }
 
   turnoResorce = rxResource({
@@ -127,8 +125,7 @@ export class ListCloseAttention {
     const turnoToUpdate: TurnoRegisterResponse = {
       idTurno: turno.idTurno,
       observaciones: this.myForm.get('obs')?.value || '',
-      fechaEntrada: turno.fecha_entrada,
-      fechaSalida: turno.fecha_salida,
+      fechaSalida: this.myForm.get('fechaSalida')?.value,
       persona: this.registroTurno.persona,
       sum: this.myForm.get('sum')?.value || 0,
       rest: this.myForm.get('rest')?.value || 0,
@@ -165,7 +162,7 @@ export class ListCloseAttention {
       obs: turno.observaciones,
       sum: turno.sum,
       rest: turno.rest,
-      fechaSalida: this.formatToInputDate(turno.fecha_salida),
+      fechaSalida: turno.fecha_salida,
     });
   }
 
@@ -248,12 +245,4 @@ export class ListCloseAttention {
     });
   }
 
-  private formatToInputDate(dateLike: Date | string | null): string {
-    if (!dateLike) return '';
-    const d = new Date(dateLike);
-    const yyyy = d.getFullYear();
-    const mm = String(d.getMonth() + 1).padStart(2, '0');
-    const dd = String(d.getDate()).padStart(2, '0');
-    return `${yyyy}-${mm}-${dd}`;
-  }
 }

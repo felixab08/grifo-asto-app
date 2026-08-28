@@ -48,19 +48,12 @@ export class CortePage {
 
   onSave(): void {
     const hoy = this.myForm.controls['fechaSalida'].value;
-    console.log(hoy);
-
     let dateForm = this.myForm.value;
-    dateForm.fechaSalida = this.formatToInputDate(
-      this.myForm.controls['fechaSalida'].value + 'T22:19:02.177Z',
-    );
-    dateForm.fechaEntrada = this.formatToInputDate(
-      this.myForm.controls['fechaSalida'].value + 'T22:19:02.177Z',
-    );
+    dateForm.fechaSalida = this.myForm.controls['fechaSalida'].value;
+    dateForm.fechaEntrada = this.myForm.controls['fechaSalida'].value;
     dateForm.persona = {
       idPersona: this.idPersona(),
     };
-    console.log(dateForm);
     this._turnoService.postRegisterTurnoByIdPersona(dateForm).subscribe({
       next: (resp) => {
         this._alertService.getAlert('Turno Creado', 'Turno creado satisfactoriamente', 'success');
@@ -76,13 +69,5 @@ export class CortePage {
     this.checkNextForm.set(e);
     this.myForm.reset();
     this.createForm();
-  }
-  private formatToInputDate(dateLike: Date | string | null): string {
-    if (!dateLike) return '';
-    const d = new Date(dateLike);
-    const yyyy = d.getFullYear();
-    const mm = String(d.getMonth() + 1).padStart(2, '0');
-    const dd = String(d.getDate()).padStart(2, '0');
-    return `${yyyy}-${mm}-${dd}`;
   }
 }

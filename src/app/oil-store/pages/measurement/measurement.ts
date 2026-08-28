@@ -47,6 +47,7 @@ export class Measurement {
     diesel: ['', [Validators.required, Validators.min(0), Validators.max(230)]],
     regular: ['', [Validators.required, Validators.min(0), Validators.max(230)]],
     premiun: ['', [Validators.required, Validators.min(0), Validators.max(230)]],
+    fechaMedicion: [new Intl.DateTimeFormat('en-CA').format(new Date())],
   });
 
   async onSave() {
@@ -74,8 +75,6 @@ export class Measurement {
         },
       });
     } else {
-      console.log(this.myForm.value);
-
       this._medirService.putMedition(this.myForm.value.idMedicion, sendMeassure).subscribe({
         next: (resp: any) => {
           this._alertService.getAlert(
