@@ -47,7 +47,7 @@ export class Measurement {
     diesel: ['', [Validators.required, Validators.min(0), Validators.max(230)]],
     regular: ['', [Validators.required, Validators.min(0), Validators.max(230)]],
     premiun: ['', [Validators.required, Validators.min(0), Validators.max(230)]],
-    fechaMedicion: [new Intl.DateTimeFormat('en-CA').format(new Date())],
+    fechaMedicion: [''],
   });
 
   async onSave() {
@@ -56,7 +56,12 @@ export class Measurement {
       return;
     }
     let sendMeassure = this.myForm.value;
+    const now = new Date();
+    const fechaHora =
+      `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}` +
+      `T${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
     sendMeassure.idpersona = { idPersona: this.user?.idPersona };
+    sendMeassure.fechaMedicion = this.myForm.value.fechaMedicion || fechaHora;
     if (this.typeDialog() === 'Crear') {
       delete this.myForm.value.idMedicion;
       await this._medirService.postMedition(sendMeassure).subscribe({
@@ -157,6 +162,7 @@ export class Measurement {
       diesel: item.diesel,
       regular: item.regular,
       premiun: item.premiun,
+      fechaMedicion: item.fechaMedicion,
     });
   }
 }
