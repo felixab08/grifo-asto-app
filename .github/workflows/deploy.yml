@@ -18,7 +18,7 @@ jobs:
           node-version: 24.6.0
 
       - name: Install packages #Instala las dependencias del proyecto usando npm i.
-        run: npm i
+        run: npm ci --only=production \ && npm cache clean --force
 
       - name: Bundle #Copila el proyecto
         run: npm run build:prod
