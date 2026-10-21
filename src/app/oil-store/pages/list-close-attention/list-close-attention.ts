@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, inject, signal, computed } from '@angular/core';
+import { Component, inject, signal, computed, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MedidorService, TurnoService } from '@oil-store/service';
 import {
@@ -32,6 +32,7 @@ interface Medida {
   selector: 'app-list-close-attention',
   imports: [CommonModule, DatePipe, ReactiveFormsModule, SolesPipe, CortePipe, PaginationComponent],
   templateUrl: './list-close-attention.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true,
 })
 export class ListCloseAttention {

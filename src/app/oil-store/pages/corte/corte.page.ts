@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TurnoRegisterResponse, TurnoResponse } from '@oil-store/model';
 import { TurnoService } from '@oil-store/service';
@@ -11,6 +11,7 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-corte',
   imports: [CommonModule, ReactiveFormsModule, MedidasComponent, RouterLink],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './corte.page.html',
 })
 export class CortePage {

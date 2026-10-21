@@ -7,6 +7,7 @@ import {
   linkedSignal,
   output,
   signal,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -14,6 +15,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'tyn-filter',
   imports: [CommonModule, FormsModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './filter.component.html',
 })
 export class FilterComponent {

@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { FrontNavbarComponent } from '../components/front-navbar/front-navbar.component';
 import { RouterOutlet } from '@angular/router';
 import { StoreService } from 'src/app/service/store.service';
@@ -9,6 +9,7 @@ import { IConfirmDelete } from '@auth/interfaces/confirDelete.interface';
 @Component({
   selector: 'app-page',
   imports: [FrontNavbarComponent, RouterOutlet, AlertComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './oil-store.layout.html',
 })
 export class OilLayout {

@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, signal, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, signal, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { OrganizationService } from '@oil-store/service/organization.service';
 import { TipoVentaService } from '@oil-store/service/tipoVenta.service';
@@ -14,6 +14,7 @@ import { HeaderSelectVentas } from '@oil-store/components/header-select-ventas/h
 @Component({
   selector: 'app-tipo-venta',
   imports: [ReactiveFormsModule, FilterComponent, PaginationComponent, NgClass, HeaderSelectVentas],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './tipoVenta.html',
 })
 export default class TipoVenta {

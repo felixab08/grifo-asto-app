@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormUtils } from '../../../utils/form.util';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -11,6 +11,7 @@ import { AlertService } from 'src/app/service/alert.service';
 @Component({
   selector: 'app-register-close-attention',
   imports: [ReactiveFormsModule, CommonModule, RouterLink],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './register-close-attention.html',
 })
 export class RegisterCloseAttention {

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { IPersonaResponse, UserData } from '@auth/interfaces/auth-response.interface';
 import { AuthService } from '@auth/services/auth.service';
@@ -8,6 +8,7 @@ import { StoreService } from 'src/app/service/store.service';
 @Component({
   selector: 'front-navbar',
   imports: [RouterLink, RouterLinkActive],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './front-navbar.component.html',
 })
 export class FrontNavbarComponent {

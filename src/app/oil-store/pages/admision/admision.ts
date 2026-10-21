@@ -1,4 +1,4 @@
-import { Component, inject, linkedSignal, signal } from '@angular/core';
+import { Component, inject, linkedSignal, signal, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgStyle, DatePipe, NgClass } from '@angular/common';
 import { AlertService } from 'src/app/service/alert.service';
@@ -12,6 +12,7 @@ import { PaginationComponent } from 'src/app/components/pagination/pagination.co
 @Component({
   selector: 'app-admision',
   imports: [NgStyle, DatePipe, NgClass, SolesPipe, CortePipe, PaginationComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './admision.html',
 })
 export class Admision {

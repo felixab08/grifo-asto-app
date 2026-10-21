@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-pagination',
   imports: [NgClass, RouterLink, FormsModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './pagination.component.html',
 })
 export class PaginationComponent {

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject, OnChanges, signal, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, inject, OnChanges, signal, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IReporteTurno } from '@oil-store/model';
 import { TurnoService } from '@oil-store/service';
@@ -9,6 +9,7 @@ Chart.register(...registerables);
 @Component({
   selector: 'app-reporte.component',
   imports: [FormsModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './reporte.component.html',
 })
 export class ReporteComponent implements AfterViewInit, OnChanges {

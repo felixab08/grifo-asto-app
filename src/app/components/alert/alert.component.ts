@@ -1,10 +1,11 @@
 import { NgClass } from '@angular/common';
-import { Component, input } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 import { AlertI } from '@interface/alert.interface';
 
 @Component({
   selector: 'tyn-alert',
   imports: [NgClass],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './alert.component.html',
 })
 export class AlertComponent {

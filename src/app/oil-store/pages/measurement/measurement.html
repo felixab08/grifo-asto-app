@@ -106,7 +106,7 @@
           </p>
         }
         <p class="font-bold justify-end flex text-left">
-          {{ myForm.get('diesel')?.value | diesel }} GL
+          {{ $safeNavigationMigration(myForm.get('diesel')?.value) | diesel }} GL
         </p>
       </div>
       <!-- // * campo input -->
@@ -135,7 +135,7 @@
           </p>
         }
         <p class="font-bold justify-end flex text-left">
-          {{ myForm.get('regular')?.value | regular }} GL
+          {{ $safeNavigationMigration(myForm.get('regular')?.value) | regular }} GL
         </p>
       </div>
       <!-- // * campo input -->
@@ -164,7 +164,7 @@
           </p>
         }
         <p class="font-bold justify-end flex text-left">
-          {{ myForm.get('premiun')?.value | premium }} GL
+          {{ $safeNavigationMigration(myForm.get('premiun')?.value) | premium }} GL
         </p>
       </div>
       <button

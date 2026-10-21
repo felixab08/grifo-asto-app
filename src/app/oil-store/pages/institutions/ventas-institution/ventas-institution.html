@@ -78,8 +78,8 @@
           <tr>
             <th colspan="10" class="my-4 font-bold">
               REPORTE DE CONSUMO DE COMBUSTIBLE DE LA
-              {{ idTipeoVenta()?.organization?.nombreOrganization | uppercase }}
-              {{ idTipeoVenta()?.codigo | uppercase }} - FECHA: {{ rangeFechaSelected() }}
+              {{ $safeNavigationMigration(idTipeoVenta()?.organization?.nombreOrganization) | uppercase }}
+              {{ $safeNavigationMigration(idTipeoVenta()?.codigo) | uppercase }} - FECHA: {{ rangeFechaSelected() }}
             </th>
           </tr>
           <tr>

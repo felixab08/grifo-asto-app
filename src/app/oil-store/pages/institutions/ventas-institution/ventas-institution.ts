@@ -5,6 +5,7 @@ import {
   ViewChild,
   inject,
   signal,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { AlertService, LinkParamService } from 'src/app/service';
 import { HeaderSelectVentas } from '@oil-store/components/header-select-ventas/header-select-ventas';
@@ -20,6 +21,7 @@ import { generateAlert } from '@mapper/ventas-alert.util';
   selector: 'app-ventas-institution',
   imports: [HeaderSelectVentas, ReactiveFormsModule, NgClass, UpperCasePipe],
   templateUrl: './ventas-institution.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export default class VentasInstitution {

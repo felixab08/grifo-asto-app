@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { PersonaService } from '@oil-store/service';
 import { AlertService, LinkParamService } from 'src/app/service';
@@ -11,6 +11,7 @@ import { FormUtils } from '@utils/form.util';
 @Component({
   selector: 'app-personal-list',
   imports: [PaginationComponent, DatePipe, ReactiveFormsModule, NgClass],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './personal-list.html',
 })
 export class PersonalList {

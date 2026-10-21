@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, ElementRef, inject, signal, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, signal, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { FormUtils } from '../../../utils/form.util';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MedirService } from '@oil-store/service';
@@ -22,6 +22,7 @@ import { DieselPipe, PremiumPipe, RegularPipe } from '@pipes/index';
     DatePipe,
     PaginationComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './measurement.html',
 })
 export class Measurement {

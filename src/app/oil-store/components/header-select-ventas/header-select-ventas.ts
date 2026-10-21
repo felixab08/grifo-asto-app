@@ -1,4 +1,4 @@
-import { Component, inject, input, output, signal } from '@angular/core';
+import { Component, inject, input, output, signal, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   IOrganizationListResponse,
@@ -12,6 +12,7 @@ import { NgClass } from '@angular/common';
 @Component({
   selector: 'app-header-select-ventas',
   imports: [FormsModule, NgClass],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './header-select-ventas.html',
 })
 export class HeaderSelectVentas {

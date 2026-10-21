@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, signal, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, signal, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { AlertService, LinkParamService } from 'src/app/service';
 import { PaginationComponent } from 'src/app/components/pagination/pagination.component';
@@ -13,6 +13,7 @@ import { IOrganizationResp } from '@oil-store/model';
 @Component({
   selector: 'app-instituciones-list',
   imports: [ReactiveFormsModule, PaginationComponent, FilterComponent, NgClass],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './instituciones-list.html',
 })
 export default class InstitucionesList {

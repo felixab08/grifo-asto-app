@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, ElementRef, inject, signal, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, signal, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormUtils } from '../../../utils/form.util';
 import { AlertService } from 'src/app/service/alert.service';
@@ -13,6 +13,7 @@ import { PaginationComponent } from 'src/app/components/pagination/pagination.co
 @Component({
   selector: 'app-entrance-diesel',
   imports: [ReactiveFormsModule, CommonModule, DatePipe, PaginationComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './entrance-diesel.html',
 })
 export class EntranceDiesel {

@@ -11,5 +11,10 @@
       "skipChangeDetectionOnPush": true
     }
   },
-  "workbench.editor.tabSizingFixedMaxWidth": 180
+  "workbench.editor.tabSizingFixedMaxWidth": 180,
+  "npm-visual-manager.ignoredPackages": [
+    {
+      "name": "typescript"
+    }
+  ]
 }

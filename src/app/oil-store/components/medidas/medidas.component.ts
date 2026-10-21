@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, input, output } from '@angular/core';
+import { Component, inject, input, output, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { lastMedidaMapper } from '@mapper/medidor.mapper';
 import { MedidorService, TurnoService } from '@oil-store/service';
@@ -9,6 +9,7 @@ import { AlertService } from 'src/app/service';
 @Component({
   selector: 'app-medidas',
   imports: [CommonModule, ReactiveFormsModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './medidas.component.html',
 })
 export class MedidasComponent {
