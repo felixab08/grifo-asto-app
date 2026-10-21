@@ -3,8 +3,8 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
     "paths": {
+      "src/*": ["./src/*"],
       "@auth/*": ["./src/app/auth/*"],
       "@mapper/*": ["./src/app/mapper/*"],
       "@oil-store/*": ["./src/app/oil-store/*"],
